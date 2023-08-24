@@ -1,11 +1,16 @@
 import React from 'react';
-import './App.css';
-import CalculadoraDesTerceiro from './components/CalculadoraDesTerceiro';
+import FeriasApp from './components/FeriasApp';
+import DecimoTerceiroApp from './components/DecimoTerceiroApp';
 
 function App() {
   return (
     <div className='App'>
-      <CalculadoraDesTerceiro />
+      <div>
+        <FeriasApp />
+      </div>
+      <div>
+        <DecimoTerceiroApp />
+      </div>
     </div>
   );
 }
