@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import CalculationForm from '../CalculationForm'; // Importe o componente CalculationForm
+import CalculationResult from '../CalculationResult';
 import { FeriasIndenizatoriasCalculator } from '../../Calculos/FeriasCalculator';
-import ResultadosFerias from '../Resultados/ResultadosFerias';
 
 function FeriasApp() {
   const [inicioContrato, setInicioContrato] = useState('2022-01-01');
@@ -8,11 +9,16 @@ function FeriasApp() {
   const [remuneracao, setRemuneracao] = useState(1200);
   const [resultados, setResultados] = useState([]);
   const [calculando, setCalculando] = useState(false);
-  const [erroCalculo, setErroCalculo] = useState(null); // Estado para tratar erros
+  const [erroCalculo, setErroCalculo] = useState(null);
+
+  const handleInputChange = (event, setter) => {
+    setResultados([]); // Limpa os resultados ao alterar campos
+    setter(event.target.value);
+  };
 
   const handleCalculate = async () => {
     setCalculando(true);
-    setErroCalculo(null); // Limpa o erro anterior
+    setErroCalculo(null);
     try {
       const calculator = new FeriasIndenizatoriasCalculator(
         inicioContrato,
@@ -28,50 +34,82 @@ function FeriasApp() {
     }
   };
 
-  const handleInputChange = (event, setter) => {
-    setResultados([]); // Limpa os resultados ao alterar campos
-    setter(event.target.value);
-  };
+  const inputs = [
+    {
+      id: 'inicioContrato',
+      label: 'Data de Início do Contrato',
+      type: 'date',
+      value: inicioContrato,
+      setter: setInicioContrato,
+    },
+    {
+      id: 'fimContrato',
+      label: 'Data de Término do Contrato',
+      type: 'date',
+      value: fimContrato,
+      setter: setFimContrato,
+    },
+    {
+      id: 'remuneracao',
+      label: 'Remuneração da Última Férias',
+      type: 'number',
+      value: remuneracao,
+      setter: setRemuneracao,
+    },
+  ];
+
+  const renderFeriasResult = (result) => (
+    <div>
+      <strong>Período:</strong> {result.periodo}
+      <br />
+      <strong>Férias:</strong> R${' '}
+      {result.ferias.toLocaleString('pt-BR', {
+        minimumFractionDigits: 2,
+      })}
+      <br />
+      <strong>Terço Constitucional:</strong> R${' '}
+      {result.tercoConstitucional.toLocaleString('pt-BR', {
+        minimumFractionDigits: 2,
+      })}
+      <br />
+      {result.feriasIndenizatorias !== undefined && (
+        <div>
+          <strong>Férias Indenizatórias:</strong> R${' '}
+          {result.feriasIndenizatorias.toLocaleString('pt-BR', {
+            minimumFractionDigits: 2,
+          })}
+          <br />
+        </div>
+      )}
+      {result.feriasProporcionais !== undefined && (
+        <div>
+          <strong>Férias Proporcionais:</strong> R${' '}
+          {result.feriasProporcionais.toLocaleString('pt-BR', {
+            minimumFractionDigits: 2,
+          })}
+          <br />
+        </div>
+      )}
+    </div>
+  );
 
   return (
     <div>
       <h1>Calculadora de Férias</h1>
-      <div>
-        <label htmlFor='inicioContrato'>Data de Início do Contrato: </label>
-        <input
-          type='date'
-          id='inicioContrato'
-          value={inicioContrato}
-          onChange={(e) => handleInputChange(e, setInicioContrato)}
-        />
-      </div>
-      <div>
-        <label htmlFor='fimContrato'>Data de Término do Contrato: </label>
-        <input
-          type='date'
-          id='fimContrato'
-          value={fimContrato}
-          onChange={(e) => handleInputChange(e, setFimContrato)}
-        />
-      </div>
-      <div>
-        <label htmlFor='remuneracao'>Remuneração da Última Férias: </label>
-        <input
-          type='number'
-          id='remuneracao'
-          value={remuneracao}
-          min='0'
-          step='100'
-          onChange={(e) => handleInputChange(e, setRemuneracao)}
-        />
-      </div>
-      <button onClick={handleCalculate} disabled={calculando}>
-        {calculando ? 'Calculando...' : 'Calcular'}
-      </button>
-      {/* Exibe mensagem de erro, se houver */}
+      <CalculationForm
+        inputs={inputs}
+        handleInputChange={handleInputChange}
+        handleCalculate={handleCalculate}
+        calculando={calculando}
+      />
       {erroCalculo && <p style={{ color: 'red' }}>{erroCalculo}</p>}
-      {/* Exibe os resultados */}
-      {resultados.length > 0 && <ResultadosFerias resultados={resultados} />}
+      {resultados.length > 0 && (
+        <CalculationResult
+          title='Resultados de Férias'
+          results={resultados}
+          renderResult={renderFeriasResult}
+        />
+      )}
     </div>
   );
 }

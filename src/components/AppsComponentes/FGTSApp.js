@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
-import FGTSCalculator from '../../Calculos/FGTSCalculator'; // Importe a classe FGTSCalculator
-import ResultadosFGTS from '../Resultados/ResultadosFGTS'; // Importe o componente para mostrar os resultados
+import CalculationForm from '../CalculationForm'; // Importe o componente CalculationForm
+import CalculationResult from '../CalculationResult';
+import FGTSCalculator from '../../Calculos/FGTSCalculator';
 
 function FGTSApp() {
-  const [salarioMensal, setSalarioMensal] = useState(3000); // Valor padrão de exemplo
+  const [salarioMensal, setSalarioMensal] = useState(3000);
   const [valorFGTS, setValorFGTS] = useState(null);
   const [calculando, setCalculando] = useState(false);
   const [erroCalculo, setErroCalculo] = useState(null);
+
+  const handleInputChange = (event, setter) => {
+    setValorFGTS(null); // Limpa os resultados ao alterar campos
+    setter(event.target.value);
+  };
 
   const handleCalculate = async () => {
     setCalculando(true);
@@ -22,30 +28,45 @@ function FGTSApp() {
     }
   };
 
-  const handleInputChange = (event) => {
-    setValorFGTS(null);
-    setSalarioMensal(event.target.value);
-  };
+  const inputs = [
+    {
+      id: 'salarioMensal',
+      label: 'Salário Mensal',
+      type: 'number',
+      value: salarioMensal,
+      setter: setSalarioMensal,
+    },
+  ];
+
+  const renderFGTSResult = (result) => (
+    <div>
+      <h2>Resultado do FGTS</h2>
+      <p>
+        O valor do FGTS calculado é R${' '}
+        {result.valorFGTS.toLocaleString('pt-BR', {
+          minimumFractionDigits: 2,
+        })}
+      </p>
+    </div>
+  );
 
   return (
     <div>
       <h1>Calculadora de FGTS</h1>
-      <div>
-        <label htmlFor='salarioMensal'>Salário Mensal: </label>
-        <input
-          type='number'
-          id='salarioMensal'
-          value={salarioMensal}
-          min='0'
-          step='100'
-          onChange={handleInputChange}
-        />
-      </div>
-      <button onClick={handleCalculate} disabled={calculando}>
-        {calculando ? 'Calculando...' : 'Calcular'}
-      </button>
+      <CalculationForm
+        inputs={inputs}
+        handleInputChange={handleInputChange}
+        handleCalculate={handleCalculate}
+        calculando={calculando}
+      />
       {erroCalculo && <p style={{ color: 'red' }}>{erroCalculo}</p>}
-      {valorFGTS !== null && <ResultadosFGTS valorFGTS={valorFGTS} />}
+      {valorFGTS !== null && (
+        <CalculationResult
+          title='Resultado do FGTS'
+          results={[{ valorFGTS }]}
+          renderResult={renderFGTSResult}
+        />
+      )}
     </div>
   );
 }

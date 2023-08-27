@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'; // Importe PropTypes
 import CalculationIcon from './CalculationIcon';
 
 function MenuItem({ icon, title, onClick }) {
-  console.log(icon);
   return (
     <button
       onClick={onClick}

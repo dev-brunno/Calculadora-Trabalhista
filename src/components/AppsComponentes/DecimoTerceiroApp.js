@@ -1,17 +1,22 @@
 import React, { useState } from 'react';
+import CalculationForm from '../CalculationForm'; // Importe o componente
+import CalculationResult from '../CalculationResult';
 import DecimoTerceiroCalculator from '../../Calculos/DecimoTerceiroCalculator';
-import ResultadosDecimoTerceiro from '../Resultados/ResultadosDecimoTerceiro';
 
 function DecimoTerceiroApp() {
   const [inicioContrato, setInicioContrato] = useState('2022-01-01');
   const [fimContrato, setFimContrato] = useState('2026-03-15');
   const [remuneracaoUltima, setRemuneracaoUltima] = useState(5000);
-
   const [resultados, setResultados] = useState([]);
   const [calculando, setCalculando] = useState(false);
   const [erroCalculo, setErroCalculo] = useState(null);
 
-  const calcularDecimoTerceiro = async () => {
+  const handleInputChange = (event, setter) => {
+    setResultados([]); // Limpa os resultados ao alterar campos
+    setter(event.target.value);
+  };
+
+  const handleCalculate = async () => {
     setCalculando(true);
     setErroCalculo(null);
     try {
@@ -29,57 +34,59 @@ function DecimoTerceiroApp() {
     }
   };
 
-  const limparResultados = () => {
-    setResultados([]);
-    setErroCalculo(null);
-  };
+  const inputs = [
+    {
+      id: 'inicioContrato',
+      label: 'Data de Início do Contrato',
+      type: 'date',
+      value: inicioContrato,
+      setter: setInicioContrato,
+    },
+    {
+      id: 'fimContrato',
+      label: 'Data de Término do Contrato',
+      type: 'date',
+      value: fimContrato,
+      setter: setFimContrato,
+    },
+    {
+      id: 'remuneracaoUltima',
+      label: 'Remuneração da Última Parcela',
+      type: 'number',
+      value: remuneracaoUltima,
+      setter: setRemuneracaoUltima,
+    },
+  ];
+
+  const renderDecimoTerceiroResult = (result) => (
+    <div>
+      <strong>Ano Correspondente:</strong> {result.anoCorrespondente}
+      <br />
+      <strong>Período:</strong> {result.periodo}
+      <br />
+      <strong>Valor do Décimo Terceiro:</strong> R${' '}
+      {result.valorDecimoTerceiro.toLocaleString('pt-BR', {
+        minimumFractionDigits: 2,
+      })}
+    </div>
+  );
 
   return (
-    <div className='DecimoTerceiroApp'>
+    <div>
       <h1>Calculadora de Décimo Terceiro</h1>
-      {resultados.length === 0 ? (
-        <div>
-          <label>Data de Início do Contrato: </label>
-          <input
-            type='date'
-            value={inicioContrato}
-            onChange={(e) => {
-              limparResultados();
-              setInicioContrato(e.target.value);
-            }}
-          />
-          <br />
-          <label>Data de Término do Contrato: </label>
-          <input
-            type='date'
-            value={fimContrato}
-            min={inicioContrato}
-            onChange={(e) => {
-              limparResultados();
-              setFimContrato(e.target.value);
-            }}
-          />
-          <br />
-          <label>Remuneração da Última Parcela: </label>
-          <input
-            type='number'
-            value={remuneracaoUltima}
-            onChange={(e) => {
-              limparResultados();
-              setRemuneracaoUltima(parseFloat(e.target.value));
-            }}
-          />
-          <br />
-          <button onClick={calcularDecimoTerceiro} disabled={calculando}>
-            {calculando ? 'Calculando...' : 'Calcular'}
-          </button>
-          {erroCalculo && <p style={{ color: 'red' }}>{erroCalculo}</p>}
-        </div>
-      ) : (
-        <div>
-          <ResultadosDecimoTerceiro resultados={resultados} />
-          <button onClick={limparResultados}>Refazer Cálculo</button>
-        </div>
+      <CalculationForm
+        inputs={inputs}
+        handleInputChange={handleInputChange}
+        handleCalculate={handleCalculate}
+        calculando={calculando}
+      />
+      {erroCalculo && <p style={{ color: 'red' }}>{erroCalculo}</p>}
+      {resultados.length > 0 && (
+        <CalculationResult
+          title='Resultados do Décimo Terceiro'
+          results={resultados}
+          renderResult={renderDecimoTerceiroResult}
+        />
       )}
     </div>
   );
