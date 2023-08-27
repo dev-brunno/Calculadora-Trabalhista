@@ -8,48 +8,58 @@ import InsalubridadeApp from './AppsComponentes/InsalubridadeApp';
 import TransferenciaApp from './AppsComponentes/TransferenciaApp';
 
 const calculations = [
-  { id: 'ferias', title: 'Cálculo de Férias', icon: 'fi fi-rr-umbrella-beach' },
-  { id: 'decimoTerceiro', title: 'Cálculo de Décimo Terceiro Salário', icon: 'fi fi-rr-calendar' },
-  { id: 'fgts', title: 'Cálculo de FGTS', icon: 'fi fi-rr-sack-dollar' },
-  { id: 'periculosidade', title: 'Cálculo de Periculosidade', icon: 'fi fi-rr-hand-holding-skull' },
-  { id: 'insalubridade', title: 'Cálculo de Insalubridade', icon: 'fi fi-rr-biohazard' },
-  { id: 'transferencia', title: 'Cálculo de Transferência', icon: 'fi fi-rr-replace' },
+  { id: 'ferias', title: 'Férias', icon: 'fi fi-rr-umbrella-beach' },
+  { id: 'decimoTerceiro', title: 'Décimo Terceiro', icon: 'fi fi-rr-calendar' },
+  { id: 'fgts', title: 'FGTS', icon: 'fi fi-rr-sack-dollar' },
+  { id: 'periculosidade', title: 'Periculosidade', icon: 'fi fi-rr-hand-holding-skull' },
+  { id: 'insalubridade', title: 'Insalubridade', icon: 'fi fi-rr-biohazard' },
+  { id: 'transferencia', title: 'Transferência', icon: 'fi fi-rr-replace' },
 ];
 
+const components = {
+  ferias: FeriasApp,
+  decimoTerceiro: DecimoTerceiroApp,
+  fgts: FGTSApp,
+  periculosidade: PericulosidadeApp,
+  insalubridade: InsalubridadeApp,
+  transferencia: TransferenciaApp,
+};
+
 export default function Menus() {
-  const [activeComponent, setActiveComponent] = useState('ferias');
-
-  const renderActiveComponent = () => {
-    const components = {
-      ferias: FeriasApp,
-      decimoTerceiro: DecimoTerceiroApp,
-      fgts: FGTSApp,
-      periculosidade: PericulosidadeApp,
-      insalubridade: InsalubridadeApp,
-      transferencia: TransferenciaApp,
-    };
-
-    const ActiveComponent = components[activeComponent];
-    return <ActiveComponent />;
-  };
+  const [activeComponent, setActiveComponent] = useState('tiposCalculos');
+  const [activeCalculation, setActiveCalculation] = useState(null);
 
   const handleMenuItemClick = (id) => {
-    setActiveComponent(id);
+    setActiveCalculation(id);
+    setActiveComponent('formulariosCalculos');
   };
 
-  return (
-    <div className='App'>
-      <div>
-        {calculations.map((calculation) => (
-          <MenuItem
-            key={calculation.id}
-            icon={calculation.icon}
-            title={calculation.title}
-            onClick={() => handleMenuItemClick(calculation.id)}
-          />
-        ))}
-      </div>
-      <div>{renderActiveComponent()}</div>
-    </div>
-  );
+  const renderActiveComponent = () => {
+    if (activeComponent === 'tiposCalculos') {
+      return (
+        <div className='TiposCalculos grid grid-cols-4 gap-x-0 gap-y-2'>
+          {calculations.map((calculation) => (
+            <MenuItem
+              key={calculation.id}
+              icon={calculation.icon}
+              title={calculation.title}
+              onClick={() => handleMenuItemClick(calculation.id)}
+            />
+          ))}
+        </div>
+      );
+    } else if (activeComponent === 'formulariosCalculos' && activeCalculation) {
+      const ActiveCalculationForm = components[activeCalculation];
+      return (
+        <div className='FormulariosCalculos'>
+          <ActiveCalculationForm />
+          <button onClick={() => setActiveComponent('tiposCalculos')}>Voltar</button>
+        </div>
+      );
+    }
+
+    return null;
+  };
+
+  return <div className='App'>{renderActiveComponent()}</div>;
 }

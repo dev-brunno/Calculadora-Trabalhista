@@ -4,10 +4,8 @@ import '@flaticon/flaticon-uicons/css/all/all.css';
 
 function CalculationIcon({ icon: Icon }) {
   return (
-    <div className='icon'>
-      <i className={Icon} style={{ fontSize: 50 }}>
-        {' '}
-      </i>
+    <div className='icon text-3xl'>
+      <i className={Icon}> </i>
     </div>
   );
 }

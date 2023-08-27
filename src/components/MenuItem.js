@@ -5,9 +5,12 @@ import CalculationIcon from './CalculationIcon';
 function MenuItem({ icon, title, onClick }) {
   console.log(icon);
   return (
-    <button onClick={onClick}>
+    <button
+      onClick={onClick}
+      className=' w-40 h-20 shadow-sm rounded-2xl border border-cinzaClaro p-2 text-azulEscuro '
+    >
       <CalculationIcon icon={icon} />
-      {title}
+      <span className=' text-base font-bold'>{title}</span>
     </button>
   );
 }
