@@ -7,10 +7,11 @@ function PericulosidadeApp() {
   const [salarioBase, setSalarioBase] = useState(2000);
   const [valorPericulosidade, setValorPericulosidade] = useState(null);
   const [calculando, setCalculando] = useState(false);
-  const [erroCalculo, setErroCalculo] = useState(null); // Estado para tratar erros
+  const [erroCalculo, setErroCalculo] = useState(null);
+  const [mostrarResultados, setMostrarResultados] = useState(false);
 
   const handleInputChange = (event, setter) => {
-    setValorPericulosidade(null); // Limpa os resultados ao alterar campos
+    setValorPericulosidade(null);
     setter(event.target.value);
   };
 
@@ -21,12 +22,17 @@ function PericulosidadeApp() {
       const periculosidadeCalculator = new PericulosidadeCalculator(salarioBase);
       const calculatedPericulosidade = periculosidadeCalculator.calcularPericulosidade();
       setValorPericulosidade(calculatedPericulosidade);
+      setMostrarResultados(true);
     } catch (error) {
-      console.error('Erro ao calcular periculosidade:', error);
       setErroCalculo('Erro ao calcular periculosidade. Verifique os valores e tente novamente.');
     } finally {
       setCalculando(false);
     }
+  };
+
+  const handleRefazerCalculo = () => {
+    setMostrarResultados(false);
+    setValorPericulosidade(null);
   };
 
   const inputs = [
@@ -39,34 +45,36 @@ function PericulosidadeApp() {
     },
   ];
 
-  const renderPericulosidadeResult = (result) => (
+  const renderPericulosidadeResult = (valor) => (
     <div>
-      <p>
-        O valor da periculosidade calculado é R${' '}
-        {result.valorPericulosidade.toLocaleString('pt-BR', {
-          minimumFractionDigits: 2,
-        })}
-      </p>
+      <strong>Valor da periculosidade calculado:</strong> R${' '}
+      {valor.toLocaleString('pt-BR', {
+        minimumFractionDigits: 2,
+      })}
     </div>
   );
 
   return (
     <div>
       <h1>Calculadora de Periculosidade</h1>
-      <CalculationForm
-        inputs={inputs}
-        handleInputChange={handleInputChange}
-        handleCalculate={handleCalculate}
-        calculando={calculando}
-      />
-      {erroCalculo && <p style={{ color: 'red' }}>{erroCalculo}</p>}
-      {valorPericulosidade !== null && (
-        <CalculationResult
-          title='Resultado de Periculosidade'
-          results={[{ valorPericulosidade }]}
-          renderResult={renderPericulosidadeResult}
+      {mostrarResultados ? (
+        <div>
+          <CalculationResult
+            title='Resultado de Periculosidade'
+            results={[valorPericulosidade]}
+            renderResult={renderPericulosidadeResult}
+          />
+          <button onClick={handleRefazerCalculo}>Refazer Cálculo</button>
+        </div>
+      ) : (
+        <CalculationForm
+          inputs={inputs}
+          handleInputChange={handleInputChange}
+          handleCalculate={handleCalculate}
+          calculando={calculando}
         />
       )}
+      {erroCalculo && <p style={{ color: 'red' }}>{erroCalculo}</p>}
     </div>
   );
 }

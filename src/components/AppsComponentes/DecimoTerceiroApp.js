@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import CalculationForm from '../CalculationForm'; // Importe o componente
+import CalculationForm from '../CalculationForm';
 import CalculationResult from '../CalculationResult';
 import DecimoTerceiroCalculator from '../../Calculos/DecimoTerceiroCalculator';
 
@@ -10,9 +10,10 @@ function DecimoTerceiroApp() {
   const [resultados, setResultados] = useState([]);
   const [calculando, setCalculando] = useState(false);
   const [erroCalculo, setErroCalculo] = useState(null);
+  const [mostrarResultados, setMostrarResultados] = useState(false);
 
   const handleInputChange = (event, setter) => {
-    setResultados([]); // Limpa os resultados ao alterar campos
+    setResultados([]);
     setter(event.target.value);
   };
 
@@ -27,11 +28,17 @@ function DecimoTerceiroApp() {
       );
       const resultadosCalculados = await calculator.calcularDecimoTerceiro();
       setResultados(resultadosCalculados);
+      setMostrarResultados(true); // Mostra os resultados após o cálculo
     } catch (error) {
       setErroCalculo('Erro ao calcular o décimo terceiro. Verifique os valores e tente novamente.');
     } finally {
       setCalculando(false);
     }
+  };
+
+  const handleRefazerCalculo = () => {
+    setMostrarResultados(false);
+    setResultados([]);
   };
 
   const inputs = [
@@ -74,20 +81,24 @@ function DecimoTerceiroApp() {
   return (
     <div>
       <h1>Calculadora de Décimo Terceiro</h1>
-      <CalculationForm
-        inputs={inputs}
-        handleInputChange={handleInputChange}
-        handleCalculate={handleCalculate}
-        calculando={calculando}
-      />
-      {erroCalculo && <p style={{ color: 'red' }}>{erroCalculo}</p>}
-      {resultados.length > 0 && (
-        <CalculationResult
-          title='Resultados do Décimo Terceiro'
-          results={resultados}
-          renderResult={renderDecimoTerceiroResult}
+      {mostrarResultados ? (
+        <div>
+          <CalculationResult
+            title='Resultados do Décimo Terceiro'
+            results={resultados}
+            renderResult={renderDecimoTerceiroResult}
+          />
+          <button onClick={handleRefazerCalculo}>Refazer Cálculo</button>
+        </div>
+      ) : (
+        <CalculationForm
+          inputs={inputs}
+          handleInputChange={handleInputChange}
+          handleCalculate={handleCalculate}
+          calculando={calculando}
         />
       )}
+      {erroCalculo && <p style={{ color: 'red' }}>{erroCalculo}</p>}
     </div>
   );
 }

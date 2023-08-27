@@ -3,15 +3,18 @@ import CalculationForm from '../CalculationForm'; // Importe o componente Calcul
 import CalculationResult from '../CalculationResult';
 import InsalubridadeCalculator from '../../Calculos/InsalubridadeCalculator';
 
+// ...imports e imports de componentes
+
 function InsalubridadeApp() {
   const [salarioBase, setSalarioBase] = useState(2000);
   const [grauInsalubridade, setGrauInsalubridade] = useState('10');
   const [valorInsalubridade, setValorInsalubridade] = useState(null);
   const [calculando, setCalculando] = useState(false);
-  const [erroCalculo, setErroCalculo] = useState(null); // Estado para tratar erros
+  const [erroCalculo, setErroCalculo] = useState(null);
+  const [mostrarResultados, setMostrarResultados] = useState(false);
 
   const handleInputChange = (event, setter) => {
-    setValorInsalubridade(null); // Limpa os resultados ao alterar campos
+    setValorInsalubridade(null);
     setter(event.target.value);
   };
 
@@ -22,12 +25,17 @@ function InsalubridadeApp() {
       const insalubridadeCalculator = new InsalubridadeCalculator(salarioBase, grauInsalubridade);
       const calculatedInsalubridade = insalubridadeCalculator.calcularInsalubridade();
       setValorInsalubridade(calculatedInsalubridade);
+      setMostrarResultados(true);
     } catch (error) {
-      console.error('Erro ao calcular insalubridade:', error);
       setErroCalculo('Erro ao calcular insalubridade. Verifique os valores e tente novamente.');
     } finally {
       setCalculando(false);
     }
+  };
+
+  const handleRefazerCalculo = () => {
+    setMostrarResultados(false);
+    setValorInsalubridade(null);
   };
 
   const inputs = [
@@ -52,34 +60,36 @@ function InsalubridadeApp() {
     },
   ];
 
-  const renderInsalubridadeResult = (result) => (
+  const renderInsalubridadeResult = (valor) => (
     <div>
-      <p>
-        O valor do adicional de insalubridade calculado é R${' '}
-        {result.valorInsalubridade.toLocaleString('pt-BR', {
-          minimumFractionDigits: 2,
-        })}
-      </p>
+      <strong>Valor do adicional de insalubridade:</strong> R${' '}
+      {valor.toLocaleString('pt-BR', {
+        minimumFractionDigits: 2,
+      })}
     </div>
   );
 
   return (
     <div>
       <h1>Calculadora de Insalubridade</h1>
-      <CalculationForm
-        inputs={inputs}
-        handleInputChange={handleInputChange}
-        handleCalculate={handleCalculate}
-        calculando={calculando}
-      />
-      {erroCalculo && <p style={{ color: 'red' }}>{erroCalculo}</p>}
-      {valorInsalubridade !== null && (
-        <CalculationResult
-          title='Resultado de Insalubridade'
-          results={[{ valorInsalubridade }]}
-          renderResult={renderInsalubridadeResult}
+      {mostrarResultados ? (
+        <div>
+          <CalculationResult
+            title='Resultado de Insalubridade'
+            results={[valorInsalubridade]}
+            renderResult={renderInsalubridadeResult}
+          />
+          <button onClick={handleRefazerCalculo}>Refazer Cálculo</button>
+        </div>
+      ) : (
+        <CalculationForm
+          inputs={inputs}
+          handleInputChange={handleInputChange}
+          handleCalculate={handleCalculate}
+          calculando={calculando}
         />
       )}
+      {erroCalculo && <p style={{ color: 'red' }}>{erroCalculo}</p>}
     </div>
   );
 }

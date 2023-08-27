@@ -8,9 +8,10 @@ function FGTSApp() {
   const [valorFGTS, setValorFGTS] = useState(null);
   const [calculando, setCalculando] = useState(false);
   const [erroCalculo, setErroCalculo] = useState(null);
+  const [mostrarResultados, setMostrarResultados] = useState(false);
 
   const handleInputChange = (event, setter) => {
-    setValorFGTS(null); // Limpa os resultados ao alterar campos
+    setValorFGTS(null);
     setter(event.target.value);
   };
 
@@ -21,11 +22,17 @@ function FGTSApp() {
       const fgtsCalculator = new FGTSCalculator(salarioMensal);
       const calculatedFGTS = fgtsCalculator.calcularFGTS();
       setValorFGTS(calculatedFGTS);
+      setMostrarResultados(true);
     } catch (error) {
       setErroCalculo('Erro ao calcular o FGTS. Verifique o valor e tente novamente.');
     } finally {
       setCalculando(false);
     }
+  };
+
+  const handleRefazerCalculo = () => {
+    setMostrarResultados(false);
+    setValorFGTS(null);
   };
 
   const inputs = [
@@ -38,35 +45,36 @@ function FGTSApp() {
     },
   ];
 
-  const renderFGTSResult = (result) => (
+  const renderFGTSResult = (valor) => (
     <div>
-      <h2>Resultado do FGTS</h2>
-      <p>
-        O valor do FGTS calculado é R${' '}
-        {result.valorFGTS.toLocaleString('pt-BR', {
-          minimumFractionDigits: 2,
-        })}
-      </p>
+      <strong>Valor do FGTS:</strong> R${' '}
+      {valor.toLocaleString('pt-BR', {
+        minimumFractionDigits: 2,
+      })}
     </div>
   );
 
   return (
     <div>
       <h1>Calculadora de FGTS</h1>
-      <CalculationForm
-        inputs={inputs}
-        handleInputChange={handleInputChange}
-        handleCalculate={handleCalculate}
-        calculando={calculando}
-      />
-      {erroCalculo && <p style={{ color: 'red' }}>{erroCalculo}</p>}
-      {valorFGTS !== null && (
-        <CalculationResult
-          title='Resultado do FGTS'
-          results={[{ valorFGTS }]}
-          renderResult={renderFGTSResult}
+      {mostrarResultados ? (
+        <div>
+          <CalculationResult
+            title='Resultado do FGTS'
+            results={[valorFGTS]}
+            renderResult={renderFGTSResult}
+          />
+          <button onClick={handleRefazerCalculo}>Refazer Cálculo</button>
+        </div>
+      ) : (
+        <CalculationForm
+          inputs={inputs}
+          handleInputChange={handleInputChange}
+          handleCalculate={handleCalculate}
+          calculando={calculando}
         />
       )}
+      {erroCalculo && <p style={{ color: 'red' }}>{erroCalculo}</p>}
     </div>
   );
 }

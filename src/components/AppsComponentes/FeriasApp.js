@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import CalculationForm from '../CalculationForm'; // Importe o componente CalculationForm
+import CalculationForm from '../CalculationForm';
 import CalculationResult from '../CalculationResult';
 import { FeriasIndenizatoriasCalculator } from '../../Calculos/FeriasCalculator';
 
@@ -10,9 +10,10 @@ function FeriasApp() {
   const [resultados, setResultados] = useState([]);
   const [calculando, setCalculando] = useState(false);
   const [erroCalculo, setErroCalculo] = useState(null);
+  const [mostrarResultados, setMostrarResultados] = useState(false);
 
   const handleInputChange = (event, setter) => {
-    setResultados([]); // Limpa os resultados ao alterar campos
+    setResultados([]);
     setter(event.target.value);
   };
 
@@ -27,11 +28,17 @@ function FeriasApp() {
       );
       const calculatedResults = await calculator.calcular();
       setResultados(calculatedResults);
+      setMostrarResultados(true);
     } catch (error) {
       setErroCalculo('Erro ao calcular férias. Verifique os valores e tente novamente.');
     } finally {
       setCalculando(false);
     }
+  };
+
+  const handleRefazerCalculo = () => {
+    setMostrarResultados(false);
+    setResultados([]);
   };
 
   const inputs = [
@@ -96,20 +103,24 @@ function FeriasApp() {
   return (
     <div>
       <h1>Calculadora de Férias</h1>
-      <CalculationForm
-        inputs={inputs}
-        handleInputChange={handleInputChange}
-        handleCalculate={handleCalculate}
-        calculando={calculando}
-      />
-      {erroCalculo && <p style={{ color: 'red' }}>{erroCalculo}</p>}
-      {resultados.length > 0 && (
-        <CalculationResult
-          title='Resultados de Férias'
-          results={resultados}
-          renderResult={renderFeriasResult}
+      {mostrarResultados ? (
+        <div>
+          <CalculationResult
+            title='Resultados de Férias'
+            results={resultados}
+            renderResult={renderFeriasResult}
+          />
+          <button onClick={handleRefazerCalculo}>Refazer Cálculo</button>
+        </div>
+      ) : (
+        <CalculationForm
+          inputs={inputs}
+          handleInputChange={handleInputChange}
+          handleCalculate={handleCalculate}
+          calculando={calculando}
         />
       )}
+      {erroCalculo && <p style={{ color: 'red' }}>{erroCalculo}</p>}
     </div>
   );
 }
