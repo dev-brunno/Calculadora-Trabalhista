@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { FeriasIndenizatoriasCalculator } from '../Calculos/FeriasCalculator';
-import ResultadosFerias from './Resultados/ResultadosFerias';
+import { FeriasIndenizatoriasCalculator } from '../../Calculos/FeriasCalculator';
+import ResultadosFerias from '../Resultados/ResultadosFerias';
 
 function FeriasApp() {
   const [inicioContrato, setInicioContrato] = useState('2022-01-01');

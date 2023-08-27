@@ -1,15 +1,11 @@
 import React from 'react';
-import FeriasApp from './components/FeriasApp';
-import DecimoTerceiroApp from './components/DecimoTerceiroApp';
+import Menus from './components/Menus';
 
 function App() {
   return (
     <div className='App'>
       <div>
-        <FeriasApp />
-      </div>
-      <div>
-        <DecimoTerceiroApp />
+        <Menus />
       </div>
     </div>
   );

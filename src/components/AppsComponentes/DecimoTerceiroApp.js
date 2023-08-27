@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import DecimoTerceiroCalculator from '../Calculos/DecimoTerceiroCalculator';
-import ResultadosDecimoTerceiro from './Resultados/ResultadosDecimoTerceiro';
+import DecimoTerceiroCalculator from '../../Calculos/DecimoTerceiroCalculator';
+import ResultadosDecimoTerceiro from '../Resultados/ResultadosDecimoTerceiro';
 
 function DecimoTerceiroApp() {
   // Estados para armazenar as informações do formulário
