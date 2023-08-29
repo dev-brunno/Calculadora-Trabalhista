@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import CalculationForm from '../CalculationForm'; // Importe o componente CalculationForm
-import CalculationResult from '../CalculationResult';
+import CalculationForm from '../InterfaceComponents/CalculationForm'; // Importe o componente CalculationForm
+import CalculationResult from '../InterfaceComponents/CalculationResult';
 import FGTSCalculator from '../../Calculos/FGTSCalculator';
 
 function FGTSApp() {
@@ -56,7 +56,6 @@ function FGTSApp() {
 
   return (
     <div>
-      <h1>Calculadora de FGTS</h1>
       {mostrarResultados ? (
         <div>
           <CalculationResult
@@ -64,10 +63,18 @@ function FGTSApp() {
             results={[valorFGTS]}
             renderResult={renderFGTSResult}
           />
-          <button onClick={handleRefazerCalculo}>Refazer Cálculo</button>
+          <div className=' inline-block absolute bottom-0 right-0'>
+            <button onClick={handleRefazerCalculo} className='bg-branco shadow-sm p-3 rounded-lg'>
+              <div className=' text-azulEscuro'>
+                <i>Refazer Cálculo </i>
+                <i className='fi fi-rr-arrow-small-right'></i>
+              </div>
+            </button>
+          </div>
         </div>
       ) : (
         <CalculationForm
+          title='Cálulo do FGTS'
           inputs={inputs}
           handleInputChange={handleInputChange}
           handleCalculate={handleCalculate}

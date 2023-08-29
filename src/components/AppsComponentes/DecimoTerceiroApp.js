@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import CalculationForm from '../CalculationForm';
-import CalculationResult from '../CalculationResult';
+import CalculationForm from '../InterfaceComponents/CalculationForm';
+import CalculationResult from '../InterfaceComponents/CalculationResult';
 import DecimoTerceiroCalculator from '../../Calculos/DecimoTerceiroCalculator';
 
 function DecimoTerceiroApp() {
   const [inicioContrato, setInicioContrato] = useState('2022-01-01');
   const [fimContrato, setFimContrato] = useState('2026-03-15');
-  const [remuneracaoUltima, setRemuneracaoUltima] = useState(5000);
+  const [remuneracaoUltima, setRemuneracaoUltima] = useState('5000');
   const [resultados, setResultados] = useState([]);
   const [calculando, setCalculando] = useState(false);
   const [erroCalculo, setErroCalculo] = useState(null);
@@ -80,7 +80,6 @@ function DecimoTerceiroApp() {
 
   return (
     <div>
-      <h1>Calculadora de Décimo Terceiro</h1>
       {mostrarResultados ? (
         <div>
           <CalculationResult
@@ -88,10 +87,18 @@ function DecimoTerceiroApp() {
             results={resultados}
             renderResult={renderDecimoTerceiroResult}
           />
-          <button onClick={handleRefazerCalculo}>Refazer Cálculo</button>
+          <div className=' inline-block absolute bottom-0 right-0'>
+            <button onClick={handleRefazerCalculo} className='bg-branco shadow-sm p-3 rounded-lg'>
+              <div className=' text-azulEscuro'>
+                <i>Refazer Cálculo </i>
+                <i className='fi fi-rr-arrow-small-right'></i>
+              </div>
+            </button>
+          </div>
         </div>
       ) : (
         <CalculationForm
+          title='Cálculo de Décimo Terceiro'
           inputs={inputs}
           handleInputChange={handleInputChange}
           handleCalculate={handleCalculate}

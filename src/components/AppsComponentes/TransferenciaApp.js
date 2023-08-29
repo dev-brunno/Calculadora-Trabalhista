@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import CalculationForm from '../CalculationForm'; // Importe o componente CalculationForm
-import CalculationResult from '../CalculationResult';
+import CalculationForm from '../InterfaceComponents/CalculationForm'; // Importe o componente CalculationForm
+import CalculationResult from '../InterfaceComponents/CalculationResult';
 import TransferenciaCalculator from '../../Calculos/TransferenciaCalculator';
 
 function TransferenciaApp() {
@@ -49,7 +49,7 @@ function TransferenciaApp() {
     {
       id: 'porcentagem',
       label: 'Porcentagem',
-      type: 'number',
+      type: 'tel',
       value: porcentagem,
       setter: setPorcentagem,
       min: 0,
@@ -68,7 +68,6 @@ function TransferenciaApp() {
 
   return (
     <div>
-      <h1>Calculadora de Transferência</h1>
       {mostrarResultados ? (
         <div>
           <CalculationResult
@@ -76,10 +75,18 @@ function TransferenciaApp() {
             results={[valorTransferencia]}
             renderResult={renderTransferenciaResult}
           />
-          <button onClick={handleRefazerCalculo}>Refazer Cálculo</button>
+          <div className=' inline-block absolute bottom-0 right-0'>
+            <button onClick={handleRefazerCalculo} className='bg-branco shadow-sm p-3 rounded-lg'>
+              <div className=' text-azulEscuro'>
+                <i>Refazer Cálculo </i>
+                <i className='fi fi-rr-arrow-small-right'></i>
+              </div>
+            </button>
+          </div>
         </div>
       ) : (
         <CalculationForm
+          title='Cálculo de Transferência'
           inputs={inputs}
           handleInputChange={handleInputChange}
           handleCalculate={handleCalculate}

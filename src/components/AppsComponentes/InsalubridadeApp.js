@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import CalculationForm from '../CalculationForm'; // Importe o componente CalculationForm
-import CalculationResult from '../CalculationResult';
+import CalculationForm from '../InterfaceComponents/CalculationForm'; // Importe o componente CalculationForm
+import CalculationResult from '../InterfaceComponents/CalculationResult';
 import InsalubridadeCalculator from '../../Calculos/InsalubridadeCalculator';
 
 // ...imports e imports de componentes
@@ -71,7 +71,6 @@ function InsalubridadeApp() {
 
   return (
     <div>
-      <h1>Calculadora de Insalubridade</h1>
       {mostrarResultados ? (
         <div>
           <CalculationResult
@@ -79,10 +78,18 @@ function InsalubridadeApp() {
             results={[valorInsalubridade]}
             renderResult={renderInsalubridadeResult}
           />
-          <button onClick={handleRefazerCalculo}>Refazer Cálculo</button>
+          <div className=' inline-block absolute bottom-0 right-0'>
+            <button onClick={handleRefazerCalculo} className='bg-branco shadow-sm p-3 rounded-lg'>
+              <div className=' text-azulEscuro'>
+                <i>Refazer Cálculo </i>
+                <i className='fi fi-rr-arrow-small-right'></i>
+              </div>
+            </button>
+          </div>
         </div>
       ) : (
         <CalculationForm
+          title='Cálculo de Insalubridade'
           inputs={inputs}
           handleInputChange={handleInputChange}
           handleCalculate={handleCalculate}

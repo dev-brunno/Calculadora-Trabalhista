@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 function CalculationResult({ title, results, renderResult }) {
   return (
     <div>
-      <h2>{title}</h2>
+      <h2 className='text-2xl text-VerdeMedio'>{title}</h2>
+      <hr className='w-16 h-0.1 border-0 rounded bg-VerdeMedio mt-1 mb-5'></hr>
       <ul>
         {results.map((result, index) => (
           <li key={index}>{renderResult(result)}</li>

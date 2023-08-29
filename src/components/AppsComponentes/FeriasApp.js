@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import CalculationForm from '../CalculationForm';
-import CalculationResult from '../CalculationResult';
+import CalculationForm from '../InterfaceComponents/CalculationForm';
+import CalculationResult from '../InterfaceComponents/CalculationResult';
 import { FeriasIndenizatoriasCalculator } from '../../Calculos/FeriasCalculator';
 
 function FeriasApp() {
@@ -102,7 +102,6 @@ function FeriasApp() {
 
   return (
     <div>
-      <h1>Calculadora de Férias</h1>
       {mostrarResultados ? (
         <div>
           <CalculationResult
@@ -110,10 +109,18 @@ function FeriasApp() {
             results={resultados}
             renderResult={renderFeriasResult}
           />
-          <button onClick={handleRefazerCalculo}>Refazer Cálculo</button>
+          <div className=' inline-block absolute bottom-0 right-0'>
+            <button onClick={handleRefazerCalculo} className='bg-branco shadow-sm p-3 rounded-lg'>
+              <div className=' text-azulEscuro'>
+                <i>Refazer Cálculo </i>
+                <i className='fi fi-rr-arrow-small-right'></i>
+              </div>
+            </button>
+          </div>
         </div>
       ) : (
         <CalculationForm
+          title='Cálculo de Férias'
           inputs={inputs}
           handleInputChange={handleInputChange}
           handleCalculate={handleCalculate}

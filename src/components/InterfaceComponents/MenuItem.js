@@ -4,13 +4,15 @@ import CalculationIcon from './CalculationIcon';
 
 function MenuItem({ icon, title, onClick }) {
   return (
-    <button
-      onClick={onClick}
-      className=' w-40 h-20 shadow-sm rounded-2xl border border-cinzaClaro p-2 text-azulEscuro '
-    >
-      <CalculationIcon icon={icon} />
-      <span className=' text-base font-bold'>{title}</span>
-    </button>
+    <div className=' inline-block'>
+      <button
+        onClick={onClick}
+        className=' w-36 h-20 shadow-inner rounded-2xl border border-cinzaClaro p-2 text-azulEscuro '
+      >
+        <CalculationIcon icon={icon} />
+        <span className=' text-sm font-bold'>{title}</span>
+      </button>
+    </div>
   );
 }
 
