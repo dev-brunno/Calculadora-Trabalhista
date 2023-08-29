@@ -1,19 +1,22 @@
 import React from 'react';
-import Menus from './components/InterfaceComponents/Menus';
-import NavBar from './components/InterfaceComponents/NavBar';
+import { Routes, Route } from 'react-router-dom';
+import Calculos from './routes/calculos.component';
+import Navigation from './routes/navigation/navigation.component';
+import Home from './routes/home.component';
+import Clientes from './routes/clientes.component';
+import Contato from './routes/contato.component';
+
 function App() {
   return (
-    <div className='App font-sans flex flex-nowrap h-screen bg-brancoMedio'>
-      <div className='left-0 top-0 w-52 shrink-0'>
-        <NavBar />
-      </div>
-      <div>
-        <div className=' pb-16 relative m-16'>
-          <div className=' w-max-12/12 bg-branco shadow-lg p-12 border rounded-3xl border-solid border-cinzaMedio'>
-            <Menus />
-          </div>
-        </div>
-      </div>
+    <div className='flex flex-nowrap font-sans h-screen bg-brancoMedio'>
+      <Routes>
+        <Route path='/' element={<Navigation />}>
+          <Route path='/calculos' element={<Calculos />} />
+          <Route path='/home' element={<Home />} />
+          <Route path='/clientes' element={<Clientes />} />
+          <Route path='/contato' element={<Contato />} />
+        </Route>
+      </Routes>
     </div>
   );
 }

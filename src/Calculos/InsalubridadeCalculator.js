@@ -9,7 +9,6 @@ class InsalubridadeCalculator {
   }
 
   calcularInsalubridade() {
-    console.log(this.grauInsalubridade);
     const percentuais = {
       10: 0.1,
       20: 0.2,
