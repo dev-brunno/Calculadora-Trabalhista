@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import CalculationForm from '../InterfaceComponents/CalculationForm'; // Importe o componente CalculationForm
-import CalculationResult from '../InterfaceComponents/CalculationResult';
+import CalculationForm from '../InterfaceComponents/CalculationForm.component'; // Importe o componente CalculationForm
+import CalculationResult from '../InterfaceComponents/CalculationResult.component';
 import FGTSCalculator from '../../Calculos/FGTSCalculator';
 
 function FGTSApp() {
@@ -63,6 +63,7 @@ function FGTSApp() {
             results={[valorFGTS]}
             renderResult={renderFGTSResult}
           />
+
           <div className=' inline-block absolute bottom-0 right-0'>
             <button onClick={handleRefazerCalculo} className='bg-branco shadow-sm p-3 rounded-lg'>
               <div className=' text-azulEscuro'>

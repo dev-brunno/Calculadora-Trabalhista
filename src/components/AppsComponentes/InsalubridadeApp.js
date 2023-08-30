@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import CalculationForm from '../InterfaceComponents/CalculationForm'; // Importe o componente CalculationForm
-import CalculationResult from '../InterfaceComponents/CalculationResult';
+import CalculationForm from '../InterfaceComponents/CalculationForm.component'; // Importe o componente CalculationForm
+import CalculationResult from '../InterfaceComponents/CalculationResult.component';
 import InsalubridadeCalculator from '../../Calculos/InsalubridadeCalculator';
 
 // ...imports e imports de componentes

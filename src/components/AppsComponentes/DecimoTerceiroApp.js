@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import CalculationForm from '../InterfaceComponents/CalculationForm';
-import CalculationResult from '../InterfaceComponents/CalculationResult';
+import CalculationForm from '../InterfaceComponents/CalculationForm.component';
+import CalculationResult from '../InterfaceComponents/CalculationResult.component';
 import DecimoTerceiroCalculator from '../../Calculos/DecimoTerceiroCalculator';
 
 function DecimoTerceiroApp() {
