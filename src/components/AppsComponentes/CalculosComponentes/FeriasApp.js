@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import CalculationForm from '../InterfaceComponents/CalculationForm.component';
-import CalculationResult from '../InterfaceComponents/CalculationResult.component';
-import DecimoTerceiroCalculator from '../../Calculos/DecimoTerceiroCalculator';
+import CalculationForm from '../../InterfaceComponents/InterfaceCalculation/CalculationForm.component';
+import CalculationResult from '../../InterfaceComponents/InterfaceCalculation/CalculationResult.component';
+import { FeriasIndenizatoriasCalculator } from '../../../Classes/Calculos/FeriasCalculator';
 
-function DecimoTerceiroApp() {
+function FeriasApp() {
   const [inicioContrato, setInicioContrato] = useState('2022-01-01');
-  const [fimContrato, setFimContrato] = useState('2026-03-15');
-  const [remuneracaoUltima, setRemuneracaoUltima] = useState('5000');
+  const [fimContrato, setFimContrato] = useState('2024-09-30');
+  const [remuneracao, setRemuneracao] = useState(1200);
   const [resultados, setResultados] = useState([]);
   const [calculando, setCalculando] = useState(false);
   const [erroCalculo, setErroCalculo] = useState(null);
@@ -21,16 +21,16 @@ function DecimoTerceiroApp() {
     setCalculando(true);
     setErroCalculo(null);
     try {
-      const calculator = new DecimoTerceiroCalculator(
+      const calculator = new FeriasIndenizatoriasCalculator(
         inicioContrato,
         fimContrato,
-        remuneracaoUltima,
+        remuneracao,
       );
-      const resultadosCalculados = await calculator.calcularDecimoTerceiro();
-      setResultados(resultadosCalculados);
-      setMostrarResultados(true); // Mostra os resultados após o cálculo
+      const calculatedResults = await calculator.calcular();
+      setResultados(calculatedResults);
+      setMostrarResultados(true);
     } catch (error) {
-      setErroCalculo('Erro ao calcular o décimo terceiro. Verifique os valores e tente novamente.');
+      setErroCalculo('Erro ao calcular férias. Verifique os valores e tente novamente.');
     } finally {
       setCalculando(false);
     }
@@ -57,24 +57,46 @@ function DecimoTerceiroApp() {
       setter: setFimContrato,
     },
     {
-      id: 'remuneracaoUltima',
-      label: 'Remuneração da Última Parcela',
+      id: 'remuneracao',
+      label: 'Remuneração da Última Férias',
       type: 'number',
-      value: remuneracaoUltima,
-      setter: setRemuneracaoUltima,
+      value: remuneracao,
+      setter: setRemuneracao,
     },
   ];
 
-  const renderDecimoTerceiroResult = (result) => (
+  const renderFeriasResult = (result) => (
     <div>
-      <strong>Ano Correspondente:</strong> {result.anoCorrespondente}
-      <br />
       <strong>Período:</strong> {result.periodo}
       <br />
-      <strong>Valor do Décimo Terceiro:</strong> R${' '}
-      {result.valorDecimoTerceiro.toLocaleString('pt-BR', {
+      <strong>Férias:</strong> R${' '}
+      {result.ferias.toLocaleString('pt-BR', {
         minimumFractionDigits: 2,
       })}
+      <br />
+      <strong>Terço Constitucional:</strong> R${' '}
+      {result.tercoConstitucional.toLocaleString('pt-BR', {
+        minimumFractionDigits: 2,
+      })}
+      <br />
+      {result.feriasIndenizatorias !== undefined && (
+        <div>
+          <strong>Férias Indenizatórias:</strong> R${' '}
+          {result.feriasIndenizatorias.toLocaleString('pt-BR', {
+            minimumFractionDigits: 2,
+          })}
+          <br />
+        </div>
+      )}
+      {result.feriasProporcionais !== undefined && (
+        <div>
+          <strong>Férias Proporcionais:</strong> R${' '}
+          {result.feriasProporcionais.toLocaleString('pt-BR', {
+            minimumFractionDigits: 2,
+          })}
+          <br />
+        </div>
+      )}
     </div>
   );
 
@@ -83,9 +105,9 @@ function DecimoTerceiroApp() {
       {mostrarResultados ? (
         <div>
           <CalculationResult
-            title='Resultados do Décimo Terceiro'
+            title='Resultados de Férias'
             results={resultados}
-            renderResult={renderDecimoTerceiroResult}
+            renderResult={renderFeriasResult}
           />
           <div className=' inline-block absolute bottom-0 right-0'>
             <button onClick={handleRefazerCalculo} className='bg-branco shadow-sm p-3 rounded-lg'>
@@ -98,7 +120,7 @@ function DecimoTerceiroApp() {
         </div>
       ) : (
         <CalculationForm
-          title='Cálculo de Décimo Terceiro'
+          title='Cálculo de Férias'
           inputs={inputs}
           handleInputChange={handleInputChange}
           handleCalculate={handleCalculate}
@@ -110,4 +132,4 @@ function DecimoTerceiroApp() {
   );
 }
 
-export default DecimoTerceiroApp;
+export default FeriasApp;

@@ -23,6 +23,9 @@ module.exports = {
       spacing: {
         0.1: '0.10rem',
       },
+      lineHeight: {
+        'extra-loose': '0.10rem',
+      },
     },
   },
   plugins: [],

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import CalculationForm from '../InterfaceComponents/CalculationForm.component'; // Importe o componente CalculationForm
-import CalculationResult from '../InterfaceComponents/CalculationResult.component';
-import TransferenciaCalculator from '../../Calculos/TransferenciaCalculator';
+import CalculationForm from '../../InterfaceComponents/InterfaceCalculation/CalculationForm.component';
+import CalculationResult from '../../InterfaceComponents/InterfaceCalculation/CalculationResult.component';
+import TransferenciaCalculator from '../../../Classes/Calculos/TransferenciaCalculator';
 
 function TransferenciaApp() {
   const [remuneracao, setRemuneracao] = useState(2000);

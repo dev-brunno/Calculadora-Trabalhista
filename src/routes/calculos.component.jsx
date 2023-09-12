@@ -1,5 +1,5 @@
 import React from 'react';
-import CalculationContainer from '../components/InterfaceComponents/CalculationContainer.component';
+import CalculationContainer from '../components/InterfaceComponents/InterfaceCalculation/CalculationContainer.component';
 
 function Calculos() {
   return (

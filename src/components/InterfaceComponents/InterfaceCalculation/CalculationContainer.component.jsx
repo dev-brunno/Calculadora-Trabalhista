@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import CalculationCard from './CalculationCard.component';
-import FeriasApp from '../AppsComponentes/FeriasApp';
-import DecimoTerceiroApp from '../AppsComponentes/DecimoTerceiroApp';
-import FGTSApp from '../AppsComponentes/FGTSApp';
-import PericulosidadeApp from '../AppsComponentes/PericulosidadeApp';
-import InsalubridadeApp from '../AppsComponentes/InsalubridadeApp';
-import TransferenciaApp from '../AppsComponentes/TransferenciaApp';
+import FeriasApp from '../../AppsComponentes/CalculosComponentes/FeriasApp';
+import DecimoTerceiroApp from '../../AppsComponentes/CalculosComponentes/DecimoTerceiroApp';
+import FGTSApp from '../../AppsComponentes/CalculosComponentes/FGTSApp';
+import PericulosidadeApp from '../../AppsComponentes/CalculosComponentes/PericulosidadeApp';
+import InsalubridadeApp from '../../AppsComponentes/CalculosComponentes/InsalubridadeApp';
+import TransferenciaApp from '../../AppsComponentes/CalculosComponentes/TransferenciaApp';
 
 const calculations = [
   { id: 'ferias', title: 'Férias', icon: 'fi fi-rr-umbrella-beach' },

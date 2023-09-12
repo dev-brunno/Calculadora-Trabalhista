@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
-import CalculationForm from '../InterfaceComponents/CalculationForm.component'; // Importe o componente CalculationForm
-import CalculationResult from '../InterfaceComponents/CalculationResult.component';
-import PericulosidadeCalculator from '../../Calculos/PericulosidadeCalculator';
+import CalculationForm from '../../InterfaceComponents/InterfaceCalculation/CalculationForm.component';
+import CalculationResult from '../../InterfaceComponents/InterfaceCalculation/CalculationResult.component';
+import InsalubridadeCalculator from '../../../Classes/Calculos/InsalubridadeCalculator';
 
-function PericulosidadeApp() {
+// ...imports e imports de componentes
+
+function InsalubridadeApp() {
   const [salarioBase, setSalarioBase] = useState(2000);
-  const [valorPericulosidade, setValorPericulosidade] = useState(null);
+  const [grauInsalubridade, setGrauInsalubridade] = useState('10');
+  const [valorInsalubridade, setValorInsalubridade] = useState(null);
   const [calculando, setCalculando] = useState(false);
   const [erroCalculo, setErroCalculo] = useState(null);
   const [mostrarResultados, setMostrarResultados] = useState(false);
 
   const handleInputChange = (event, setter) => {
-    setValorPericulosidade(null);
+    setValorInsalubridade(null);
     setter(event.target.value);
   };
 
@@ -19,12 +22,12 @@ function PericulosidadeApp() {
     setCalculando(true);
     setErroCalculo(null);
     try {
-      const periculosidadeCalculator = new PericulosidadeCalculator(salarioBase);
-      const calculatedPericulosidade = periculosidadeCalculator.calcularPericulosidade();
-      setValorPericulosidade(calculatedPericulosidade);
+      const insalubridadeCalculator = new InsalubridadeCalculator(salarioBase, grauInsalubridade);
+      const calculatedInsalubridade = insalubridadeCalculator.calcularInsalubridade();
+      setValorInsalubridade(calculatedInsalubridade);
       setMostrarResultados(true);
     } catch (error) {
-      setErroCalculo('Erro ao calcular periculosidade. Verifique os valores e tente novamente.');
+      setErroCalculo('Erro ao calcular insalubridade. Verifique os valores e tente novamente.');
     } finally {
       setCalculando(false);
     }
@@ -32,7 +35,7 @@ function PericulosidadeApp() {
 
   const handleRefazerCalculo = () => {
     setMostrarResultados(false);
-    setValorPericulosidade(null);
+    setValorInsalubridade(null);
   };
 
   const inputs = [
@@ -43,11 +46,23 @@ function PericulosidadeApp() {
       value: salarioBase,
       setter: setSalarioBase,
     },
+    {
+      id: 'grauInsalubridade',
+      label: 'Grau de Insalubridade',
+      type: 'select',
+      value: grauInsalubridade,
+      setter: setGrauInsalubridade,
+      options: [
+        { value: '10', label: 'Grau Mínimo (10%)' },
+        { value: '20', label: 'Grau Médio (20%)' },
+        { value: '40', label: 'Grau Máximo (40%)' },
+      ],
+    },
   ];
 
-  const renderPericulosidadeResult = (valor) => (
+  const renderInsalubridadeResult = (valor) => (
     <div>
-      <strong>Valor da periculosidade calculado:</strong> R${' '}
+      <strong>Valor do adicional de insalubridade:</strong> R${' '}
       {valor.toLocaleString('pt-BR', {
         minimumFractionDigits: 2,
       })}
@@ -59,9 +74,9 @@ function PericulosidadeApp() {
       {mostrarResultados ? (
         <div>
           <CalculationResult
-            title='Resultado de Periculosidade'
-            results={[valorPericulosidade]}
-            renderResult={renderPericulosidadeResult}
+            title='Resultado de Insalubridade'
+            results={[valorInsalubridade]}
+            renderResult={renderInsalubridadeResult}
           />
           <div className=' inline-block absolute bottom-0 right-0'>
             <button onClick={handleRefazerCalculo} className='bg-branco shadow-sm p-3 rounded-lg'>
@@ -74,7 +89,7 @@ function PericulosidadeApp() {
         </div>
       ) : (
         <CalculationForm
-          title='Cálculo de Periculosidade'
+          title='Cálculo de Insalubridade'
           inputs={inputs}
           handleInputChange={handleInputChange}
           handleCalculate={handleCalculate}
@@ -86,4 +101,4 @@ function PericulosidadeApp() {
   );
 }
 
-export default PericulosidadeApp;
+export default InsalubridadeApp;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import CalculationForm from '../InterfaceComponents/CalculationForm.component'; // Importe o componente CalculationForm
-import CalculationResult from '../InterfaceComponents/CalculationResult.component';
-import FGTSCalculator from '../../Calculos/FGTSCalculator';
+import CalculationForm from '../../InterfaceComponents/InterfaceCalculation/CalculationForm.component';
+import CalculationResult from '../../InterfaceComponents/InterfaceCalculation/CalculationResult.component';
+import FGTSCalculator from '../../../Classes/Calculos/FGTSCalculator';
 
 function FGTSApp() {
   const [salarioMensal, setSalarioMensal] = useState(3000);
