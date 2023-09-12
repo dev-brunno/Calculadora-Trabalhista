@@ -72,7 +72,7 @@ function CalculationContainer() {
     return null;
   };
 
-  return <div className='App'>{renderActiveComponent()}</div>;
+  return <div>{renderActiveComponent()}</div>;
 }
 
 export default CalculationContainer;
