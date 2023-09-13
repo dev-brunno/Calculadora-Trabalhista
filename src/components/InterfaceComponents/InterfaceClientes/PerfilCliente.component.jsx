@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function PerfilCliente({ cliente, onEditarClick, deleteCliente, onVoltarClick }) {
+function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
   // Função para renderizar um item de detalhe do cliente
   const renderDetailItem = (label, value) => (
     <li className='flex space-x-1'>
@@ -25,9 +25,13 @@ function PerfilCliente({ cliente, onEditarClick, deleteCliente, onVoltarClick })
               </div>
             </div>
             <div className='bg-azulClaro w-10 h-10 rounded-full grid place-items-center  absolute bottom-0 right-0'>
-              <div className=' bg-cinzaClaro w-8 h-8 rounded-full grid place-items-center text-azulClaro'>
-                <i className='fi fi-br-picture'></i>
-              </div>
+              <button
+                onClick={onEditarClick}
+                className=' bg-cinzaClaro w-8 h-8 rounded-full grid place-items-center text-azulEscuro'
+                title='Editar Cliente'
+              >
+                <i className='fi fi-sr-user-pen'></i>
+              </button>
             </div>
           </div>
         </div>
@@ -47,7 +51,7 @@ function PerfilCliente({ cliente, onEditarClick, deleteCliente, onVoltarClick })
               <div className=' space-y-1'>
                 <div>{renderDetailItem('', cliente.cep)}</div>
                 <div>{renderDetailItem('', cliente.endereco)}</div>
-                <div className='flex w-52 space-x-1'>
+                <div className='flex w-52 space-x-1 ml-1'>
                   <div className='w-2/3'>
                     <div className='border border-cinzaMedio  w-full h-9 p-2 rounded-r-2xl rounded-bl-2xl text-sm text-azulEscuro'>
                       {cliente.cidade}
@@ -62,10 +66,6 @@ function PerfilCliente({ cliente, onEditarClick, deleteCliente, onVoltarClick })
               </div>
             </div>
           </ul>
-          <button onClick={onEditarClick}>Editar Cliente</button>
-          <button onClick={() => deleteCliente(cliente.cpf)} className='text-red-500'>
-            Excluir Cliente
-          </button>
         </div>
       </div>
       <div className=' inline-block text-cinzaEscuro absolute bottom-0 left-0'>

@@ -82,6 +82,7 @@ function ClientesApp() {
           addCliente={addCliente}
           updateCliente={updateCliente}
           editCliente={modoEdicao ? clienteEditando : null}
+          deleteCliente={(cpf) => deleteCliente(cpf)} // Passar o CPF do cliente para a função deleteCliente
           onCancel={() => setMostrarFormulario(false)} // Passa a função onCancel para ocultar o formulário
         />
       )}
@@ -91,7 +92,6 @@ function ClientesApp() {
         <PerfilCliente
           cliente={clienteSelecionado}
           onEditarClick={() => ativarModoEdicao(clienteSelecionado)}
-          deleteCliente={(cpf) => deleteCliente(cpf)} // Passar o CPF do cliente para a função deleteCliente
           onVoltarClick={() => {
             setMostrarPerfil(false);
             setClienteSelecionado(null);

@@ -4,8 +4,8 @@ import CalculationContainer from '../components/InterfaceComponents/InterfaceCal
 function Calculos() {
   return (
     <div className=''>
-      <div className=' pb-16 relative m-16'>
-        <div className=' w-max-12/12 bg-branco shadow-lg p-12 border rounded-3xl border-solid border-cinzaMedio'>
+      <div className=' pb-16 relative m-8'>
+        <div className=' w-max-12/12 bg-branco shadow-lg p-16 border rounded-3xl border-solid border-cinzaMedio'>
           <CalculationContainer />
         </div>
       </div>
