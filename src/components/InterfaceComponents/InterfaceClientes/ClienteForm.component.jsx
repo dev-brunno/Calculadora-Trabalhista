@@ -27,6 +27,12 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
     }
   }, [editCliente]);
 
+  // Função para redefinir o formulário para seus valores iniciais
+  const resetForm = () => {
+    setCliente(initialClienteState);
+    setErrors({});
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setCliente({
@@ -131,7 +137,7 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
       } else {
         addCliente(cliente);
       }
-      setCliente(initialClienteState);
+      resetForm(); // Redefinir o formulário após a adição ou edição
     }
   };
 
@@ -177,7 +183,7 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
               </div>
             )}
             <form className='text-lg flex flex-col space-y-2' onSubmit={handleSubmit}>
-              <div>
+              <div className='space-y-2'>
                 <div className='flex space-x-2'>
                   <label className='text-azulEscuro text-2xl mt-1' htmlFor='nome'>
                     <i className='fi fi-ss-user'></i>
@@ -253,7 +259,7 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
                   <label className='text-azulEscuro text-2xl mt-1' htmlFor='cep'>
                     <i className='fi fi-sr-marker'></i>
                   </label>
-                  <div className=' space-y-1'>
+                  <div className=' space-y-2'>
                     <div>
                       <div>
                         <input
@@ -308,7 +314,7 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
                   </div>
                 </div>
 
-                <div className=' inline-block m-auto p-2'>
+                <div className=' p-2 flex justify-end'>
                   <button type='submit'>
                     <div className=' text-azulEscuro'>
                       <i>{editCliente ? 'Salvar' : 'Cadastrar'}</i>
@@ -336,10 +342,18 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
                     <div className='bg-white p-4 rounded-lg shadow-lg'>
                       <p>Tem certeza que deseja excluir este cliente?</p>
                       <div className='mt-4 flex justify-end'>
-                        <button onClick={handleConfirmDelete} className='text-red-500 mr-2'>
+                        <button
+                          onClick={handleConfirmDelete}
+                          className='text-red-500 mr-2 bg-gray-100 p-2 rounded-md'
+                        >
                           Excluir
                         </button>
-                        <button onClick={handleCancelDelete}>Cancelar</button>
+                        <button
+                          onClick={handleCancelDelete}
+                          className=' text-black mr-2 bg-blue-100 p-2 rounded-md'
+                        >
+                          Cancelar
+                        </button>
                       </div>
                     </div>
                   </div>

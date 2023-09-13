@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
   // Função para renderizar um item de detalhe do cliente
   const renderDetailItem = (label, value) => (
-    <li className='flex space-x-1'>
+    <li className='flex space-x-2'>
       <label className='text-azulEscuro text-2xl mt-1' htmlFor='nome'>
         {label}
       </label>
@@ -48,7 +48,7 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
               <label className='text-azulEscuro text-2xl mt-1'>
                 <i className='fi fi-sr-marker'></i>
               </label>
-              <div className=' space-y-1'>
+              <div className=' space-y-2'>
                 <div>{renderDetailItem('', cliente.cep)}</div>
                 <div>{renderDetailItem('', cliente.endereco)}</div>
                 <div className='flex w-52 space-x-1 ml-1'>
