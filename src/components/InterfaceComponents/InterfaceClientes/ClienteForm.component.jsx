@@ -134,80 +134,183 @@ function ClienteForm({ addCliente, updateCliente, editCliente, onCancel }) {
     }
   };
 
-  const formFields = [
-    { label: 'Nome', name: 'nome', type: 'text', required: true },
-    { label: 'CPF', name: 'cpf', type: 'text', required: true },
-    { label: 'Data de Nascimento', name: 'dataNascimento', type: 'date' },
-    { label: 'Email', name: 'email', type: 'email' },
-    { label: 'Telefone', name: 'telefone', type: 'tel' },
-    { label: 'CEP', name: 'cep', type: 'text' },
-    { label: 'Endereço', name: 'endereco', type: 'text' },
-    { label: 'Cidade', name: 'cidade', type: 'text' },
-    { label: 'Estado', name: 'estado', type: 'text' },
-  ];
-
   return (
     <div>
-      <h2 className='text-2xl text-VerdeMedio'>
-        {editCliente ? 'Editar Cliente' : 'Cadastro Cliente'}
-      </h2>
-      <hr className='w-16 h-0.1 border-0 rounded bg-VerdeMedio mt-1 mb-5'></hr>
-      <div>
-        {Object.keys(errors).length > 0 && (
-          <div className='text-red-500'>
-            {Object.values(errors).map((error, index) => (
-              <p key={index}>{error}</p>
-            ))}
-          </div>
-        )}
-        <form onSubmit={handleSubmit}>
-          {formFields.map((field) => (
-            <div key={field.name}>
-              <label htmlFor={field.name}>{field.label}:</label>
-              {field.name === 'cep' ? (
-                <div>
-                  <input
-                    type={field.type}
-                    id={field.name}
-                    name={field.name}
-                    value={cliente[field.name]}
-                    onChange={handleInputChange}
-                    onBlur={handleCEPBlur}
-                    {...(field.required && { required: 'required' })}
-                  />
-                  {enderecoLoading && <p>Carregando...</p>}
-                </div>
-              ) : (
-                <input
-                  type={field.type}
-                  id={field.name}
-                  name={field.name}
-                  value={
-                    field.name === 'cpf'
-                      ? formatCPF(cliente[field.name])
-                      : field.name === 'telefone'
-                      ? formatTelefone(cliente[field.name])
-                      : cliente[field.name]
-                  }
-                  onChange={handleInputChange}
-                  {...(field.required && { required: 'required' })}
-                />
-              )}
+      <div className=' border border-azulEscuro p-8 rounded-3xl relative'>
+        <div className='absolute -left-8 -top-8'>
+          <div className='relative'>
+            <div className='bg-azulClaro w-28 h-28 rounded-full grid place-items-center shadow-md'>
+              <div className=' bg-cinzaClaro w-24 h-24 rounded-full grid place-items-center text-azulClaro text-6xl'>
+                <i className='fi fi-sr-user'></i>
+              </div>
             </div>
-          ))}
+            <div className='bg-azulClaro w-10 h-10 rounded-full grid place-items-center  absolute bottom-0 right-0'>
+              <div className=' bg-cinzaClaro w-8 h-8 rounded-full grid place-items-center text-azulClaro'>
+                <i className='fi fi-br-picture'></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className='ml-16'>
+          <h2 className='text-xl text-VerdeMedio'>
+            {editCliente ? 'Editar Cliente' : 'Cadastro Cliente'}
+          </h2>
+          <hr className='w-16 h-0.1 border-0 rounded bg-VerdeMedio mt-1 mb-5'></hr>
           <div>
-            <button type='submit'>{editCliente ? 'Salvar' : 'Cadastrar'}</button>
-            <div className='inline-block text-cinzaEscuro absolute bottom-0 left-0'>
-              <button
-                className='bg-branco shadow-sm p-3 rounded-lg'
-                type='button'
-                onClick={onCancel}
-              >
-                <i className='fi fi-rr-arrow-small-left'> Cancelar</i>
-              </button>
-            </div>
+            {Object.keys(errors).length > 0 && (
+              <div className='text-red-500'>
+                {Object.values(errors).map((error, index) => (
+                  <p key={index}>{error}</p>
+                ))}
+              </div>
+            )}
+            <form className='text-lg flex flex-col space-y-2' onSubmit={handleSubmit}>
+              <div className='flex space-x-2'>
+                <label className='text-azulEscuro text-2xl mt-1' htmlFor='nome'>
+                  <i className='fi fi-ss-user'></i>
+                </label>
+                <input
+                  type='text'
+                  id='nome'
+                  name='nome'
+                  placeholder='Nome completo'
+                  value={cliente.nome}
+                  onChange={handleInputChange}
+                  className='border border-azulEscuro h-9 w-52 p-2 rounded-r-2xl rounded-bl-2xl text-sm'
+                  required
+                />
+              </div>
+              <div className='flex space-x-2'>
+                <label className='text-azulEscuro text-2xl mt-1' htmlFor='cpf'>
+                  <i className='fi fi-sr-id-badge'></i>
+                </label>
+                <input
+                  type='text'
+                  id='cpf'
+                  name='cpf'
+                  placeholder='CPF do Cliente'
+                  value={formatCPF(cliente.cpf)}
+                  onChange={handleInputChange}
+                  className='border border-azulEscuro h-9 w-52 p-2 rounded-r-2xl rounded-bl-2xl text-sm'
+                  required
+                />
+              </div>
+              <div className='flex space-x-2'>
+                <label className='text-azulEscuro text-2xl mt-1' htmlFor='dataNascimento'>
+                  <i className='fi fi-sr-calendar'></i>
+                </label>
+                <input
+                  type='date'
+                  id='dataNascimento'
+                  name='dataNascimento'
+                  value={cliente.dataNascimento}
+                  onChange={handleInputChange}
+                  className='border border-azulEscuro h-9 w-52 p-2 rounded-r-2xl rounded-bl-2xl text-sm'
+                />
+              </div>
+              <div className='flex space-x-2'>
+                <label className='text-azulEscuro text-2xl mt-1' htmlFor='email'>
+                  <i className='fi fi-sr-envelope'></i>
+                </label>
+                <input
+                  type='email'
+                  id='email'
+                  name='email'
+                  placeholder='E-mail'
+                  value={cliente.email}
+                  onChange={handleInputChange}
+                  className='border border-azulEscuro h-9 w-52 p-2 rounded-r-2xl rounded-bl-2xl text-sm'
+                />
+              </div>
+              <div className='flex space-x-2'>
+                <label className='text-azulEscuro text-2xl mt-1' htmlFor='telefone'>
+                  <i className='fi fi-sr-phone-flip'></i>
+                </label>
+                <input
+                  type='tel'
+                  id='telefone'
+                  name='telefone'
+                  placeholder='Telefone'
+                  value={formatTelefone(cliente.telefone)}
+                  onChange={handleInputChange}
+                  className='border border-azulEscuro h-9 w-52 p-2 rounded-r-2xl rounded-bl-2xl text-sm'
+                />
+              </div>
+              <div className='flex space-x-2'>
+                <label className='text-azulEscuro text-2xl mt-1' htmlFor='cep'>
+                  <i className='fi fi-sr-marker'></i>
+                </label>
+                <div className=' space-y-1'>
+                  <div>
+                    <div>
+                      <input
+                        type='text'
+                        id='cep'
+                        name='cep'
+                        placeholder='CEP'
+                        value={cliente.cep}
+                        onChange={handleInputChange}
+                        onBlur={handleCEPBlur}
+                        className='border border-azulEscuro h-9 w-52 p-2 rounded-r-2xl rounded-bl-2xl text-sm'
+                        required
+                      />
+                      {enderecoLoading && <p>Carregando...</p>}
+                    </div>
+                  </div>
+                  <div>
+                    <input
+                      type='text'
+                      id='endereco'
+                      name='endereco'
+                      placeholder='Endereço'
+                      value={cliente.endereco}
+                      onChange={handleInputChange}
+                      className='border border-azulEscuro h-9 p-2 rounded-r-2xl rounded-bl-2xl text-sm w-52'
+                    />
+                  </div>
+                  <div className='flex w-52 space-x-1'>
+                    <div className='w-2/3'>
+                      <input
+                        type='text'
+                        id='cidade'
+                        name='cidade'
+                        placeholder='Cidade'
+                        value={cliente.cidade}
+                        onChange={handleInputChange}
+                        className='border border-azulEscuro  w-full h-9 p-2 rounded-r-2xl rounded-bl-2xl text-sm'
+                      />
+                    </div>
+                    <div className=' w-1/3'>
+                      <input
+                        type='text'
+                        id='estado'
+                        name='estado'
+                        placeholder='Estado'
+                        value={cliente.estado}
+                        onChange={handleInputChange}
+                        className='border border-azulEscuro h-9 w-full p-2 rounded-r-2xl rounded-bl-2xl text-sm '
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className=' inline-block m-auto p-2'>
+                <button type='submit'>
+                  <div className=' text-azulEscuro'>
+                    <i>{editCliente ? 'Salvar' : 'Cadastrar'}</i>
+                    <i className='fi fi-rr-arrow-small-right'></i>
+                  </div>
+                </button>
+              </div>
+            </form>
           </div>
-        </form>
+        </div>
+      </div>
+      <div className='inline-block text-cinzaEscuro absolute bottom-0 left-0'>
+        <button className='bg-branco shadow-sm p-3 rounded-lg' type='button' onClick={onCancel}>
+          <i className='fi fi-rr-arrow-small-left'> Cancelar</i>
+        </button>
       </div>
     </div>
   );

@@ -62,17 +62,16 @@ function ClientesApp() {
 
   return (
     <div>
-      <div className=' inline-block absolute bottom-0 right-0'>
+      <div className=' inline-block fixed bottom-0 right-0 mb-12 mr-12'>
         <button
-          className='bg-branco shadow-sm p-3 rounded-lg'
           onClick={() => {
             setMostrarFormulario(true);
             setMostrarPerfil(false);
           }}
         >
-          <div className=' text-azulEscuro'>
-            <i>Adicionar Cliente </i>
-            <i className='fi fi-rr-arrow-small-right'></i>
+          <div className='bg-azulEscuro w-24 h-24 rounded-full grid place-items-center -space-y-8 text-branco shadow-lg'>
+            <i className='fi fi-sr-users-medical text-4xl'></i>
+            <span className='text-sm font-bold leading-4'>Adicionar Clientes</span>
           </div>
         </button>
       </div>
