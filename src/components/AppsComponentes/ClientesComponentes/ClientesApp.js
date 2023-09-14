@@ -1,27 +1,27 @@
-// Importações de módulos e componentes necessários
 import React, { useState, useEffect } from 'react';
 import ClienteForm from '../../InterfaceComponents/InterfaceClientes/ClienteForm.component';
 import ClienteList from '../../InterfaceComponents/InterfaceClientes/ClienteList.component';
 import PerfilCliente from '../../InterfaceComponents/InterfaceClientes/PerfilCliente.component';
-import {
-  getFirestore,
-  collection,
-  getDocs,
-  addDoc,
-  updateDoc,
-  deleteDoc,
-  doc,
-} from 'firebase/firestore';
-import app from '../../../Firebase/firebase'; // Importando a instância do Firebase configurada anteriormente.
+import app from '../../../Firebase/firebase';
+import { useClientes } from '../../../Context/ClientesContext';
+import { getFirestore, collection, getDocs } from 'firebase/firestore';
 
 // Definição do componente ClientesApp
 function ClientesApp() {
-  // Definição de estados usando useState
-  const [clientes, setClientes] = useState([]); // Armazena a lista de clientes
-  const [modoEdicao, setModoEdicao] = useState(false); // Controla o modo de edição
-  const [clienteEditando, setClienteEditando] = useState(null); // Armazena o cliente sendo editado
   const [displayState, setDisplayState] = useState('clienteList'); // Controla o estado de exibição da interface
   const [clienteSelecionado, setClienteSelecionado] = useState(null); // Armazena o cliente selecionado
+
+  const {
+    clientes,
+    addCliente,
+    updateCliente,
+    deleteCliente,
+    modoEdicao,
+    setModoEdicao,
+    setClientes,
+    clienteEditando,
+    setClienteEditando,
+  } = useClientes(); // hook useClientes para acessar os dados dos clientes.
 
   // Função assíncrona para carregar a lista de clientes do Firestore
   const loadClientes = async () => {
@@ -37,69 +37,22 @@ function ClientesApp() {
     return clientesArray;
   };
 
-  // Função assíncrona para adicionar um cliente
-  const addCliente = async (cliente) => {
-    const db = getFirestore(app);
-    const clientesCollection = collection(db, 'clientes');
-
-    try {
-      await addDoc(clientesCollection, cliente);
-
-      const clientesData = await loadClientes();
-      setClientes(clientesData);
-      setDisplayState('clienteList');
-    } catch (error) {
-      console.error('Erro ao adicionar cliente:', error);
-    }
-  };
-
-  // Função assíncrona para atualizar um cliente
-  const updateCliente = async (cliente) => {
-    const db = getFirestore(app);
-    const clientesCollection = collection(db, 'clientes');
-
-    try {
-      const clienteDoc = doc(clientesCollection, cliente.id); // Use o ID como chave
-      await updateDoc(clienteDoc, cliente);
-
-      const clientesData = await loadClientes();
-      setClientes(clientesData);
-      setModoEdicao(false);
-      setClienteEditando(null);
-      setDisplayState('clienteList');
-    } catch (error) {
-      console.error('Erro ao atualizar cliente:', error);
-    }
-  };
-
-  // Função assíncrona para excluir um cliente
-  const deleteCliente = async (id) => {
-    // Use o ID como argumento
-    const db = getFirestore(app);
-    const clientesCollection = collection(db, 'clientes');
-
-    try {
-      const clienteDoc = doc(clientesCollection, id); // Use o ID como chave
-      await deleteDoc(clienteDoc);
-
-      const clientesData = await loadClientes();
-      setClientes(clientesData);
-      setDisplayState('clienteList');
-      setClienteSelecionado(null);
-    } catch (error) {
-      console.error('Erro ao excluir cliente:', error);
-    }
-  };
-
-  // Efeito que carrega a lista de clientes quando o componente é montado
   useEffect(() => {
     const fetchClientes = async () => {
-      const clientesData = await loadClientes();
-      setClientes(clientesData);
+      try {
+        if (clientes.length === 0) {
+          const clientesData = await loadClientes();
+
+          // Atualize o contexto com a lista completa de clientes de uma só vez
+          setClientes(clientesData);
+        }
+      } catch (error) {
+        console.error('Erro ao carregar clientes:', error);
+      }
     };
 
     fetchClientes();
-  }, []);
+  }, [clientes]);
 
   // Manipuladores de eventos
 
@@ -156,6 +109,7 @@ function ClientesApp() {
       {displayState === 'clientePerfil' && (
         <PerfilCliente
           cliente={clienteSelecionado}
+          deleteCliente={deleteCliente}
           onEditarClick={() => ativarModoEdicao(clienteSelecionado)}
           onVoltarClick={() => {
             setDisplayState('clienteList'); // Exibir a lista de clientes após voltar
@@ -168,9 +122,9 @@ function ClientesApp() {
         <ClienteForm
           addCliente={addCliente}
           updateCliente={updateCliente}
-          editCliente={modoEdicao ? clienteEditando : null}
-          deleteCliente={(cpf) => deleteCliente(cpf)}
-          onCancel={() => setDisplayState('clienteList')} // Voltar para a lista de clientes ao cancelar
+          editCliente={modoEdicao ? clienteEditando : null} // Correção aqui
+          deleteCliente={clienteEditando ? () => deleteCliente(clienteEditando.id) : null}
+          onCancel={() => setDisplayState('clienteList')}
         />
       )}
 

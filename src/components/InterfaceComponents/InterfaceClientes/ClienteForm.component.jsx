@@ -382,8 +382,6 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
   );
 }
 
-export default ClienteForm;
-
 // Definição das propriedades esperadas e seus tipos
 ClienteForm.propTypes = {
   addCliente: PropTypes.func.isRequired,
@@ -392,3 +390,5 @@ ClienteForm.propTypes = {
   deleteCliente: PropTypes.func,
   onCancel: PropTypes.func.isRequired,
 };
+
+export default ClienteForm;

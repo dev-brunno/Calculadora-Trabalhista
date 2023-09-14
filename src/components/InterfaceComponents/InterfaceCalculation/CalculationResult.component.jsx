@@ -1,7 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+// import { useClientes } from '../../../Context/ClientesContext';
 
 function CalculationResult({ title, results, renderResult }) {
+  // const { clientes, addCliente, updateCliente, deleteCliente } = useClientes(); // Use o hook useClientes para acessar os dados dos clientes.
+
   return (
     <div>
       <h2 className='text-2xl text-VerdeMedio'>{title}</h2>

@@ -1,13 +1,12 @@
 import { initializeApp } from 'firebase/app';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyApXCk8rqvfDxU76WEvA65Vdv7yBJl6TQY',
-  authDomain: 'calctrabalhistasweb.firebaseapp.com',
-  projectId: 'calctrabalhistasweb',
-  storageBucket: 'calctrabalhistasweb.appspot.com',
-  messagingSenderId: '93175815311',
-  appId: '1:93175815311:web:cc22118787eaabb95da4fa',
-  measurementId: 'G-GH6XW8GDDF',
+  apiKey: 'AIzaSyAO8d-MYanZe1vspfPqvQ7LY8bxDXvIcJo',
+  authDomain: 'calcwebapp.firebaseapp.com',
+  projectId: 'calcwebapp',
+  storageBucket: 'calcwebapp.appspot.com',
+  messagingSenderId: '78399243621',
+  appId: '1:78399243621:web:1224cc1cc0e762c6594d8c',
 };
 
 const app = initializeApp(firebaseConfig);

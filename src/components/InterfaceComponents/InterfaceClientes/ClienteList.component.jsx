@@ -9,7 +9,7 @@ function ClienteList({ clientes, onClienteClick }) {
       <hr className='w-16 h-0.1 border-0 rounded bg-VerdeMedio mt-1 mb-5'></hr>
       <ul className='grid gap-2 grid-cols-4'>
         {clientes.map((cliente) => (
-          <li key={cliente.cpf}>
+          <li key={cliente.id}>
             {/* Renderize o ClienteCard para cada cliente */}
             <ClienteCard cliente={cliente} onClienteClick={onClienteClick} />
           </li>
