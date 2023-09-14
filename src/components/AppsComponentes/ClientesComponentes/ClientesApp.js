@@ -2,44 +2,96 @@ import React, { useState, useEffect } from 'react';
 import ClienteForm from '../../InterfaceComponents/InterfaceClientes/ClienteForm.component';
 import ClienteList from '../../InterfaceComponents/InterfaceClientes/ClienteList.component';
 import PerfilCliente from '../../InterfaceComponents/InterfaceClientes/PerfilCliente.component';
-
-// Função para salvar os clientes no localStorage
-const saveClientes = (clientes) => {
-  localStorage.setItem('clientes', JSON.stringify(clientes));
-};
-
-// Função para carregar os clientes do localStorage
-const loadClientes = () => {
-  const storedClientes = localStorage.getItem('clientes');
-  return storedClientes ? JSON.parse(storedClientes) : [];
-};
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+  doc,
+} from 'firebase/firestore';
+import app from '../../../Firebase/firebase'; // Importe a instância do Firebase que você configurou anteriormente.
 
 function ClientesApp() {
-  const [clientes, setClientes] = useState(loadClientes()); // Carrega os clientes do localStorage
+  const [clientes, setClientes] = useState([]);
   const [modoEdicao, setModoEdicao] = useState(false);
   const [clienteEditando, setClienteEditando] = useState(null);
-  const [displayState, setDisplayState] = useState('clienteList'); // Pode ser 'clienteList', 'clientePerfil', 'clienteForm' ou 'confirmacaoExclusao'
+  const [displayState, setDisplayState] = useState('clienteList');
   const [clienteSelecionado, setClienteSelecionado] = useState(null);
 
-  const addCliente = (cliente) => {
-    setClientes([...clientes, cliente]);
-    setDisplayState('clienteList'); // Exibir a lista de clientes após a adição
+  const loadClientes = async () => {
+    const db = getFirestore(app);
+    const clientesCollection = collection(db, 'clientes');
+    const querySnapshot = await getDocs(clientesCollection);
+
+    const clientesArray = [];
+    querySnapshot.forEach((doc) => {
+      clientesArray.push({ id: doc.id, ...doc.data() });
+    });
+
+    return clientesArray;
   };
 
-  const updateCliente = (cliente) => {
-    const updatedClientes = clientes.map((c) => (c.cpf === cliente.cpf ? cliente : c));
-    setClientes(updatedClientes);
-    setModoEdicao(false);
-    setClienteEditando(null);
-    setDisplayState('clienteList'); // Exibir a lista de clientes após a atualização
+  const addCliente = async (cliente) => {
+    const db = getFirestore(app);
+    const clientesCollection = collection(db, 'clientes');
+
+    try {
+      await addDoc(clientesCollection, cliente);
+
+      const clientesData = await loadClientes();
+      setClientes(clientesData);
+      setDisplayState('clienteList');
+    } catch (error) {
+      console.error('Erro ao adicionar cliente:', error);
+    }
   };
 
-  const deleteCliente = (cpf) => {
-    const filteredClientes = clientes.filter((cliente) => cliente.cpf !== cpf);
-    setClientes(filteredClientes);
-    setDisplayState('clienteList'); // Exibir a lista de clientes após a exclusão
-    setClienteSelecionado(null);
+  const updateCliente = async (cliente) => {
+    const db = getFirestore(app);
+    const clientesCollection = collection(db, 'clientes');
+
+    try {
+      const clienteDoc = doc(clientesCollection, cliente.id); // Use o ID como chave
+      await updateDoc(clienteDoc, cliente);
+
+      const clientesData = await loadClientes();
+      setClientes(clientesData);
+      setModoEdicao(false);
+      setClienteEditando(null);
+      setDisplayState('clienteList');
+    } catch (error) {
+      console.error('Erro ao atualizar cliente:', error);
+    }
   };
+
+  const deleteCliente = async (id) => {
+    // Use o ID como argumento
+    const db = getFirestore(app);
+    const clientesCollection = collection(db, 'clientes');
+
+    try {
+      const clienteDoc = doc(clientesCollection, id); // Use o ID como chave
+      await deleteDoc(clienteDoc);
+
+      const clientesData = await loadClientes();
+      setClientes(clientesData);
+      setDisplayState('clienteList');
+      setClienteSelecionado(null);
+    } catch (error) {
+      console.error('Erro ao excluir cliente:', error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchClientes = async () => {
+      const clientesData = await loadClientes();
+      setClientes(clientesData);
+    };
+
+    fetchClientes();
+  }, []);
 
   const handleClienteClick = (cliente) => {
     setClienteSelecionado(cliente);
@@ -51,11 +103,6 @@ function ClientesApp() {
     setClienteEditando(cliente);
     setDisplayState('clienteForm'); // Exibir o formulário de edição
   };
-
-  useEffect(() => {
-    // Salva os clientes no localStorage sempre que a lista de clientes for atualizada
-    saveClientes(clientes);
-  }, [clientes]);
 
   const handleConfirmDelete = () => {
     deleteCliente(clienteEditando.cpf);

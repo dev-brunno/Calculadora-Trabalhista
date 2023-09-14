@@ -148,7 +148,7 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
 
   // Função para confirmar a exclusão do cliente
   const handleConfirmDelete = () => {
-    deleteCliente(editCliente.cpf);
+    deleteCliente(editCliente.id); // Use o ID para exclusão
     setConfirmDelete(false);
   };
 
