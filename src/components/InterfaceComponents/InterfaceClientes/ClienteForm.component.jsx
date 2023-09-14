@@ -123,6 +123,24 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
     }
   };
 
+  // Função para abrir a caixa de diálogo de confirmação
+  const handleDeleteClick = () => {
+    setConfirmDelete(true);
+  };
+
+  // Função para confirmar a exclusão do cliente
+  const handleConfirmDelete = () => {
+    deleteCliente(editCliente.id); // Use o ID para exclusão
+    setConfirmDelete(false);
+    onCancel(); // Voltar para a lista de clientes após a exclusão
+  };
+
+  // Função para cancelar a exclusão do cliente
+  const handleCancelDelete = () => {
+    setConfirmDelete(false);
+    onCancel(); // Voltar para a lista de clientes ao cancelar a exclusão
+  };
+
   // Função para lidar com o envio do formulário
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -148,23 +166,8 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
         addCliente(cliente);
       }
       resetForm(); // Redefinir o formulário após a adição ou edição
+      onCancel(); // Voltar para a lista de clientes após a conclusão da edição ou adição
     }
-  };
-
-  // Função para abrir a caixa de diálogo de confirmação
-  const handleDeleteClick = () => {
-    setConfirmDelete(true);
-  };
-
-  // Função para confirmar a exclusão do cliente
-  const handleConfirmDelete = () => {
-    deleteCliente(editCliente.id); // Use o ID para exclusão
-    setConfirmDelete(false);
-  };
-
-  // Função para cancelar a exclusão do cliente
-  const handleCancelDelete = () => {
-    setConfirmDelete(false);
   };
 
   return (
