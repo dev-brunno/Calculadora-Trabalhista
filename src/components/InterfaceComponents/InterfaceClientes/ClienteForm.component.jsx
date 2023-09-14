@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
+// Estado inicial para o formulário de cliente
 const initialClienteState = {
   nome: '',
   email: '',
@@ -13,12 +14,15 @@ const initialClienteState = {
   dataNascimento: '',
 };
 
+// Componente de formulário do cliente
 function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, onCancel }) {
+  // Estados para controlar o formulário
   const [cliente, setCliente] = useState(initialClienteState);
   const [errors, setErrors] = useState({});
   const [enderecoLoading, setEnderecoLoading] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
 
+  // Efeito para atualizar o formulário quando o cliente em edição muda
   useEffect(() => {
     if (editCliente) {
       setCliente(editCliente);
@@ -33,6 +37,7 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
     setErrors({});
   };
 
+  // Função para lidar com a mudança nos campos do formulário
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setCliente({
@@ -42,6 +47,7 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
     });
   };
 
+  // Função para buscar informações de endereço com base no CEP
   const handleCEPBlur = async () => {
     const { cep } = cliente;
     if (cep && cep.length === 8) {
@@ -67,11 +73,13 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
     }
   };
 
+  // Função para validar um endereço de e-mail
   const validateEmail = (email) => {
     const emailPattern = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
     return emailPattern.test(email);
   };
 
+  // Funções para formatar CPF
   const formatCPF = (cpf) => {
     const numericCPF = cpf.replace(/\D/g, '');
 
@@ -89,6 +97,7 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
     }
   };
 
+  // Funções para formatar número de telefone
   const formatTelefone = (telefone) => {
     const numericTelefone = telefone.replace(/\D/g, '');
 
@@ -114,6 +123,7 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
     }
   };
 
+  // Função para lidar com o envio do formulário
   const handleSubmit = (e) => {
     e.preventDefault();
     const validationErrors = {};
@@ -374,6 +384,7 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
 
 export default ClienteForm;
 
+// Definição das propriedades esperadas e seus tipos
 ClienteForm.propTypes = {
   addCliente: PropTypes.func.isRequired,
   updateCliente: PropTypes.func.isRequired,

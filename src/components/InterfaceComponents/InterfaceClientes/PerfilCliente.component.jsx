@@ -51,7 +51,7 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
               <div className=' space-y-2'>
                 <div>{renderDetailItem('', cliente.cep)}</div>
                 <div>{renderDetailItem('', cliente.endereco)}</div>
-                <div className='flex w-52 space-x-1 ml-1'>
+                <div className='flex w-52 space-x-1 ml-2'>
                   <div className='w-2/3'>
                     <div className='border border-cinzaMedio  w-full h-9 p-2 rounded-r-2xl rounded-bl-2xl text-sm text-azulEscuro'>
                       {cliente.cidade}
