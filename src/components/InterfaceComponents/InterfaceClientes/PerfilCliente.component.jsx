@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import CalculationCard from '../../InterfaceComponents/InterfaceCalculation/CalculationCard.component';
 
 function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
+  const [cálculoSelecionado, setCálculoSelecionado] = useState(null);
+
   // Função para renderizar um item de detalhe do cliente
   const renderDetailItem = (label, value) => (
     <li className='flex space-x-2'>
@@ -68,38 +71,54 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
               </div>
             </ul>
           </div>
+          {/* Mostrar o resultado do cálculo selecionado */}
           {cliente.ResultadosCalculos && (
             <div id='resultados' className='ml-20'>
-              <h2 className='text-xl text-VerdeMedio'>Cálculos</h2>
-              <hr className='w-16 h-0.1 border-0 rounded bg-VerdeMedio mt-1 mb-5'></hr>
-              {Object.entries(cliente.ResultadosCalculos).map(([titulo, resultados], index) => (
-                <div key={index}>
-                  <h3 className='text-azulEscuro text-lg font-semibold'>{titulo}</h3>
-                  <ul>
-                    {Array.isArray(resultados) ? (
-                      resultados.map((resultado, subIndex) => (
-                        <li key={subIndex}>
-                          {/* Lida com a estrutura de matriz */}
-                          {Object.entries(resultado).map(([chave, valor], subSubIndex) => (
-                            <div key={subSubIndex}>
-                              <strong>{chave}</strong>: {valor}
-                            </div>
-                          ))}
-                        </li>
-                      ))
-                    ) : (
-                      <li>
-                        {/* Lida com a estrutura de objeto */}
-                        {Object.entries(resultados).map(([chave, valor], subSubIndex) => (
+              {cálculoSelecionado ? (
+                // Se um cálculo foi selecionado, não renderize o card de nome e ícone
+                <div>
+                  <h2 className='text-xl text-VerdeMedio'>{cálculoSelecionado}</h2>
+                  <hr className='w-16 h-0.1 border-0 rounded bg-VerdeMedio mt-1 mb-5'></hr>
+                  {Array.isArray(cliente.ResultadosCalculos[cálculoSelecionado]) ? (
+                    cliente.ResultadosCalculos[cálculoSelecionado].map((resultado, subIndex) => (
+                      <div key={subIndex}>
+                        {Object.entries(resultado).map(([chave, valor], subSubIndex) => (
                           <div key={subSubIndex}>
                             <strong>{chave}</strong>: {valor}
                           </div>
                         ))}
-                      </li>
-                    )}
-                  </ul>
+                      </div>
+                    ))
+                  ) : (
+                    <div>
+                      {Object.entries(cliente.ResultadosCalculos[cálculoSelecionado]).map(
+                        ([chave, valor], subSubIndex) => (
+                          <div key={subSubIndex}>
+                            <strong>{chave}</strong>: {valor}
+                          </div>
+                        ),
+                      )}
+                    </div>
+                  )}
                 </div>
-              ))}
+              ) : (
+                // Se nenhum cálculo foi selecionado, renderize o card de nome e ícone
+                <div>
+                  <h2 className='text-xl text-VerdeMedio'>Cálculos</h2>
+                  <hr className='w-16 h-0.1 border-0 rounded bg-VerdeMedio mt-1 mb-5'></hr>
+                  {/* Mapeamento dos cálculos */}
+                  <div id='CalcResultList' className='flex space-x-4 mt-4'>
+                    {Object.entries(cliente.ResultadosCalculos).map(([titulo], index) => (
+                      <CalculationCard
+                        key={index}
+                        icon='fi fi-ss-user' // Substitua pelo ícone correto
+                        title={titulo}
+                        onClick={() => setCálculoSelecionado(titulo)} // Atualiza o estado com o cálculo selecionado
+                      />
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>

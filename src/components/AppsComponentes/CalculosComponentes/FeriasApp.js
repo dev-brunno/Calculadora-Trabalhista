@@ -105,7 +105,7 @@ function FeriasApp() {
       {mostrarResultados ? (
         <div>
           <CalculationResult
-            title='Resultados de Férias'
+            title='Férias'
             results={resultados}
             renderResult={renderFeriasResult}
           />
