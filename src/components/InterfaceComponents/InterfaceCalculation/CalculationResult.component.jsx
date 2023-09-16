@@ -1,59 +1,52 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useClientes } from '../../../Context/ClientesContext';
-import {
-  getFirestore,
-  collection,
-  doc,
-  getDoc,
-  updateDoc, // Importe a função updateDoc
-} from 'firebase/firestore'; // Importe as funções necessárias do Firebase Firestore
+import { getFirestore, collection, doc, getDoc, updateDoc } from 'firebase/firestore';
 
 function CalculationResult({ title, results, renderResult }) {
   const { clientes } = useClientes();
   const [mostrarCaixaSelecao, setMostrarCaixaSelecao] = useState(false);
   const [clienteSelecionado, setClienteSelecionado] = useState(null);
 
+  useEffect(() => {
+    // Verifique se há resultados a serem salvos e cliente selecionado
+    if (results.length > 0 && clienteSelecionado !== null) {
+      const saveResults = async () => {
+        const db = getFirestore();
+        const clientesCollection = collection(db, 'clientes');
+        const clienteDoc = doc(clientesCollection, clienteSelecionado);
+
+        try {
+          const clienteSnapshot = await getDoc(clienteDoc);
+          const clienteData = clienteSnapshot.data();
+
+          const novosResultadosCalculos = {
+            ...clienteData.ResultadosCalculos,
+            [title]: results,
+          };
+
+          await updateDoc(clienteDoc, {
+            ResultadosCalculos: novosResultadosCalculos,
+          });
+
+          console.log('Resultados salvos com sucesso no Firebase.');
+        } catch (error) {
+          console.error('Erro ao salvar resultados:', error);
+        }
+      };
+
+      // Chame a função para salvar os resultados quando o estado for atualizado
+      saveResults();
+    }
+  }, [clienteSelecionado, results, title]);
+
   const handleLinkToClient = () => {
-    // Mostrar a caixa de seleção quando o botão for clicado
     setMostrarCaixaSelecao(true);
   };
 
-  const handleClienteSelecionado = async (clienteId) => {
-    // Salvar o cliente selecionado
+  const handleClienteSelecionado = (clienteId) => {
     setClienteSelecionado(clienteId);
-    // Ocultar a caixa de seleção
     setMostrarCaixaSelecao(false);
-
-    // Verificar se há resultados a serem salvos
-    if (results.length > 0 && clienteSelecionado !== null) {
-      const db = getFirestore(); // Remova 'app' aqui, pois 'getFirestore' não precisa disso
-      const clientesCollection = collection(db, 'clientes');
-      const clienteDoc = doc(clientesCollection, clienteSelecionado);
-
-      try {
-        // Obtenha os resultados atuais do cliente, se houver
-        const clienteSnapshot = await getDoc(clienteDoc);
-        const clienteData = clienteSnapshot.data();
-
-        // Crie um objeto que contém os resultados dos cálculos
-        const novosResultadosCalculos = {
-          ...clienteData.ResultadosCalculos,
-          [title]: results, // Use o título como chave para os resultados
-        };
-
-        // Atualize o campo "ResultadosCalculos" no documento do cliente
-        await updateDoc(clienteDoc, {
-          ResultadosCalculos: novosResultadosCalculos,
-        });
-
-        console.log('Resultados salvos com sucesso no Firebase.');
-
-        // Lembre-se de atualizar a interface ou o estado do seu aplicativo conforme necessário.
-      } catch (error) {
-        console.error('Erro ao salvar resultados:', error);
-      }
-    }
   };
 
   return (
@@ -76,14 +69,13 @@ function CalculationResult({ title, results, renderResult }) {
       </div>
       <button onClick={handleLinkToClient}>Vincular a um Cliente Existente</button>
 
-      {/* Mostrar a caixa de seleção de clientes se o estado mostrarCaixaSelecao for verdadeiro */}
       {mostrarCaixaSelecao && (
         <div className='caixa-de-selecao'>
           <h3>Selecione um Cliente:</h3>
           <ul>
             {clientes.map((cliente) => (
               <li key={cliente.id} onClick={() => handleClienteSelecionado(cliente.id)}>
-                {cliente.nome} {/* Ou qualquer outra informação que identifique o cliente */}
+                {cliente.nome}
               </li>
             ))}
           </ul>

@@ -1,11 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import CalculationCard from '../../InterfaceComponents/InterfaceCalculation/CalculationCard.component';
+import { getFirestore, doc, onSnapshot } from 'firebase/firestore';
 
 function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
   const [cálculoSelecionado, setCálculoSelecionado] = useState(null);
+  const [resultadosCalculos, setResultadosCalculos] = useState(null);
 
-  // Função para renderizar um item de detalhe do cliente
+  useEffect(() => {
+    const db = getFirestore();
+    const clienteDocRef = doc(db, 'clientes', cliente.id);
+
+    const unsubscribe = onSnapshot(clienteDocRef, (docSnapshot) => {
+      if (docSnapshot.exists()) {
+        const clienteData = docSnapshot.data();
+        setResultadosCalculos(clienteData.ResultadosCalculos);
+        console.log(resultadosCalculos)
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, [cliente.id]);
+
   const renderDetailItem = (label, value) => (
     <li className='flex space-x-2'>
       <label className='text-azulEscuro text-2xl mt-1' htmlFor='nome'>
@@ -72,15 +90,15 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
             </ul>
           </div>
           {/* Mostrar o resultado do cálculo selecionado */}
-          {cliente.ResultadosCalculos && (
+          {resultadosCalculos && (
             <div id='resultados' className='ml-20'>
               {cálculoSelecionado ? (
                 // Se um cálculo foi selecionado, não renderize o card de nome e ícone
                 <div>
                   <h2 className='text-xl text-VerdeMedio'>{cálculoSelecionado}</h2>
                   <hr className='w-16 h-0.1 border-0 rounded bg-VerdeMedio mt-1 mb-5'></hr>
-                  {Array.isArray(cliente.ResultadosCalculos[cálculoSelecionado]) ? (
-                    cliente.ResultadosCalculos[cálculoSelecionado].map((resultado, subIndex) => (
+                  {Array.isArray(resultadosCalculos[cálculoSelecionado]) ? (
+                    resultadosCalculos[cálculoSelecionado].map((resultado, subIndex) => (
                       <div key={subIndex}>
                         {Object.entries(resultado).map(([chave, valor], subSubIndex) => (
                           <div key={subSubIndex}>
@@ -91,7 +109,7 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
                     ))
                   ) : (
                     <div>
-                      {Object.entries(cliente.ResultadosCalculos[cálculoSelecionado]).map(
+                      {Object.entries(resultadosCalculos[cálculoSelecionado]).map(
                         ([chave, valor], subSubIndex) => (
                           <div key={subSubIndex}>
                             <strong>{chave}</strong>: {valor}
@@ -108,7 +126,7 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
                   <hr className='w-16 h-0.1 border-0 rounded bg-VerdeMedio mt-1 mb-5'></hr>
                   {/* Mapeamento dos cálculos */}
                   <div id='CalcResultList' className='flex space-x-4 mt-4'>
-                    {Object.entries(cliente.ResultadosCalculos).map(([titulo], index) => (
+                    {Object.entries(resultadosCalculos).map(([titulo], index) => (
                       <CalculationCard
                         key={index}
                         icon='fi fi-ss-user' // Substitua pelo ícone correto
@@ -135,7 +153,6 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
 PerfilCliente.propTypes = {
   cliente: PropTypes.object.isRequired,
   onEditarClick: PropTypes.func.isRequired,
-  deleteCliente: PropTypes.func.isRequired,
   onVoltarClick: PropTypes.func.isRequired,
 };
 
