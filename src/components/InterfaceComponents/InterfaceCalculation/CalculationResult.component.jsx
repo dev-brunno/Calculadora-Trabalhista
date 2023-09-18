@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useClientes } from '../../../Context/ClientesContext';
 import { getFirestore, collection, doc, getDoc, updateDoc } from 'firebase/firestore';
 
-function CalculationResult({ title, results, renderResult }) {
+function CalculationResult({ title, results }) {
   const { clientes } = useClientes();
   const [mostrarCaixaSelecao, setMostrarCaixaSelecao] = useState(false);
   const [clienteSelecionado, setClienteSelecionado] = useState(null);
@@ -49,6 +49,19 @@ function CalculationResult({ title, results, renderResult }) {
     setMostrarCaixaSelecao(false);
   };
 
+  // Função para renderizar resultados de forma genérica
+  const renderResultItem = (item) => {
+    if (typeof item === 'object') {
+      return Object.entries(item).map(([key, value], subIndex) => (
+        <div key={subIndex}>
+          <strong>{key}</strong>: {value}
+        </div>
+      ));
+    } else {
+      return <div>{item}</div>;
+    }
+  };
+
   return (
     <div>
       <h2 className='text-2xl text-VerdeMedio'>{title}</h2>
@@ -60,9 +73,11 @@ function CalculationResult({ title, results, renderResult }) {
         <ul className='grid gap-2 grid-cols-2'>
           {results.map((result, index) => (
             <li key={index} className='bg-azulEscuro bg-opacity-40 p-2 mt-2 rounded-2xl'>
-              {Array.isArray(result) // Verifica se é um array
-                ? result.map((item, itemIndex) => <div key={itemIndex}>{renderResult(item)}</div>)
-                : renderResult(result)}
+              {Array.isArray(result)
+                ? result.map((item, itemIndex) => (
+                    <div key={itemIndex}>{renderResultItem(item)}</div>
+                  ))
+                : renderResultItem(result)}
             </li>
           ))}
         </ul>
@@ -87,8 +102,7 @@ function CalculationResult({ title, results, renderResult }) {
 
 CalculationResult.propTypes = {
   title: PropTypes.string.isRequired,
-  results: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.object), PropTypes.object]).isRequired,
-  renderResult: PropTypes.func.isRequired,
+  results: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.any), PropTypes.any]).isRequired,
 };
 
 export default CalculationResult;

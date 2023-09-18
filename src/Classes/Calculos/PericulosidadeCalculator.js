@@ -10,7 +10,13 @@ class PericulosidadeCalculator {
   calcularPericulosidade() {
     const percentual = 0.3; // 30%
     const valorPericulosidade = this.salarioBase * percentual;
-    return valorPericulosidade;
+
+    const resultados = {
+      'Salário Base': this.salarioBase,
+      'Valor do adicional de periculosidade': valorPericulosidade,
+    };
+
+    return resultados;
   }
 }
 

@@ -36,9 +36,10 @@ export default class DecimoTerceiroCalculator {
       const valorDecimoTerceiro = avos * mesesTrabalhados;
 
       resultados.push({
-        valorDecimoTerceiro: valorDecimoTerceiro,
-        periodo: periodo,
-        anoCorrespondente: anoCorrespondente,
+        'Última Remuneração': this.remuneracaoUltima,
+        'Valor do Decimo Terceiro': valorDecimoTerceiro,
+        Periodo: periodo,
+        'Ano correspondente': anoCorrespondente,
       });
 
       anoCorrespondente++;

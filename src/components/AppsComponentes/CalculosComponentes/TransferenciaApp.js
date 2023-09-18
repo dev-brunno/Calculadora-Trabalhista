@@ -57,24 +57,11 @@ function TransferenciaApp() {
     },
   ];
 
-  const renderTransferenciaResult = (valor) => (
-    <div>
-      <strong>Valor da transferência calculado:</strong> R${' '}
-      {valor.toLocaleString('pt-BR', {
-        minimumFractionDigits: 2,
-      })}
-    </div>
-  );
-
   return (
     <div>
       {mostrarResultados ? (
         <div>
-          <CalculationResult
-            title='Resultado de Transferência'
-            results={[valorTransferencia]}
-            renderResult={renderTransferenciaResult}
-          />
+          <CalculationResult title='Resultado de Transferência' results={[valorTransferencia]} />
           <div className=' inline-block absolute bottom-0 right-0'>
             <button onClick={handleRefazerCalculo} className='bg-branco shadow-sm p-3 rounded-lg'>
               <div className=' text-azulEscuro'>

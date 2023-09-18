@@ -51,9 +51,10 @@ class BaseFeriasCalculator {
       const feriasProporcionais = ferias + tercoConstitucional;
 
       return {
-        ferias: ferias,
-        tercoConstitucional: tercoConstitucional,
-        feriasProporcionais: feriasProporcionais,
+        'Última remuneração': this.remuneracaoUltima,
+        'Valor das ferias': ferias,
+        'Terço Constitucional': tercoConstitucional,
+        'Férias Proporcionais': feriasProporcionais,
       };
     } else {
       return null; // Retorna nulo para períodos menores que 12 meses
@@ -79,12 +80,12 @@ class BaseFeriasCalculator {
       if (this.calcularMesesTrabalhados(periodoInicial, dataFimPeriodo) >= 12) {
         const periodo = `${periodoInicial.toLocaleDateString()} a ${dataFimPeriodo.toLocaleDateString()}`;
         const calculo = this.calcularFeriasIndenizatorias(periodoInicial, dataFimPeriodo);
-        resultados.push({ periodo, ...calculo });
+        resultados.push({ Período: periodo, ...calculo });
       } else {
         const calculo = this.calcularFeriasProporcionais(periodoInicial, dataFimPeriodo); // Chama aqui sem especificar período
         if (calculo) {
           const periodo = `${periodoInicial.toLocaleDateString()} a ${dataFimPeriodo.toLocaleDateString()}`;
-          resultados.push({ periodo, ...calculo });
+          resultados.push({ Período: periodo, ...calculo });
         }
       }
 
@@ -106,11 +107,14 @@ export class FeriasIndenizatoriasCalculator extends BaseFeriasCalculator {
       const tercoConstitucional = ferias / 3;
       const feriasIndenizatorias = ferias + tercoConstitucional;
 
-      return {
-        ferias: ferias,
-        tercoConstitucional: tercoConstitucional,
-        feriasIndenizatorias: feriasIndenizatorias,
+      const resultados = {
+        'Última remuneração': this.remuneracaoUltima,
+        'Valor das ferias': ferias,
+        'Terço Constitucional': tercoConstitucional,
+        'Férias Indenizatorias': feriasIndenizatorias,
       };
+
+      return resultados;
     } else {
       return null; // Retorna nulo para períodos menores que 12 meses
     }

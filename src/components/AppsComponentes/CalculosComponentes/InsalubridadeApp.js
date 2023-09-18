@@ -60,24 +60,11 @@ function InsalubridadeApp() {
     },
   ];
 
-  const renderInsalubridadeResult = (valor) => (
-    <div>
-      <strong>Valor do adicional de insalubridade:</strong> R${' '}
-      {valor.toLocaleString('pt-BR', {
-        minimumFractionDigits: 2,
-      })}
-    </div>
-  );
-
   return (
     <div>
       {mostrarResultados ? (
         <div>
-          <CalculationResult
-            title='Resultado de Insalubridade'
-            results={[valorInsalubridade]}
-            renderResult={renderInsalubridadeResult}
-          />
+          <CalculationResult title='Resultado de Insalubridade' results={[valorInsalubridade]} />
           <div className=' inline-block absolute bottom-0 right-0'>
             <button onClick={handleRefazerCalculo} className='bg-branco shadow-sm p-3 rounded-lg'>
               <div className=' text-azulEscuro'>

@@ -65,50 +65,11 @@ function FeriasApp() {
     },
   ];
 
-  const renderFeriasResult = (result) => (
-    <div>
-      <strong>Período:</strong> {result.periodo}
-      <br />
-      <strong>Férias:</strong> R${' '}
-      {result.ferias.toLocaleString('pt-BR', {
-        minimumFractionDigits: 2,
-      })}
-      <br />
-      <strong>Terço Constitucional:</strong> R${' '}
-      {result.tercoConstitucional.toLocaleString('pt-BR', {
-        minimumFractionDigits: 2,
-      })}
-      <br />
-      {result.feriasIndenizatorias !== undefined && (
-        <div>
-          <strong>Férias Indenizatórias:</strong> R${' '}
-          {result.feriasIndenizatorias.toLocaleString('pt-BR', {
-            minimumFractionDigits: 2,
-          })}
-          <br />
-        </div>
-      )}
-      {result.feriasProporcionais !== undefined && (
-        <div>
-          <strong>Férias Proporcionais:</strong> R${' '}
-          {result.feriasProporcionais.toLocaleString('pt-BR', {
-            minimumFractionDigits: 2,
-          })}
-          <br />
-        </div>
-      )}
-    </div>
-  );
-
   return (
     <div>
       {mostrarResultados ? (
         <div>
-          <CalculationResult
-            title='Férias'
-            results={resultados}
-            renderResult={renderFeriasResult}
-          />
+          <CalculationResult title='Férias' results={resultados} />
           <div className=' inline-block absolute bottom-0 right-0'>
             <button onClick={handleRefazerCalculo} className='bg-branco shadow-sm p-3 rounded-lg'>
               <div className=' text-azulEscuro'>

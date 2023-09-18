@@ -16,7 +16,14 @@ class InsalubridadeCalculator {
     };
     const percentual = percentuais[this.grauInsalubridade];
     const valorInsalubridade = this.salarioBase * percentual;
-    return valorInsalubridade;
+
+    const resultados = {
+      'Salário Base': this.salarioBase,
+      'Grau de Insalubridade': this.grauInsalubridade,
+      'Valor do Adicional de Insalubridade': valorInsalubridade,
+    };
+
+    return resultados;
   }
 }
 

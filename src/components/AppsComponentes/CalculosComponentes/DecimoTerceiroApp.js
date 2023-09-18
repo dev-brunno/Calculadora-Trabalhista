@@ -65,28 +65,11 @@ function DecimoTerceiroApp() {
     },
   ];
 
-  const renderDecimoTerceiroResult = (result) => (
-    <div>
-      <strong>Ano Correspondente:</strong> {result.anoCorrespondente}
-      <br />
-      <strong>Período:</strong> {result.periodo}
-      <br />
-      <strong>Valor do Décimo Terceiro:</strong> R${' '}
-      {result.valorDecimoTerceiro.toLocaleString('pt-BR', {
-        minimumFractionDigits: 2,
-      })}
-    </div>
-  );
-
   return (
     <div>
       {mostrarResultados ? (
         <div>
-          <CalculationResult
-            title='Resultados do Décimo Terceiro'
-            results={resultados}
-            renderResult={renderDecimoTerceiroResult}
-          />
+          <CalculationResult title='Resultados do Décimo Terceiro' results={resultados} />
           <div className=' inline-block absolute bottom-0 right-0'>
             <button onClick={handleRefazerCalculo} className='bg-branco shadow-sm p-3 rounded-lg'>
               <div className=' text-azulEscuro'>

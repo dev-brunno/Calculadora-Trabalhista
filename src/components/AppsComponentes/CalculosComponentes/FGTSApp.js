@@ -45,24 +45,11 @@ function FGTSApp() {
     },
   ];
 
-  const renderFGTSResult = (valor) => (
-    <div>
-      <strong>Valor do FGTS:</strong> R${' '}
-      {valor.toLocaleString('pt-BR', {
-        minimumFractionDigits: 2,
-      })}
-    </div>
-  );
-
   return (
     <div>
       {mostrarResultados ? (
         <div>
-          <CalculationResult
-            title='Resultado do FGTS'
-            results={[valorFGTS]}
-            renderResult={renderFGTSResult}
-          />
+          <CalculationResult title='Resultado do FGTS' results={[valorFGTS]} />
 
           <div className=' inline-block absolute bottom-0 right-0'>
             <button onClick={handleRefazerCalculo} className='bg-branco shadow-sm p-3 rounded-lg'>

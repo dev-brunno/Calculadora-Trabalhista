@@ -10,6 +10,11 @@ export default class FGTSCalculator {
   calcularFGTS() {
     const taxaFGTS = 0.08; // Taxa de 8%
     const valorFGTS = this.salarioMensal * taxaFGTS;
-    return valorFGTS;
+
+    const resultados = {
+      'Salário mensal': this.salarioMensal,
+      'Valor do FGTS': valorFGTS,
+    };
+    return resultados;
   }
 }
