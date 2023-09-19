@@ -40,8 +40,8 @@ export default class DecimoTerceiroCalculator {
 
       resultado.push({
         Periodo: periodo,
-        'Ano correspondente': anoCorrespondente,
-        'Última Remuneração': this.remuneracaoUltima,
+        'Ano correspondente': anoCorrespondente.toString(),
+        'Última Remuneração': parseFloat(this.remuneracaoUltima),
         'Valor do Decimo Terceiro': valorDecimoTerceiro,
       });
 

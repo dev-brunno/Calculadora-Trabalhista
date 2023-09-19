@@ -49,17 +49,25 @@ function CalculationResult({ title, results, icon }) {
     setMostrarCaixaSelecao(false);
   };
 
-  // function formatCurrency(value) {
-  //   return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
-  // }
+  function formatCurrency(value) {
+    return new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+    }).format(value);
+  }
 
   // Função para renderizar resultados de forma genérica
   const renderResultItem = (item) => {
     if (typeof item === 'object') {
       return Object.entries(item).map(([key, value], subIndex) => (
-        <div className='text-sm flex w-100 justify-between' key={subIndex}>
+        <div
+          className={`text-sm flex w-100 justify-between ${key === 'Período' ? 'font-bold' : ''} ${
+            key === 'Valor a receber' ? ' font-bold bg-VerdeEscuro text-branco p-2 mt-3' : ''
+          }`}
+          key={subIndex}
+        >
           <div>{key}</div>
-          <div>{value}</div>
+          <div>{typeof value === 'number' ? formatCurrency(value) : value}</div>
         </div>
       ));
     } else {
@@ -73,15 +81,17 @@ function CalculationResult({ title, results, icon }) {
     <div>
       <h2 className='text-2xl text-VerdeMedio'>{title}</h2>
       <hr className='w-16 h-0.1 border-0 rounded bg-VerdeMedio mt-1 mb-5'></hr>
-      <div className=' flex'>
-        <div className=' grid justify-items-center p-4 w-1/2'>
-          <div className='grid gap-negativo justify-items-center text-azulEscuro'>
-            <div className=' text-3xl'>
+      <div className='flex'>
+        <div className='w-1/2 flex flex-col justify-center'>
+          <div className='text-azulEscuro'>
+            <div className='text-3xl grid justify-items-center'>
               <i className={icon['icon']}></i>
             </div>
-            <span>{icon['title']}</span>
+            <div className='-mt-1 grid justify-items-center'>
+              <h6>{icon['title']}</h6>
+            </div>
           </div>
-          <div className='text-azulEscuro font-bold text-5xl flex'>
+          <div className='text-azulEscuro font-bold text-5xl flex justify-center'>
             <h2>
               <span className=' text-2xl'>R$</span>
               {results[lastIndex]['Valor a receber'].toLocaleString('pt-BR', {
@@ -123,7 +133,7 @@ function CalculationResult({ title, results, icon }) {
       </div>
       <div className='bg-azulClaro p-8 bg-opacity-40 rounded-3xl'>
         <h6 className=' font-bold text-VerdeEscuro text-sm'>Ganhos do Cliente:</h6>
-        <ul className='grid gap-2 grid-rows-1'>
+        <ul className='grid gap-2 grid-rows-1 mt-4'>
           {results.map((result, index) => (
             <li key={index} className=''>
               {Array.isArray(result) ? (

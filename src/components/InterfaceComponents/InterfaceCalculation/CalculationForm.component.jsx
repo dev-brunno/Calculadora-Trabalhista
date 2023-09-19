@@ -30,6 +30,19 @@ function CalculationForm({ title, inputs, handleInputChange, handleCalculate, ca
                 />
                 <div className='ml-2 mt-2'>{formatCurrency(input.value)}</div>
               </div>
+            ) : input.type === 'select' ? (
+              <select
+                id={input.id}
+                value={input.value}
+                onChange={(e) => handleInputChange(e, input.setter)}
+                className='border border-preto h-11 w-64 p-2 rounded-r-2xl rounded-bl-2xl text-sm'
+              >
+                {input.options.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
             ) : (
               <input
                 type={input.type}
@@ -71,6 +84,12 @@ CalculationForm.propTypes = {
       type: PropTypes.string.isRequired,
       value: PropTypes.any.isRequired,
       setter: PropTypes.func.isRequired,
+      options: PropTypes.arrayOf(
+        PropTypes.shape({
+          value: PropTypes.string.isRequired,
+          label: PropTypes.string.isRequired,
+        }),
+      ), // Adicione um campo "options" ao objeto input
     }),
   ).isRequired,
   handleInputChange: PropTypes.func.isRequired,
