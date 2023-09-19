@@ -15,6 +15,7 @@ class TransferenciaCalculator {
       Remuneração: this.remuneracao,
       Porcentagem: this.porcentagem,
       'Valor da Transferência': valorTransferencia,
+      'Valor a receber': valorTransferencia,
     };
     return resultados;
   }

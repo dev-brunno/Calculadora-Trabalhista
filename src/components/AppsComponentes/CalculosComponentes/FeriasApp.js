@@ -65,11 +65,16 @@ function FeriasApp() {
     },
   ];
 
+  const icon = {
+    title: 'Férias',
+    icon: 'fi fi-rr-umbrella-beach',
+  };
+
   return (
     <div>
       {mostrarResultados ? (
         <div>
-          <CalculationResult title='Cálculo Férias' results={resultados} />
+          <CalculationResult title='Cálculo Férias' results={resultados} icon={icon} />
           <div className=' inline-block absolute bottom-0 right-0'>
             <button onClick={handleRefazerCalculo} className='bg-branco shadow-sm p-3 rounded-lg'>
               <div className=' text-azulEscuro'>

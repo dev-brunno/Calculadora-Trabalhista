@@ -57,11 +57,20 @@ function TransferenciaApp() {
     },
   ];
 
+  const icon = {
+    title: 'Transferência',
+    icon: 'fi fi-rr-replace',
+  };
+
   return (
     <div>
       {mostrarResultados ? (
         <div>
-          <CalculationResult title='Resultado de Transferência' results={[valorTransferencia]} />
+          <CalculationResult
+            title='Resultado de Transferência'
+            results={[valorTransferencia]}
+            icon={icon}
+          />
           <div className=' inline-block absolute bottom-0 right-0'>
             <button onClick={handleRefazerCalculo} className='bg-branco shadow-sm p-3 rounded-lg'>
               <div className=' text-azulEscuro'>

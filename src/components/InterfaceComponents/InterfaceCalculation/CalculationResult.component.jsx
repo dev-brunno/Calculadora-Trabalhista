@@ -84,7 +84,6 @@ function CalculationResult({ title, results, icon }) {
           <div className='text-azulEscuro font-bold text-5xl flex'>
             <h2>
               <span className=' text-2xl'>R$</span>
-              {console.log(results)}
               {results[lastIndex]['Valor a receber'].toLocaleString('pt-BR', {
                 style: 'decimal',
                 minimumFractionDigits: 2,
@@ -114,7 +113,7 @@ function CalculationResult({ title, results, icon }) {
                 <h3 className=' font-medium'>Gerar relatórios</h3>
                 <h6 className=' font-light text-sm'>Gerar PDF, planilhas e impressões</h6>
               </div>
-              <button className=' text-3xl' onClick=''>
+              <button className=' text-3xl'>
                 <i className='fi fi-sr-angle-square-right'></i>
               </button>
             </div>

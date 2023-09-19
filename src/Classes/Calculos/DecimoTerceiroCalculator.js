@@ -53,13 +53,11 @@ export default class DecimoTerceiroCalculator {
       }
     }
 
-    const valorAReceber = {
+    resultado.push({
       'Valor a receber': somaTotal,
-    };
+    });
 
-    const resultados = [resultado, valorAReceber];
-
-    return resultados;
+    return resultado;
   }
 
   // Calcula os meses trabalhados

@@ -9,6 +9,7 @@ class BaseFeriasCalculator {
     this.inicioContrato = this.createDateFromYYYYMMDD(inicioContrato);
     this.fimContrato = this.createDateFromYYYYMMDD(fimContrato);
     this.remuneracaoUltima = remuneracaoUltima;
+    this.somaTotal = 0;
   }
 
   createDateFromYYYYMMDD(dateString) {
@@ -49,6 +50,8 @@ class BaseFeriasCalculator {
       const ferias = avos * mesesTrabalhados;
       const tercoConstitucional = ferias / 3;
       const feriasProporcionais = ferias + tercoConstitucional;
+      // Adicione o valor de feriasProporcionais a somaTotal
+      this.somaTotal += feriasProporcionais;
 
       return {
         'Última remuneração': this.remuneracaoUltima,
@@ -92,6 +95,10 @@ class BaseFeriasCalculator {
       periodoInicial.setFullYear(periodoInicial.getFullYear() + 1);
     }
 
+    resultados.push({
+      'Valor a receber': this.somaTotal, // Adiciona somaTotal aos resultados finais
+    });
+
     return resultados;
   }
 }
@@ -106,6 +113,7 @@ export class FeriasIndenizatoriasCalculator extends BaseFeriasCalculator {
       const ferias = avos * mesesTrabalhados;
       const tercoConstitucional = ferias / 3;
       const feriasIndenizatorias = ferias + tercoConstitucional;
+      this.somaTotal += feriasIndenizatorias;
 
       const resultados = {
         'Última remuneração': this.remuneracaoUltima,

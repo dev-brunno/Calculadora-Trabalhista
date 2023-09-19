@@ -45,11 +45,16 @@ function FGTSApp() {
     },
   ];
 
+  const icon = {
+    title: 'FGTS',
+    icon: 'fi fi-rr-sack-dollar',
+  };
+
   return (
     <div>
       {mostrarResultados ? (
         <div>
-          <CalculationResult title='Resultado do FGTS' results={[valorFGTS]} />
+          <CalculationResult title='Resultado do FGTS' results={[valorFGTS]} icon={icon} />
 
           <div className=' inline-block absolute bottom-0 right-0'>
             <button onClick={handleRefazerCalculo} className='bg-branco shadow-sm p-3 rounded-lg'>

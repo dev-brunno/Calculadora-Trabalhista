@@ -28,7 +28,6 @@ function DecimoTerceiroApp() {
       );
       const resultadosCalculados = await calculator.calcularDecimoTerceiro();
       setResultados(resultadosCalculados);
-      console.log(resultadosCalculados);
       setMostrarResultados(true); // Mostra os resultados após o cálculo
     } catch (error) {
       setErroCalculo('Erro ao calcular o décimo terceiro. Verifique os valores e tente novamente.');

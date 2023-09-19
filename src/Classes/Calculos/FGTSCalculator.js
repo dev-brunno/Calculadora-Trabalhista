@@ -14,6 +14,7 @@ export default class FGTSCalculator {
     const resultados = {
       'Salário mensal': this.salarioMensal,
       'Valor do FGTS': valorFGTS,
+      'Valor a receber': valorFGTS,
     };
     return resultados;
   }

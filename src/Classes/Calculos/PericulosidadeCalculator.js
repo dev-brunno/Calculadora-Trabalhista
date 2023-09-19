@@ -14,6 +14,7 @@ class PericulosidadeCalculator {
     const resultados = {
       'Salário Base': this.salarioBase,
       'Valor do adicional de periculosidade': valorPericulosidade,
+      'Valor a receber': valorPericulosidade,
     };
 
     return resultados;

@@ -45,11 +45,20 @@ function PericulosidadeApp() {
     },
   ];
 
+  const icon = {
+    title: 'Periculosidade',
+    icon: 'fi fi-rr-hand-holding-skull',
+  };
+
   return (
     <div>
       {mostrarResultados ? (
         <div>
-          <CalculationResult title='Resultado de Periculosidade' results={[valorPericulosidade]} />
+          <CalculationResult
+            title='Resultado de Periculosidade'
+            results={[valorPericulosidade]}
+            icon={icon}
+          />
           <div className=' inline-block absolute bottom-0 right-0'>
             <button onClick={handleRefazerCalculo} className='bg-branco shadow-sm p-3 rounded-lg'>
               <div className=' text-azulEscuro'>
