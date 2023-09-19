@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useClientes } from '../../../Context/ClientesContext';
 import { getFirestore, collection, doc, getDoc, updateDoc } from 'firebase/firestore';
 
-function CalculationResult({ title, results }) {
+function CalculationResult({ title, results, icon }) {
   const { clientes } = useClientes();
   const [mostrarCaixaSelecao, setMostrarCaixaSelecao] = useState(false);
   const [clienteSelecionado, setClienteSelecionado] = useState(null);
@@ -49,12 +49,17 @@ function CalculationResult({ title, results }) {
     setMostrarCaixaSelecao(false);
   };
 
+  // function formatCurrency(value) {
+  //   return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
+  // }
+
   // Função para renderizar resultados de forma genérica
   const renderResultItem = (item) => {
     if (typeof item === 'object') {
       return Object.entries(item).map(([key, value], subIndex) => (
-        <div key={subIndex}>
-          <strong>{key}</strong>: {value}
+        <div className='text-sm flex w-100 justify-between' key={subIndex}>
+          <div>{key}</div>
+          <div>{value}</div>
         </div>
       ));
     } else {
@@ -62,27 +67,81 @@ function CalculationResult({ title, results }) {
     }
   };
 
+  const lastIndex = results.length - 1;
+
   return (
     <div>
       <h2 className='text-2xl text-VerdeMedio'>{title}</h2>
       <hr className='w-16 h-0.1 border-0 rounded bg-VerdeMedio mt-1 mb-5'></hr>
-      <div className='bg-azulClaro p-8 bg-opacity-40 rounded-2xl'>
-        <h4 className='text-VerdeEscuro'>
-          <strong>Ganhos do Cliente:</strong>
-        </h4>
-        <ul className='grid gap-2 grid-cols-2'>
+      <div className=' flex'>
+        <div className=' grid justify-items-center p-4 w-1/2'>
+          <div className='grid gap-negativo justify-items-center text-azulEscuro'>
+            <div className=' text-3xl'>
+              <i className={icon['icon']}></i>
+            </div>
+            <span>{icon['title']}</span>
+          </div>
+          <div className='text-azulEscuro font-bold text-5xl flex'>
+            <h2>
+              <span className=' text-2xl'>R$</span>
+              {console.log(results)}
+              {results[lastIndex]['Valor a receber'].toLocaleString('pt-BR', {
+                style: 'decimal',
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
+            </h2>
+          </div>
+        </div>
+        <div className='w-1/2 p-4'>
+          <div>
+            <div className='flex items-center justify-between'>
+              <div className=''>
+                <h3 className=' font-medium'>Vincular a um cliente</h3>
+                <h6 className=' font-light text-sm'>
+                  Armazene esse cálculo a um cliente cadastrado
+                </h6>
+              </div>
+              <button className=' text-3xl' onClick={handleLinkToClient}>
+                <i className='fi fi-sr-angle-square-right'></i>
+              </button>
+            </div>
+            <hr className=' h-0.1 border-0 rounded bg-preto mt-1 mb-5'></hr>
+          </div>
+          <div>
+            <div className='flex items-center justify-between'>
+              <div className=''>
+                <h3 className=' font-medium'>Gerar relatórios</h3>
+                <h6 className=' font-light text-sm'>Gerar PDF, planilhas e impressões</h6>
+              </div>
+              <button className=' text-3xl' onClick=''>
+                <i className='fi fi-sr-angle-square-right'></i>
+              </button>
+            </div>
+            <hr className=' h-0.1 border-0 rounded bg-preto mt-1 mb-5'></hr>
+          </div>
+        </div>
+      </div>
+      <div className='bg-azulClaro p-8 bg-opacity-40 rounded-3xl'>
+        <h6 className=' font-bold text-VerdeEscuro text-sm'>Ganhos do Cliente:</h6>
+        <ul className='grid gap-2 grid-rows-1'>
           {results.map((result, index) => (
-            <li key={index} className='bg-azulEscuro bg-opacity-40 p-2 mt-2 rounded-2xl'>
-              {Array.isArray(result)
-                ? result.map((item, itemIndex) => (
-                    <div key={itemIndex}>{renderResultItem(item)}</div>
-                  ))
-                : renderResultItem(result)}
+            <li key={index} className=''>
+              {Array.isArray(result) ? (
+                result.map((item, itemIndex) => (
+                  <div className='grid grid-cols-1 divide-y ' key={itemIndex}>
+                    {renderResultItem(item)}
+                  </div>
+                ))
+              ) : (
+                <div className='grid grid-cols-1 divide-y divide-gray-300'>
+                  {renderResultItem(result)}
+                </div>
+              )}
             </li>
           ))}
         </ul>
       </div>
-      <button onClick={handleLinkToClient}>Vincular a um Cliente Existente</button>
 
       {mostrarCaixaSelecao && (
         <div className='caixa-de-selecao'>
@@ -101,8 +160,9 @@ function CalculationResult({ title, results }) {
 }
 
 CalculationResult.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired, // Alterado para string
   results: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.any), PropTypes.any]).isRequired,
+  icon: PropTypes.object.isRequired, // Alterado para objeto
 };
 
 export default CalculationResult;

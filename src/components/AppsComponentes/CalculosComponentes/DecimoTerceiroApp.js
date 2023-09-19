@@ -28,6 +28,7 @@ function DecimoTerceiroApp() {
       );
       const resultadosCalculados = await calculator.calcularDecimoTerceiro();
       setResultados(resultadosCalculados);
+      console.log(resultadosCalculados);
       setMostrarResultados(true); // Mostra os resultados após o cálculo
     } catch (error) {
       setErroCalculo('Erro ao calcular o décimo terceiro. Verifique os valores e tente novamente.');
@@ -65,11 +66,20 @@ function DecimoTerceiroApp() {
     },
   ];
 
+  const icon = {
+    title: 'Décimo Terceiro',
+    icon: 'fi fi-rr-calendar',
+  };
+
   return (
     <div>
       {mostrarResultados ? (
         <div>
-          <CalculationResult title='Resultados do Décimo Terceiro' results={resultados} />
+          <CalculationResult
+            title='Resultados do Décimo Terceiro'
+            results={resultados}
+            icon={icon}
+          />
           <div className=' inline-block absolute bottom-0 right-0'>
             <button onClick={handleRefazerCalculo} className='bg-branco shadow-sm p-3 rounded-lg'>
               <div className=' text-azulEscuro'>

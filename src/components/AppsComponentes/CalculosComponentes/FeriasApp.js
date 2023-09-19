@@ -69,7 +69,7 @@ function FeriasApp() {
     <div>
       {mostrarResultados ? (
         <div>
-          <CalculationResult title='Férias' results={resultados} />
+          <CalculationResult title='Cálculo Férias' results={resultados} />
           <div className=' inline-block absolute bottom-0 right-0'>
             <button onClick={handleRefazerCalculo} className='bg-branco shadow-sm p-3 rounded-lg'>
               <div className=' text-azulEscuro'>

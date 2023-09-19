@@ -19,7 +19,8 @@ export default class DecimoTerceiroCalculator {
 
   // Calcula o Décimo Terceiro
   calcularDecimoTerceiro() {
-    const resultados = [];
+    const resultado = [];
+    let somaTotal = 0;
 
     let dataInicio = new Date(this.inicioContrato);
     let anoCorrespondente = dataInicio.getFullYear();
@@ -35,11 +36,13 @@ export default class DecimoTerceiroCalculator {
       const avos = this.remuneracaoUltima / 12;
       const valorDecimoTerceiro = avos * mesesTrabalhados;
 
-      resultados.push({
-        'Última Remuneração': this.remuneracaoUltima,
-        'Valor do Decimo Terceiro': valorDecimoTerceiro,
+      somaTotal += valorDecimoTerceiro;
+
+      resultado.push({
         Periodo: periodo,
         'Ano correspondente': anoCorrespondente,
+        'Última Remuneração': this.remuneracaoUltima,
+        'Valor do Decimo Terceiro': valorDecimoTerceiro,
       });
 
       anoCorrespondente++;
@@ -49,6 +52,12 @@ export default class DecimoTerceiroCalculator {
         break;
       }
     }
+
+    const valorAReceber = {
+      'Valor a receber': somaTotal,
+    };
+
+    const resultados = [resultado, valorAReceber];
 
     return resultados;
   }

@@ -60,11 +60,20 @@ function InsalubridadeApp() {
     },
   ];
 
+  const icon = {
+    title: 'Insalubridade',
+    icon: 'fi fi-rr-biohazard',
+  };
+
   return (
     <div>
       {mostrarResultados ? (
         <div>
-          <CalculationResult title='Resultado de Insalubridade' results={[valorInsalubridade]} />
+          <CalculationResult
+            title='Cálculo de adicional de Insalubridade'
+            results={valorInsalubridade}
+            icon={icon}
+          />
           <div className=' inline-block absolute bottom-0 right-0'>
             <button onClick={handleRefazerCalculo} className='bg-branco shadow-sm p-3 rounded-lg'>
               <div className=' text-azulEscuro'>

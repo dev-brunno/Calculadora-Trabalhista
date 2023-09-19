@@ -22,9 +22,13 @@ module.exports = {
       },
       spacing: {
         0.1: '0.10rem',
+        100: '40rem',
       },
       lineHeight: {
         'extra-loose': '0.10rem',
+      },
+      borderRadius: {
+        '4xl': '2.5rem',
       },
     },
   },
