@@ -57,7 +57,7 @@ function CalculationContainer() {
       return (
         <div className='FormulariosCalculos'>
           <ActiveCalculationForm />
-          <div className=' inline-block text-cinzaEscuro absolute bottom-0 left-0'>
+          <div className=' inline-block text-cinzaEscuro absolute bottom-0 left-0 z-0'>
             <button
               onClick={() => setActiveComponent('tiposCalculos')}
               className=' bg-branco shadow-sm p-3 rounded-lg'

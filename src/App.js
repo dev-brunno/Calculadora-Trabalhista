@@ -12,7 +12,7 @@ import { ClientesProvider } from './Context/ClientesContext'; // Substitua pelo 
 function App() {
   return (
     <ClientesProvider>
-      <div className='flex flex-nowrap font-sans h-screen bg-brancoMedio'>
+      <div className='flex flex-nowrap font-sans h-screen'>
         <Routes>
           <Route path='/' element={<Navigation />}>
             <Route path='/calculos' element={<Calculos />} />

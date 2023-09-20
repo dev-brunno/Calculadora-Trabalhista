@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import CalculationForm from '../../InterfaceComponents/InterfaceCalculation/CalculationForm.component';
 import CalculationResult from '../../InterfaceComponents/InterfaceCalculation/CalculationResult.component';
 import TransferenciaCalculator from '../../../Classes/Calculos/TransferenciaCalculator';
+import RefazerCalculoButton from '../../InterfaceComponents/InterfaceCalculation/RefazerCalculoButton.compoent';
 
 function TransferenciaApp() {
   const [remuneracao, setRemuneracao] = useState(2000);
@@ -71,14 +72,8 @@ function TransferenciaApp() {
             results={[valorTransferencia]}
             icon={icon}
           />
-          <div className=' inline-block absolute bottom-0 right-0'>
-            <button onClick={handleRefazerCalculo} className='bg-branco shadow-sm p-3 rounded-lg'>
-              <div className=' text-azulEscuro'>
-                <i>Refazer Cálculo </i>
-                <i className='fi fi-rr-arrow-small-right'></i>
-              </div>
-            </button>
-          </div>
+          {/* Componente RefazerCalculoButton */}
+          <RefazerCalculoButton onClick={handleRefazerCalculo} />
         </div>
       ) : (
         <CalculationForm

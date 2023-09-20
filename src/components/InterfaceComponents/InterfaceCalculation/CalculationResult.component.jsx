@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useClientes } from '../../../Context/ClientesContext';
 import { getFirestore, collection, doc, getDoc, updateDoc } from 'firebase/firestore';
+import SelecaoClienteBox from './SelecaoClienteBox.component';
 
 function CalculationResult({ title, results, icon }) {
   const { clientes } = useClientes();
   const [mostrarCaixaSelecao, setMostrarCaixaSelecao] = useState(false);
   const [clienteSelecionado, setClienteSelecionado] = useState(null);
+  const [mostrarAviso, setMostrarAviso] = useState(false);
 
   useEffect(() => {
     // Verifique se há resultados a serem salvos e cliente selecionado
@@ -29,6 +31,7 @@ function CalculationResult({ title, results, icon }) {
             ResultadosCalculos: novosResultadosCalculos,
           });
 
+          setMostrarAviso(true);
           console.log('Resultados salvos com sucesso no Firebase.');
         } catch (error) {
           console.error('Erro ao salvar resultados:', error);
@@ -49,6 +52,10 @@ function CalculationResult({ title, results, icon }) {
     setMostrarCaixaSelecao(false);
   };
 
+  const handleCloseCaixaSelecao = () => {
+    setMostrarCaixaSelecao(false);
+  };
+
   function formatCurrency(value) {
     return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
@@ -62,7 +69,9 @@ function CalculationResult({ title, results, icon }) {
       return Object.entries(item).map(([key, value], subIndex) => (
         <div
           className={`text-sm flex w-100 justify-between ${key === 'Período' ? 'font-bold' : ''} ${
-            key === 'Valor a receber' ? ' font-bold bg-VerdeEscuro text-branco p-2 mt-3' : ''
+            key === 'Valor a receber'
+              ? ' font-bold bg-VerdeEscuro text-branco p-2 mt-3 rounded-md'
+              : ''
           }`}
           key={subIndex}
         >
@@ -152,16 +161,24 @@ function CalculationResult({ title, results, icon }) {
         </ul>
       </div>
 
+      {/* Renderize a caixa de seleção de cliente quando necessário */}
       {mostrarCaixaSelecao && (
-        <div className='caixa-de-selecao'>
-          <h3>Selecione um Cliente:</h3>
-          <ul>
-            {clientes.map((cliente) => (
-              <li key={cliente.id} onClick={() => handleClienteSelecionado(cliente.id)}>
-                {cliente.nome}
-              </li>
-            ))}
-          </ul>
+        <SelecaoClienteBox
+          clientes={clientes}
+          onClienteSelecionado={handleClienteSelecionado}
+          onClose={handleCloseCaixaSelecao}
+        />
+      )}
+
+      {mostrarAviso && (
+        <div className='fixed bottom-4 right-4 bg-green-500 text-white p-2 rounded'>
+          O resultado foi vinculado ao cliente com sucesso.
+          <button
+            className='ml-2 text-sm font-semibold text-red-500'
+            onClick={() => setMostrarAviso(false)}
+          >
+            X
+          </button>
         </div>
       )}
     </div>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import CalculationForm from '../../InterfaceComponents/InterfaceCalculation/CalculationForm.component';
 import CalculationResult from '../../InterfaceComponents/InterfaceCalculation/CalculationResult.component';
 import FGTSCalculator from '../../../Classes/Calculos/FGTSCalculator';
+import RefazerCalculoButton from '../../InterfaceComponents/InterfaceCalculation/RefazerCalculoButton.compoent';
 
 function FGTSApp() {
   const [salarioMensal, setSalarioMensal] = useState(3000);
@@ -55,15 +56,8 @@ function FGTSApp() {
       {mostrarResultados ? (
         <div>
           <CalculationResult title='Resultado do FGTS' results={[valorFGTS]} icon={icon} />
-
-          <div className=' inline-block absolute bottom-0 right-0'>
-            <button onClick={handleRefazerCalculo} className='bg-branco shadow-sm p-3 rounded-lg'>
-              <div className=' text-azulEscuro'>
-                <i>Refazer Cálculo </i>
-                <i className='fi fi-rr-arrow-small-right'></i>
-              </div>
-            </button>
-          </div>
+          {/* Componente RefazerCalculoButton */}
+          <RefazerCalculoButton onClick={handleRefazerCalculo} />
         </div>
       ) : (
         <CalculationForm
