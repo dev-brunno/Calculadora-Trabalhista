@@ -13,7 +13,7 @@ function SelecaoClienteBox({ clientes, onClienteSelecionado, onClose }) {
             <li
               key={cliente.id}
               onClick={() => onClienteSelecionado(cliente.id)}
-              className='cursor-pointer hover:bg-gray-200 p-2 rounded'
+              className='cursor-pointer p-2 rounded'
             >
               {/* Renderize o componente ClienteCard aqui */}
               <ClienteCard cliente={cliente} onClienteClick={onClienteSelecionado} />

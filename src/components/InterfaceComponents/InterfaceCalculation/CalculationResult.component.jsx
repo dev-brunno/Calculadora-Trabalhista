@@ -120,7 +120,7 @@ function CalculationResult({ title, results, icon }) {
                   Armazene esse cálculo a um cliente cadastrado
                 </h6>
               </div>
-              <button className=' text-3xl' onClick={handleLinkToClient}>
+              <button className=' text-3xl hover:text-azulEscuro' onClick={handleLinkToClient}>
                 <i className='fi fi-sr-angle-square-right'></i>
               </button>
             </div>
@@ -132,7 +132,7 @@ function CalculationResult({ title, results, icon }) {
                 <h3 className=' font-medium'>Gerar relatórios</h3>
                 <h6 className=' font-light text-sm'>Gerar PDF, planilhas e impressões</h6>
               </div>
-              <button className=' text-3xl'>
+              <button className=' text-3xl hover:text-azulEscuro'>
                 <i className='fi fi-sr-angle-square-right'></i>
               </button>
             </div>
@@ -171,14 +171,23 @@ function CalculationResult({ title, results, icon }) {
       )}
 
       {mostrarAviso && (
-        <div className='fixed bottom-4 right-4 bg-green-500 text-white p-2 rounded'>
-          O resultado foi vinculado ao cliente com sucesso.
-          <button
-            className='ml-2 text-sm font-semibold text-red-500'
-            onClick={() => setMostrarAviso(false)}
-          >
-            X
-          </button>
+        <div className='fixed bottom-4 right-4 border-2 border-green-500 rounded-lg'>
+          <div className='p-3 rounded flex divide-x space-x-2'>
+            <div className=' space-x-2 flex text-green-500 text-lg'>
+              <div>
+                <i className='fi fi-ss-check-circle'></i>
+              </div>
+              <span className=' text-sm text-preto font-semibold'>
+                O resultado foi vinculado ao cliente com sucesso
+              </span>
+            </div>
+            <button
+              className='text-sm font-semibold text-preto pl-2'
+              onClick={() => setMostrarAviso(false)}
+            >
+              <i className='fi fi-br-cross-small'></i>
+            </button>
+          </div>
         </div>
       )}
     </div>

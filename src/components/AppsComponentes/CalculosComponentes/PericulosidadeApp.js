@@ -56,7 +56,7 @@ function PericulosidadeApp() {
       {mostrarResultados ? (
         <div>
           <CalculationResult
-            title='Resultado de Periculosidade'
+            title='Adicional de Periculosidade'
             results={[valorPericulosidade]}
             icon={icon}
           />

@@ -75,11 +75,7 @@ function DecimoTerceiroApp() {
     <div>
       {mostrarResultados ? (
         <div>
-          <CalculationResult
-            title='Resultados do Décimo Terceiro'
-            results={resultados}
-            icon={icon}
-          />
+          <CalculationResult title='Décimo Terceiro' results={resultados} icon={icon} />
           {/* Componente RefazerCalculoButton */}
           <RefazerCalculoButton onClick={handleRefazerCalculo} />
         </div>

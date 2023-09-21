@@ -7,10 +7,12 @@ function CalculationCard({ icon, title, onClick }) {
     <div className=' inline-block'>
       <button
         onClick={onClick}
-        className=' w-36 h-20 shadow-inner rounded-2xl border border-cinzaClaro p-2 text-azulEscuro '
+        className=' w-36 h-24 shadow-inner rounded-2xl border border-cinzaClaro text-azulEscuro hover:bg-VerdeMedio hover:text-branco'
       >
-        <CalculationIcon icon={icon} />
-        <span className=' text-sm font-bold'>{title}</span>
+        <div>
+          <CalculationIcon icon={icon} />
+          <h3 className=' text-sm font-bold leading-4'>{title}</h3>
+        </div>
       </button>
     </div>
   );

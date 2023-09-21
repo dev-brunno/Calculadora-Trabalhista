@@ -15,7 +15,7 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
       if (docSnapshot.exists()) {
         const clienteData = docSnapshot.data();
         setResultadosCalculos(clienteData.ResultadosCalculos);
-        console.log(resultadosCalculos)
+        console.log(resultadosCalculos);
       }
     });
 

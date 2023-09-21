@@ -67,11 +67,7 @@ function TransferenciaApp() {
     <div>
       {mostrarResultados ? (
         <div>
-          <CalculationResult
-            title='Resultado de Transferência'
-            results={[valorTransferencia]}
-            icon={icon}
-          />
+          <CalculationResult title='Transferência' results={[valorTransferencia]} icon={icon} />
           {/* Componente RefazerCalculoButton */}
           <RefazerCalculoButton onClick={handleRefazerCalculo} />
         </div>

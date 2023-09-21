@@ -75,7 +75,7 @@ function FeriasApp() {
     <div>
       {mostrarResultados ? (
         <div>
-          <CalculationResult title='Cálculo Férias' results={resultados} icon={icon} />
+          <CalculationResult title='Férias' results={resultados} icon={icon} />
           {/* Componente RefazerCalculoButton */}
           <RefazerCalculoButton onClick={handleRefazerCalculo} />
         </div>

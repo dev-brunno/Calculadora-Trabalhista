@@ -59,12 +59,12 @@ function CalculationForm({ title, inputs, handleInputChange, handleCalculate, ca
         <button
           onClick={handleCalculate}
           disabled={calculando}
-          className='bg-branco shadow-sm p-3 rounded-lg'
+          className='bg-branco text-azulEscuro shadow-sm p-3 rounded-lg hover:bg-azulEscuro hover:text-branco'
         >
           {calculando ? (
             'Calculando...'
           ) : (
-            <div className=' text-azulEscuro'>
+            <div className=''>
               <i>Calcular </i>
               <i className='fi fi-rr-arrow-small-right'></i>
             </div>

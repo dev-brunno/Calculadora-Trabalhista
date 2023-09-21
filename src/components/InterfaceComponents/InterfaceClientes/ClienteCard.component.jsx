@@ -11,14 +11,18 @@ function ClienteCard({ cliente, onClienteClick }) {
     <div className=' inline-block'>
       <button
         onClick={() => onClienteClick(cliente)}
-        className='w-36 h-28 shadow-inner rounded-2xl border border-cinzaClaro p-2 text-azulEscuro leading-extra-loose '
+        className='w-36 h-28 shadow-inner rounded-2xl border border-cinzaClaro p-2 text-preto leading-extra-loose hover:text-azulEscuro'
       >
-        <div className='icon text-5xl'>
-          <i className='fi fi-rr-user'></i>
+        <div className='flex flex-col items-center'>
+          <div className='icon text-5xl p-2 bg-cinzaClaro rounded-full w-18'>
+            <i className='fi fi-rr-user'></i>
+          </div>
+          <div>
+            <h3 className=' text-sm font-bold ' style={{ cursor: 'pointer' }}>
+              {primeiroNome} {segundoNome}
+            </h3>
+          </div>
         </div>
-        <span className=' text-sm font-bold' style={{ cursor: 'pointer' }}>
-          {primeiroNome} {segundoNome}
-        </span>
       </button>
     </div>
   );

@@ -11,9 +11,13 @@ const calculations = [
   { id: 'ferias', title: 'Férias', icon: 'fi fi-rr-umbrella-beach' },
   { id: 'decimoTerceiro', title: 'Décimo Terceiro', icon: 'fi fi-rr-calendar' },
   { id: 'fgts', title: 'FGTS', icon: 'fi fi-rr-sack-dollar' },
-  { id: 'periculosidade', title: 'Periculosidade', icon: 'fi fi-rr-hand-holding-skull' },
-  { id: 'insalubridade', title: 'Insalubridade', icon: 'fi fi-rr-biohazard' },
   { id: 'transferencia', title: 'Transferência', icon: 'fi fi-rr-replace' },
+  {
+    id: 'periculosidade',
+    title: 'Adicional de Periculosidade',
+    icon: 'fi fi-rr-hand-holding-skull',
+  },
+  { id: 'insalubridade', title: 'Adicional de Insalubridade', icon: 'fi fi-rr-biohazard' },
 ];
 
 const components = {
@@ -60,7 +64,7 @@ function CalculationContainer() {
           <div className=' inline-block text-cinzaEscuro absolute bottom-0 left-0 z-0'>
             <button
               onClick={() => setActiveComponent('tiposCalculos')}
-              className=' bg-branco shadow-sm p-3 rounded-lg'
+              className=' bg-branco shadow-sm p-3 rounded-lg hover:bg-azulEscuro hover:text-branco'
             >
               <i className='fi fi-rr-arrow-small-left'> Cancelar</i>
             </button>

@@ -23,9 +23,10 @@ module.exports = {
       spacing: {
         0.1: '0.10rem',
         100: '40rem',
+        18: '4.5rem',
       },
       lineHeight: {
-        'extra-loose': '0.10rem',
+        'extra-loose': '1rem',
       },
       borderRadius: {
         '4xl': '2.5rem',

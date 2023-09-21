@@ -71,7 +71,7 @@ function InsalubridadeApp() {
       {mostrarResultados ? (
         <div>
           <CalculationResult
-            title='Cálculo de adicional de Insalubridade'
+            title='Adicional de Insalubridade'
             results={valorInsalubridade}
             icon={icon}
           />
