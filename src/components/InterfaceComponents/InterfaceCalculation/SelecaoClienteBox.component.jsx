@@ -5,7 +5,7 @@ import ClienteCard from '../InterfaceClientes/ClienteCard.component';
 // Componente separado para a caixa de seleção de cliente
 function SelecaoClienteBox({ clientes, onClienteSelecionado, onClose }) {
   return (
-    <div className='fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-gray-800 bg-opacity-50 z-10'>
+    <div className='fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-gray-800 bg-opacity-50 z-20'>
       <div className='bg-white p-4 rounded-2xl shadow-lg'>
         <h3 className='text-lg font-semibold mb-4'>Selecione um Cliente:</h3>
         <ul className='grid gap-2 grid-cols-4'>

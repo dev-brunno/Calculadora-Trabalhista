@@ -12,15 +12,17 @@ import { ClientesProvider } from './Context/ClientesContext'; // Substitua pelo 
 function App() {
   return (
     <ClientesProvider>
-      <div className='flex flex-nowrap font-sans h-screen'>
-        <Routes>
-          <Route path='/' element={<Navigation />}>
-            <Route path='/calculos' element={<Calculos />} />
-            <Route path='/clientes' element={<Clientes />} />
-            <Route path='/home' element={<Home />} />
-            <Route path='/contato' element={<Contato />} />
-          </Route>
-        </Routes>
+      <div className='bg-brancoMedio '>
+        <div className='flex flex-nowrap font-sans h-screen'>
+          <Routes>
+            <Route path='/' element={<Navigation />}>
+              <Route path='/calculos' element={<Calculos />} />
+              <Route path='/clientes' element={<Clientes />} />
+              <Route path='/home' element={<Home />} />
+              <Route path='/contato' element={<Contato />} />
+            </Route>
+          </Routes>
+        </div>
       </div>
     </ClientesProvider>
   );

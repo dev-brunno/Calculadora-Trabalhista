@@ -171,7 +171,7 @@ function CalculationResult({ title, results, icon }) {
       )}
 
       {mostrarAviso && (
-        <div className='fixed bottom-4 right-4 border-2 border-green-500 rounded-lg'>
+        <div className='fixed bottom-4 right-4 border-2 border-green-500 rounded-lg bg-branco z-10'>
           <div className='p-3 rounded flex divide-x space-x-2'>
             <div className=' space-x-2 flex text-green-500 text-lg'>
               <div>

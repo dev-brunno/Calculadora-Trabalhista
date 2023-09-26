@@ -1,11 +1,12 @@
 import React, { Fragment } from 'react';
 import { Outlet, Link } from 'react-router-dom';
+import Switcher from '../../darkmode/Switcher';
 
 export default function Navigation() {
   return (
     <Fragment>
       <div className='left-0 top-0 w-52 shrink-0'>
-        <div className='flex h-full bg-azulEscuro w-full rounded-r-3xl'>
+        <div className='flex h-full bg-azulEscuro dark:bg-slate-800 w-full rounded-r-3xl'>
           <nav className=' text-branco grid grid-cols-1 divide-y leading-none w-full'>
             <div className='flex space-x-2 items-center pl-4'>
               <div className=' text-5xl bg-azulClaro rounded-full border-2 border-azulClaro'>
@@ -65,7 +66,7 @@ export default function Navigation() {
                 </div>
                 <h4 className=' text-sm'>Dark Mode</h4>
                 <div>
-                  <i className='fi fi-rr-toggle-on'></i>
+                  <Switcher />
                 </div>
               </Link>
             </div>

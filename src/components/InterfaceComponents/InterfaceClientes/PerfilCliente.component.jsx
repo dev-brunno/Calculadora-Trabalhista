@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import CalculationCard from '../../InterfaceComponents/InterfaceCalculation/CalculationCard.component';
-import { getFirestore, doc, onSnapshot } from 'firebase/firestore';
+import { getFirestore, doc, onSnapshot, getDoc, updateDoc } from 'firebase/firestore';
 
 function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
   const [cálculoSelecionado, setCálculoSelecionado] = useState(null);
   const [resultadosCalculos, setResultadosCalculos] = useState(null);
+  const [confirmDelete, setConfirmDelete] = useState(false);
 
   useEffect(() => {
     const db = getFirestore();
@@ -15,7 +16,6 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
       if (docSnapshot.exists()) {
         const clienteData = docSnapshot.data();
         setResultadosCalculos(clienteData.ResultadosCalculos);
-        console.log(resultadosCalculos);
       }
     });
 
@@ -34,6 +34,71 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
       </div>
     </li>
   );
+
+  const handleExcluirCalculo = async () => {
+    const db = getFirestore();
+    const clienteDocRef = doc(db, 'clientes', cliente.id);
+
+    try {
+      const clienteSnapshot = await getDoc(clienteDocRef);
+      if (clienteSnapshot.exists()) {
+        const clienteData = clienteSnapshot.data();
+        const resultadosCalculos = { ...clienteData.ResultadosCalculos };
+
+        if (cálculoSelecionado) {
+          delete resultadosCalculos[cálculoSelecionado];
+          await updateDoc(clienteDocRef, { ResultadosCalculos: resultadosCalculos });
+          setCálculoSelecionado(null); // Limpar o cálculo selecionado após a exclusão
+        } else {
+          console.error('Nenhum cálculo selecionado para excluir.');
+        }
+      } else {
+        console.error('O documento do cliente não foi encontrado.');
+      }
+    } catch (error) {
+      console.error('Erro ao excluir cálculo:', error);
+    }
+  };
+
+  const handleShowConfirmDelete = () => {
+    setConfirmDelete(true);
+  };
+
+  const handleCancelDelete = () => {
+    setConfirmDelete(false);
+  };
+
+  const handleConfirmDelete = async () => {
+    handleExcluirCalculo();
+    setConfirmDelete(false); // Feche a caixa de confirmação após a exclusão
+  };
+
+  const renderResultItem = (item) => {
+    if (typeof item === 'object') {
+      return Object.entries(item).map(([key, value], subIndex) => (
+        <div
+          className={`text-sm flex w-64 justify-between ${key === 'Período' ? 'font-bold' : ''} ${
+            key === 'Valor a receber'
+              ? ' font-bold bg-VerdeEscuro text-branco p-2 mt-3 rounded-md'
+              : ''
+          }`}
+          key={subIndex}
+        >
+          <div>{key}</div>
+          <div>{typeof value === 'number' ? formatCurrency(value) : value}</div>
+        </div>
+      ));
+    } else {
+      return <div>{item}</div>;
+    }
+  };
+
+  function formatCurrency(value) {
+    return new Intl.NumberFormat('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+    }).format(value);
+  }
 
   return (
     <div>
@@ -90,32 +155,53 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
             </ul>
           </div>
           {/* Mostrar o resultado do cálculo selecionado */}
-          {resultadosCalculos && (
+          {resultadosCalculos && Object.keys(resultadosCalculos).length > 0 && (
             <div id='resultados' className='ml-20'>
               {cálculoSelecionado ? (
                 // Se um cálculo foi selecionado, não renderize o card de nome e ícone
-                <div>
+                <div className=''>
                   <h2 className='text-xl text-VerdeMedio'>{cálculoSelecionado}</h2>
                   <hr className='w-16 h-0.1 border-0 rounded bg-VerdeMedio mt-1 mb-5'></hr>
-                  {Array.isArray(resultadosCalculos[cálculoSelecionado]) ? (
-                    resultadosCalculos[cálculoSelecionado].map((resultado, subIndex) => (
-                      <div key={subIndex}>
-                        {Object.entries(resultado).map(([chave, valor], subSubIndex) => (
-                          <div key={subSubIndex}>
-                            <strong>{chave}</strong>: {valor}
-                          </div>
-                        ))}
+                  <div className='bg-azulClaro p-4 bg-opacity-40 rounded-3xl'>
+                    <h6 className=' font-bold text-VerdeEscuro text-sm'>Ganhos do Cliente:</h6>
+                    <ul className='grid gap-2 grid-rows-1 mt-4'>
+                      {resultadosCalculos[cálculoSelecionado].map((result, index) => (
+                        <li key={index} className=''>
+                          {Array.isArray(result) ? (
+                            result.map((item, itemIndex) => (
+                              <div className='grid grid-cols-1 divide-y ' key={itemIndex}>
+                                {renderResultItem(item)}
+                              </div>
+                            ))
+                          ) : (
+                            <div className='grid grid-cols-1 divide-y divide-gray-300'>
+                              {renderResultItem(result)}
+                            </div>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <button onClick={handleShowConfirmDelete}>Excluir cálculo</button>
+                  {confirmDelete && (
+                    <div className='fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 z-50'>
+                      <div className='bg-white p-4 rounded-lg shadow-lg'>
+                        <p>Tem certeza que deseja excluir esse cálculo do perfil do cliente?</p>
+                        <div className='mt-4 flex justify-end'>
+                          <button
+                            onClick={handleConfirmDelete}
+                            className='text-red-500 mr-2 bg-gray-100 p-2 rounded-md'
+                          >
+                            Excluir
+                          </button>
+                          <button
+                            onClick={handleCancelDelete}
+                            className=' text-black mr-2 bg-blue-100 p-2 rounded-md'
+                          >
+                            Cancelar
+                          </button>
+                        </div>
                       </div>
-                    ))
-                  ) : (
-                    <div>
-                      {Object.entries(resultadosCalculos[cálculoSelecionado]).map(
-                        ([chave, valor], subSubIndex) => (
-                          <div key={subSubIndex}>
-                            <strong>{chave}</strong>: {valor}
-                          </div>
-                        ),
-                      )}
                     </div>
                   )}
                 </div>
@@ -129,7 +215,7 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
                     {Object.entries(resultadosCalculos).map(([titulo], index) => (
                       <CalculationCard
                         key={index}
-                        icon='fi fi-ss-user' // Substitua pelo ícone correto
+                        icon={titulo} // Substitua pelo ícone correto
                         title={titulo}
                         onClick={() => setCálculoSelecionado(titulo)} // Atualiza o estado com o cálculo selecionado
                       />

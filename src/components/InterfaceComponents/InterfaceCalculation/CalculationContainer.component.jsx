@@ -8,16 +8,15 @@ import InsalubridadeApp from '../../AppsComponentes/CalculosComponentes/Insalubr
 import TransferenciaApp from '../../AppsComponentes/CalculosComponentes/TransferenciaApp';
 
 const calculations = [
-  { id: 'ferias', title: 'Férias', icon: 'fi fi-rr-umbrella-beach' },
-  { id: 'decimoTerceiro', title: 'Décimo Terceiro', icon: 'fi fi-rr-calendar' },
-  { id: 'fgts', title: 'FGTS', icon: 'fi fi-rr-sack-dollar' },
-  { id: 'transferencia', title: 'Transferência', icon: 'fi fi-rr-replace' },
+  { id: 'ferias', title: 'Férias' },
+  { id: 'decimoTerceiro', title: 'Décimo Terceiro' },
+  { id: 'fgts', title: 'FGTS' },
+  { id: 'transferencia', title: 'Transferência' },
   {
     id: 'periculosidade',
     title: 'Adicional de Periculosidade',
-    icon: 'fi fi-rr-hand-holding-skull',
   },
-  { id: 'insalubridade', title: 'Adicional de Insalubridade', icon: 'fi fi-rr-biohazard' },
+  { id: 'insalubridade', title: 'Adicional de Insalubridade' },
 ];
 
 const components = {
@@ -48,7 +47,7 @@ function CalculationContainer() {
             {calculations.map((calculation) => (
               <CalculationCard
                 key={calculation.id}
-                icon={calculation.icon}
+                icon={calculation.title}
                 title={calculation.title}
                 onClick={() => handleCalculationCardClick(calculation.id)}
               />
@@ -66,7 +65,10 @@ function CalculationContainer() {
               onClick={() => setActiveComponent('tiposCalculos')}
               className=' bg-branco shadow-sm p-3 rounded-lg hover:bg-azulEscuro hover:text-branco'
             >
-              <i className='fi fi-rr-arrow-small-left'> Cancelar</i>
+              <div className='flex space-x-2'>
+                <i className='fi fi-rr-arrow-small-left mt-1'> </i>
+                <h5>Cancelar</h5>
+              </div>
             </button>
           </div>
         </div>
