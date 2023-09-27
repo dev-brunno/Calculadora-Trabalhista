@@ -12,7 +12,7 @@ export default function Navigation() {
   return (
     <Fragment>
       {/* Menu principal */}
-      <div className='md:w-52 w-screen'>
+      <div className=' md:w-56 w-screen flex-grow-0'>
         <div className='grid h-full bg-azulEscuro dark:bg-dark1 w-full md:rounded-r-3xl'>
           {/* Ícone do menu para telas menores */}
           <div

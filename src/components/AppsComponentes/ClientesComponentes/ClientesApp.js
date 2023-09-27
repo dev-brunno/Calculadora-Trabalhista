@@ -84,19 +84,21 @@ function ClientesApp() {
   return (
     <div>
       {/* Botão para adicionar clientes */}
-      <div className=' inline-block fixed bottom-0 right-0 mb-4 mr-4 md:mb-12 md:mr-12 z-30'>
-        <button
-          onClick={() => {
-            setDisplayState('clienteForm'); // Exibir o formulário ao clicar no botão "Adicionar Clientes"
-          }}
-        >
-          <div className='bg-azulEscuro dark:bg-dark4 w-20 h-20 md:w-24 md:h-24 rounded-full grid place-items-center -space-y-8 text-branco dark:text-dark3 dark:hover:text-white shadow-lg'>
-            <i className='fi fi-sr-users-medical text-2xl md:text-4xl'></i>
-            <span className=' text-xs md:text-sm font-bold leading-3 md:leading-4'>
-              Adicionar Clientes
-            </span>
-          </div>
-        </button>
+      <div className='inline-block fixed bottom-0 right-0 mb-4 mr-4 md:mb-12 md:mr-12 z-30'>
+        {displayState === 'clienteList' && (
+          <button
+            onClick={() => {
+              setDisplayState('clienteForm'); // Exibir o formulário ao clicar no botão "Adicionar Clientes"
+            }}
+          >
+            <div className='bg-azulEscuro dark:bg-dark4 w-20 h-20 md:w-24 md:h-24 rounded-full grid place-items-center -space-y-8 text-branco dark:text-dark3 dark:hover:text-white shadow-lg'>
+              <i className='fi fi-sr-users-medical text-2xl md:text-4xl'></i>
+              <span className='text-xs md:text-sm font-bold leading-3 md:leading-4'>
+                Adicionar Clientes
+              </span>
+            </div>
+          </button>
+        )}
       </div>
 
       {/* Renderização condicional de componentes com base em displayState */}

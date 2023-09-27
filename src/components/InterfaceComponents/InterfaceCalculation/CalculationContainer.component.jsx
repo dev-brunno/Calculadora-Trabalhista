@@ -43,7 +43,7 @@ function CalculationContainer() {
         <Fragment>
           <h2 className='text-2xl text-VerdeMedio dark:text-dark3'>O que você deseja calcular?</h2>
           <hr className='w-16 h-0.1 border-0 rounded bg-VerdeMedio dark:bg-dark3 mt-1 mb-5'></hr>
-          <div className='grid gap-2 grid-cols-2 md:grid-cols-4'>
+          <div className='grid gap-2 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4'>
             {calculations.map((calculation) => (
               <CalculationCard
                 key={calculation.id}

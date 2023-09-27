@@ -173,7 +173,7 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
   return (
     <div>
       <div className=' border border-azulEscuro dark:border-dark3 p-8 rounded-3xl relative z-10'>
-        <div className='absolute -top-12 inset-x-0  md:-left-8 md:-top-8  w-28 m-auto md:m-0'>
+        <div className='absolute -top-12 inset-x-0  lg:-left-8 lg:-top-8  w-28 m-auto lg:m-0'>
           <div className='relative'>
             <div className='bg-azulClaro dark:bg-dark2 w-28 h-28 rounded-full grid place-items-center shadow-md'>
               <div className=' bg-cinzaClaro dark:bg-dark4 w-24 h-24 rounded-full grid place-items-center text-azulClaro dark:text-dark3 text-6xl'>
@@ -196,7 +196,7 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
             )}
           </div>
         </div>
-        <div className='mt-10 md:mt-0 md:ml-16'>
+        <div className='mt-10 lg:mt-0 lg:ml-16'>
           <h2 className='text-xl text-VerdeMedio dark:text-dark3'>
             {editCliente ? 'Editar Cliente' : 'Cadastro Cliente'}
           </h2>
@@ -378,7 +378,7 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
       </div>
       <div className='inline-block absolute bottom-0 left-0'>
         <button
-          className='bg-branco text-cinzaEscuro dark:bg-dark2 dark:text-dark3 dark:hover:text-white shadow-sm p-3 rounded-lg'
+          className='bg-branco hover:bg-azulEscuro hover:text-white text-cinzaEscuro dark:bg-dark2 dark:text-dark3 dark:hover:text-white shadow-sm p-3 rounded-lg'
           type='button'
           onClick={onCancel}
         >
