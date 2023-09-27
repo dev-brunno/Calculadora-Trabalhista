@@ -43,7 +43,7 @@ export default function Navigation() {
           </div>
 
           <nav className={`${menuVisible ? 'block' : 'hidden'} md:block`}>
-            <div className='h-full text-branco divide-y flex flex-col'>
+            <div className='h-full text-branco divide-y dark:divide-dark3 flex flex-col'>
               <div className='flex space-x-2 items-center pl-4 pt-4 pb-4 '>
                 <div className=' text-5xl bg-azulClaro dark:bg-dark2 rounded-full p-2'>
                   <i className='fi fi-rr-circle-user align-middle flex justify-center'></i>
@@ -58,7 +58,7 @@ export default function Navigation() {
               <div className=' text-2xl flex-grow flex flex-col justify-center'>
                 <Link
                   to='/home'
-                  className='pl-4 p-2 hover:bg-azulClaro flex items-center  space-x-2'
+                  className='pl-4 p-2 hover:bg-azulClaro dark:hover:bg-dark4 flex items-center  space-x-2'
                 >
                   <div>
                     <i className='fi fi-rr-home'></i>
@@ -67,7 +67,7 @@ export default function Navigation() {
                 </Link>
                 <Link
                   to='/calculos'
-                  className=' pl-4 p-2 hover:bg-azulClaro flex items-center  space-x-2'
+                  className=' pl-4 p-2 hover:bg-azulClaro dark:hover:bg-dark4 flex items-center  space-x-2'
                 >
                   <div>
                     <i className='fi fi-rr-calculator'></i>
@@ -76,7 +76,7 @@ export default function Navigation() {
                 </Link>
                 <Link
                   to='/clientes'
-                  className=' pl-4 p-2 hover:bg-azulClaro flex items-center  space-x-2'
+                  className=' pl-4 p-2 hover:bg-azulClaro dark:hover:bg-dark4 flex items-center  space-x-2'
                 >
                   <div>
                     <i className='fi fi-rr-users-alt'></i>
@@ -85,7 +85,7 @@ export default function Navigation() {
                 </Link>
                 <Link
                   to='/contato'
-                  className=' pl-4 p-2 hover:bg-azulClaro flex items-center space-x-2'
+                  className=' pl-4 p-2 hover:bg-azulClaro dark:hover:bg-dark4 flex items-center space-x-2'
                 >
                   <div>
                     <i className='fi fi-rr-lightbulb-question'></i>
@@ -95,21 +95,22 @@ export default function Navigation() {
               </div>
 
               <div className='text-xl pt-4 pb-4'>
-                <Link to='' className=' pl-4 p-2 hover:bg-azulClaro flex items-center  space-x-2'>
+                <Link
+                  to=''
+                  className=' pl-4 p-2 hover:bg-azulClaro dark:hover:bg-dark4 flex items-center  space-x-2'
+                >
                   <div>
                     <i className='fi fi-rr-sign-out-alt'></i>
                   </div>
                   <h4 className=' text-sm'>Logout</h4>
                 </Link>
-                <Link to='' className=' pl-4 p-2 hover:bg-azulClaro flex items-center  space-x-3'>
-                  <div>
-                    <i className='fi fi-rr-moon-stars'></i>
-                  </div>
+                <div
+                  to=''
+                  className=' pl-4 p-2 hover:bg-azulClaro dark:hover:bg-dark4 flex items-center  space-x-3'
+                >
+                  <Switcher></Switcher>
                   <h4 className=' text-sm'>Dark Mode</h4>
-                  <div>
-                    <Switcher />
-                  </div>
-                </Link>
+                </div>
               </div>
             </div>
           </nav>

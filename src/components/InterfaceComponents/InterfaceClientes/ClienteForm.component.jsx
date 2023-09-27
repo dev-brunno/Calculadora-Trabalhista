@@ -172,23 +172,23 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
 
   return (
     <div>
-      <div className=' border border-azulEscuro p-8 rounded-3xl relative'>
+      <div className=' border border-azulEscuro dark:border-dark3 p-8 rounded-3xl relative z-10'>
         <div className='absolute -top-12 inset-x-0  md:-left-8 md:-top-8  w-28 m-auto md:m-0'>
           <div className='relative'>
-            <div className='bg-azulClaro w-28 h-28 rounded-full grid place-items-center shadow-md'>
-              <div className=' bg-cinzaClaro w-24 h-24 rounded-full grid place-items-center text-azulClaro text-6xl'>
+            <div className='bg-azulClaro dark:bg-dark2 w-28 h-28 rounded-full grid place-items-center shadow-md'>
+              <div className=' bg-cinzaClaro dark:bg-dark4 w-24 h-24 rounded-full grid place-items-center text-azulClaro dark:text-dark3 text-6xl'>
                 <i className='fi fi-sr-user'></i>
               </div>
             </div>
             {editCliente && (
-              <div className='bg-azulClaro w-10 h-10 rounded-full grid place-items-center  absolute bottom-0 right-0'>
+              <div className='bg-azulClaro dark:bg-dark3 w-10 h-10 rounded-full grid place-items-center  absolute bottom-0 right-0'>
                 <button
                   onClick={(e) => {
                     e.preventDefault(); // Impede o comportamento padrão do botão
                     handleDeleteClick();
                   }}
                   title='Excluir Cliente'
-                  className='bg-cinzaClaro w-8 h-8 rounded-full grid place-items-center text-red-500'
+                  className='bg-cinzaClaro w-8 h-8 rounded-full grid place-items-center text-red-500 dark:hover:text-dark4'
                 >
                   <i className='fi fi-sr-delete-user'></i>
                 </button>
@@ -197,10 +197,10 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
           </div>
         </div>
         <div className='mt-10 md:mt-0 md:ml-16'>
-          <h2 className='text-xl text-VerdeMedio'>
+          <h2 className='text-xl text-VerdeMedio dark:text-dark3'>
             {editCliente ? 'Editar Cliente' : 'Cadastro Cliente'}
           </h2>
-          <hr className='w-16 h-0.1 border-0 rounded bg-VerdeMedio mt-1 mb-5'></hr>
+          <hr className='w-16 h-0.1 border-0 rounded bg-VerdeMedio dark:bg-dark3 mt-1 mb-5'></hr>
           <div>
             {Object.keys(errors).length > 0 && (
               <div className='text-red-500'>
@@ -210,9 +210,9 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
               </div>
             )}
             <form className='text-lg flex flex-col space-y-2' onSubmit={handleSubmit}>
-              <div className='space-y-2'>
-                <div className='flex space-x-2'>
-                  <label className='text-azulEscuro text-2xl mt-1' htmlFor='nome'>
+              <div className='space-y-2 text-azulEscuro dark:text-dark3'>
+                <div className='flex space-x-2 '>
+                  <label className='text-2xl mt-1' htmlFor='nome'>
                     <i className='fi fi-ss-user'></i>
                   </label>
                   <input
@@ -222,12 +222,12 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
                     placeholder='Nome completo'
                     value={cliente.nome}
                     onChange={handleInputChange}
-                    className='border border-azulEscuro h-9 w-52 p-2 rounded-r-2xl rounded-bl-2xl text-sm'
+                    className='border border-azulEscuro dark:border-dark3 text-black h-9 w-52 p-2 rounded-r-2xl rounded-bl-2xl text-sm'
                     required
                   />
                 </div>
                 <div className='flex space-x-2'>
-                  <label className='text-azulEscuro text-2xl mt-1' htmlFor='cpf'>
+                  <label className='text-2xl mt-1' htmlFor='cpf'>
                     <i className='fi fi-sr-id-badge'></i>
                   </label>
                   <input
@@ -237,12 +237,12 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
                     placeholder='CPF do Cliente'
                     value={formatCPF(cliente.cpf)}
                     onChange={handleInputChange}
-                    className='border border-azulEscuro h-9 w-52 p-2 rounded-r-2xl rounded-bl-2xl text-sm'
+                    className='border border-azulEscuro dark:border-dark3 text-black h-9 w-52 p-2 rounded-r-2xl rounded-bl-2xl text-sm'
                     required
                   />
                 </div>
                 <div className='flex space-x-2'>
-                  <label className='text-azulEscuro text-2xl mt-1' htmlFor='dataNascimento'>
+                  <label className='text-2xl mt-1' htmlFor='dataNascimento'>
                     <i className='fi fi-sr-calendar'></i>
                   </label>
                   <input
@@ -251,11 +251,11 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
                     name='dataNascimento'
                     value={cliente.dataNascimento}
                     onChange={handleInputChange}
-                    className='border border-azulEscuro h-9 w-52 p-2 rounded-r-2xl rounded-bl-2xl text-sm'
+                    className='border border-azulEscuro dark:border-dark3 text-black h-9 w-52 p-2 rounded-r-2xl rounded-bl-2xl text-sm'
                   />
                 </div>
                 <div className='flex space-x-2'>
-                  <label className='text-azulEscuro text-2xl mt-1' htmlFor='email'>
+                  <label className='text-2xl mt-1' htmlFor='email'>
                     <i className='fi fi-sr-envelope'></i>
                   </label>
                   <input
@@ -265,11 +265,11 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
                     placeholder='E-mail'
                     value={cliente.email}
                     onChange={handleInputChange}
-                    className='border border-azulEscuro h-9 w-52 p-2 rounded-r-2xl rounded-bl-2xl text-sm'
+                    className='border border-azulEscuro dark:border-dark3 text-black h-9 w-52 p-2 rounded-r-2xl rounded-bl-2xl text-sm'
                   />
                 </div>
                 <div className='flex space-x-2'>
-                  <label className='text-azulEscuro text-2xl mt-1' htmlFor='telefone'>
+                  <label className='text-2xl mt-1' htmlFor='telefone'>
                     <i className='fi fi-sr-phone-flip'></i>
                   </label>
                   <input
@@ -279,11 +279,11 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
                     placeholder='Telefone'
                     value={formatTelefone(cliente.telefone)}
                     onChange={handleInputChange}
-                    className='border border-azulEscuro h-9 w-52 p-2 rounded-r-2xl rounded-bl-2xl text-sm'
+                    className='border border-azulEscuro dark:border-dark3 text-black h-9 w-52 p-2 rounded-r-2xl rounded-bl-2xl text-sm'
                   />
                 </div>
                 <div className='flex space-x-2'>
-                  <label className='text-azulEscuro text-2xl mt-1' htmlFor='cep'>
+                  <label className='text-2xl mt-1' htmlFor='cep'>
                     <i className='fi fi-sr-marker'></i>
                   </label>
                   <div className=' space-y-2'>
@@ -297,7 +297,7 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
                           value={cliente.cep}
                           onChange={handleInputChange}
                           onBlur={handleCEPBlur}
-                          className='border border-azulEscuro h-9 w-52 p-2 rounded-r-2xl rounded-bl-2xl text-sm'
+                          className='border border-azulEscuro dark:border-dark3 text-black h-9 w-52 p-2 rounded-r-2xl rounded-bl-2xl text-sm'
                           required
                         />
                         {enderecoLoading && <p>Carregando...</p>}
@@ -311,7 +311,7 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
                         placeholder='Endereço'
                         value={cliente.endereco}
                         onChange={handleInputChange}
-                        className='border border-azulEscuro h-9 p-2 rounded-r-2xl rounded-bl-2xl text-sm w-52'
+                        className='border border-azulEscuro dark:border-dark3 text-black h-9 p-2 rounded-r-2xl rounded-bl-2xl text-sm w-52'
                       />
                     </div>
                     <div className='flex w-52 space-x-1'>
@@ -323,7 +323,7 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
                           placeholder='Cidade'
                           value={cliente.cidade}
                           onChange={handleInputChange}
-                          className='border border-azulEscuro  w-full h-9 p-2 rounded-r-2xl rounded-bl-2xl text-sm'
+                          className='border border-azulEscuro dark:border-dark3 text-black  w-full h-9 p-2 rounded-r-2xl rounded-bl-2xl text-sm'
                         />
                       </div>
                       <div className=' w-1/3'>
@@ -334,7 +334,7 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
                           placeholder='Estado'
                           value={cliente.estado}
                           onChange={handleInputChange}
-                          className='border border-azulEscuro h-9 w-full p-2 rounded-r-2xl rounded-bl-2xl text-sm '
+                          className='border border-azulEscuro dark:border-dark3 text-black h-9 w-full p-2 rounded-r-2xl rounded-bl-2xl text-sm '
                         />
                       </div>
                     </div>
@@ -343,7 +343,7 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
 
                 <div className=' p-2 flex justify-end'>
                   <button type='submit'>
-                    <div className=' text-azulEscuro'>
+                    <div className=' text-azulEscuro dark:text-dark3 dark:hover:text-white'>
                       <i>{editCliente ? 'Salvar' : 'Cadastrar'}</i>
                       <i className='fi fi-rr-arrow-small-right'></i>
                     </div>
@@ -376,8 +376,12 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
           </div>
         </div>
       </div>
-      <div className='inline-block text-cinzaEscuro absolute bottom-0 left-0'>
-        <button className='bg-branco shadow-sm p-3 rounded-lg' type='button' onClick={onCancel}>
+      <div className='inline-block absolute bottom-0 left-0'>
+        <button
+          className='bg-branco text-cinzaEscuro dark:bg-dark2 dark:text-dark3 dark:hover:text-white shadow-sm p-3 rounded-lg'
+          type='button'
+          onClick={onCancel}
+        >
           <i className='fi fi-rr-arrow-small-left'> Cancelar</i>
         </button>
       </div>

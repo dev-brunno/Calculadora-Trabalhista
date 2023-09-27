@@ -4,7 +4,7 @@ export default class FGTSCalculator {
       throw new Error('Salário mensal inválido.');
     }
 
-    this.salarioMensal = salarioMensal;
+    this.salarioMensal = parseFloat(salarioMensal);
   }
 
   calcularFGTS() {

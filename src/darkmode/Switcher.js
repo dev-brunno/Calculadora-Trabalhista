@@ -17,7 +17,7 @@ export default function Switcher() {
         checked={darkSide}
         onChange={toggleDarkMode}
         size={25}
-        className=' text-cinzaClaro '
+        className=' text-white'
       />
     </>
   );

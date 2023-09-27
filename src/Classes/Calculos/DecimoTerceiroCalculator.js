@@ -9,7 +9,7 @@ export default class DecimoTerceiroCalculator {
 
     this.inicioContrato = this.createDateFromYYYYMMDD(inicioContrato);
     this.fimContrato = this.createDateFromYYYYMMDD(fimContrato);
-    this.remuneracaoUltima = remuneracaoUltima;
+    this.remuneracaoUltima = parseFloat(remuneracaoUltima);
   }
 
   createDateFromYYYYMMDD(dateString) {
@@ -41,7 +41,7 @@ export default class DecimoTerceiroCalculator {
       resultado.push({
         Período: periodo,
         'Ano correspondente': anoCorrespondente.toString(),
-        'Última Remuneração': parseFloat(this.remuneracaoUltima),
+        'Última Remuneração': this.remuneracaoUltima,
         'Valor do Decimo Terceiro': valorDecimoTerceiro,
       });
 

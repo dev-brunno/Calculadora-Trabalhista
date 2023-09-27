@@ -4,8 +4,8 @@ class TransferenciaCalculator {
       throw new Error('Valores inválidos.');
     }
 
-    this.remuneracao = remuneracao;
-    this.porcentagem = porcentagem;
+    this.remuneracao = parseFloat(remuneracao);
+    this.porcentagem = parseFloat(porcentagem);
   }
 
   calcularTransferencia() {

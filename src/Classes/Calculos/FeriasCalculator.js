@@ -8,7 +8,7 @@ class BaseFeriasCalculator {
 
     this.inicioContrato = this.createDateFromYYYYMMDD(inicioContrato);
     this.fimContrato = this.createDateFromYYYYMMDD(fimContrato);
-    this.remuneracaoUltima = remuneracaoUltima;
+    this.remuneracaoUltima = parseFloat(remuneracaoUltima);
     this.somaTotal = 0;
   }
 

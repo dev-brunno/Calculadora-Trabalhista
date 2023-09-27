@@ -4,7 +4,7 @@ class InsalubridadeCalculator {
       throw new Error('Valores inválidos.');
     }
 
-    this.salarioBase = salarioBase;
+    this.salarioBase = parseFloat(salarioBase);
     this.grauInsalubridade = grauInsalubridade;
   }
 

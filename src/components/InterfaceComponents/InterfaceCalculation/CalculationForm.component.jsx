@@ -20,7 +20,7 @@ function CalculationForm({ title, inputs, handleInputChange, handleCalculate, ca
             <br />
             {input.type === 'number' ? (
               <div className='flex h-11 w-64'>
-                <span className='inline-block border-l border-t border-b border-preto bg-cinzaClaro rounded-bl-2xl p-2'>
+                <span className='inline-block border-l border-t border-b border-preto dark:border-dark4 bg-cinzaClaro dark:bg-dark4 dark:text-white rounded-bl-2xl p-2'>
                   R$
                 </span>
                 <input
@@ -28,7 +28,7 @@ function CalculationForm({ title, inputs, handleInputChange, handleCalculate, ca
                   id={input.id}
                   value={input.value}
                   onChange={(e) => handleInputChange(e, input.setter)}
-                  className='border-r border-t border-b border-preto p-2 w-full rounded-r-2xl text-sm'
+                  className='border-r border-t border-b border-preto dark:border-dark4 p-2 w-full rounded-r-2xl text-sm'
                 />
                 <div className='ml-2 mt-2 dark:text-white'>{formatCurrency(input.value)}</div>
               </div>
@@ -37,7 +37,7 @@ function CalculationForm({ title, inputs, handleInputChange, handleCalculate, ca
                 id={input.id}
                 value={input.value}
                 onChange={(e) => handleInputChange(e, input.setter)}
-                className='border border-preto h-11 w-64 p-2 rounded-r-2xl rounded-bl-2xl text-sm'
+                className='border border-preto dark:border-dark4 h-11 w-64 p-2 rounded-r-2xl rounded-bl-2xl text-sm'
               >
                 {input.options.map((option) => (
                   <option key={option.value} value={option.value}>
@@ -51,7 +51,7 @@ function CalculationForm({ title, inputs, handleInputChange, handleCalculate, ca
                 id={input.id}
                 value={input.value}
                 onChange={(e) => handleInputChange(e, input.setter)}
-                className='border border-preto h-11 w-64 p-2 rounded-r-2xl rounded-bl-2xl text-sm'
+                className='border border-preto dark:border-dark4 h-11 w-64 p-2 rounded-r-2xl rounded-bl-2xl text-sm'
               />
             )}
           </div>
@@ -61,7 +61,7 @@ function CalculationForm({ title, inputs, handleInputChange, handleCalculate, ca
         <button
           onClick={handleCalculate}
           disabled={calculando}
-          className='bg-branco text-azulEscuro shadow-sm p-3 rounded-lg hover:bg-azulEscuro hover:text-branco dark:hover:bg-dark4'
+          className='bg-branco text-azulEscuro shadow-sm p-2 h-12 rounded-lg hover:bg-azulEscuro hover:text-branco dark:text-dark3 dark:bg-dark2 dark:hover:text-white'
         >
           {calculando ? (
             'Calculando...'

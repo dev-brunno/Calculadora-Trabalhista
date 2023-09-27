@@ -4,7 +4,7 @@ class PericulosidadeCalculator {
       throw new Error('Salário base inválido.');
     }
 
-    this.salarioBase = salarioBase;
+    this.salarioBase = parseFloat(salarioBase);
   }
 
   calcularPericulosidade() {

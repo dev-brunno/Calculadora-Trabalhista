@@ -60,10 +60,10 @@ function CalculationContainer() {
       return (
         <div className='FormulariosCalculos'>
           <ActiveCalculationForm />
-          <div className=' inline-block text-cinzaEscuro absolute bottom-0 left-0 z-0'>
+          <div className=' inline-block text-cinzaEscuro dark:text-dark3 absolute bottom-0 left-0 z-0'>
             <button
               onClick={() => setActiveComponent('tiposCalculos')}
-              className=' bg-branco shadow-sm p-3 rounded-lg hover:bg-azulEscuro hover:text-branco'
+              className=' bg-branco dark:bg-dark2 shadow-sm p-2 h-12 rounded-lg hover:bg-azulEscuro hover:text-branco'
             >
               <div className='flex space-x-2'>
                 <i className='fi fi-rr-arrow-small-left mt-1'> </i>
