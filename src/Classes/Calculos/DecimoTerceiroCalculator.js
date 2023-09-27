@@ -39,7 +39,7 @@ export default class DecimoTerceiroCalculator {
       somaTotal += valorDecimoTerceiro;
 
       resultado.push({
-        Periodo: periodo,
+        Período: periodo,
         'Ano correspondente': anoCorrespondente.toString(),
         'Última Remuneração': parseFloat(this.remuneracaoUltima),
         'Valor do Decimo Terceiro': valorDecimoTerceiro,

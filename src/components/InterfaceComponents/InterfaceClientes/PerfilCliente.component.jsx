@@ -77,7 +77,9 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
     if (typeof item === 'object') {
       return Object.entries(item).map(([key, value], subIndex) => (
         <div
-          className={`text-sm flex w-64 justify-between ${key === 'Período' ? 'font-bold' : ''} ${
+          className={`text-sm flex md:w-64 justify-between ${
+            key === 'Período' ? 'font-bold' : ''
+          } ${
             key === 'Valor a receber'
               ? ' font-bold bg-VerdeEscuro text-branco p-2 mt-3 rounded-md'
               : ''
@@ -102,8 +104,8 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
 
   return (
     <div>
-      <div className=' border border-azulEscuro p-8 rounded-3xl relative'>
-        <div className='absolute -left-8 -top-8'>
+      <div className=' border border-azulEscuro p-8 rounded-3xl relative z-10'>
+        <div className='absolute -top-12 inset-x-0  md:-left-8 md:-top-8  w-28 m-auto md:m-0'>
           <div className='relative'>
             <div className='bg-azulClaro w-28 h-28 rounded-full grid place-items-center shadow-md'>
               <div className=' bg-cinzaClaro w-24 h-24 rounded-full grid place-items-center text-azulClaro text-6xl'>
@@ -121,8 +123,8 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
             </div>
           </div>
         </div>
-        <div className='flex'>
-          <div className='ml-16'>
+        <div className='flex flex-col md:flex-row mt-12 md:mt-0'>
+          <div className='md:ml-16'>
             <h2 className='text-xl text-VerdeMedio'>Perfil do Cliente</h2>
             <hr className='w-16 h-0.1 border-0 rounded bg-VerdeMedio mt-1 mb-5'></hr>
             <ul className='flex flex-col space-y-2'>
@@ -156,7 +158,7 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
           </div>
           {/* Mostrar o resultado do cálculo selecionado */}
           {resultadosCalculos && Object.keys(resultadosCalculos).length > 0 && (
-            <div id='resultados' className='ml-20'>
+            <div id='resultados' className='mt-4 md:mt-0 md:ml-16'>
               {cálculoSelecionado ? (
                 // Se um cálculo foi selecionado, não renderize o card de nome e ícone
                 <div className=''>
@@ -182,7 +184,15 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
                       ))}
                     </ul>
                   </div>
-                  <button onClick={handleShowConfirmDelete}>Excluir cálculo</button>
+                  <button
+                    title='Remover Cálculo'
+                    onClick={handleShowConfirmDelete}
+                    className='text-branco mt-2 bg-red-500 hover:bg-azulEscuro p-2 rounded-full w-11'
+                  >
+                    <div className='mt-1'>
+                      <i className='fi fi-sr-trash'></i>
+                    </div>
+                  </button>
                   {confirmDelete && (
                     <div className='fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 z-50'>
                       <div className='bg-white p-4 rounded-lg shadow-lg'>
@@ -228,7 +238,10 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
         </div>
       </div>
       <div className=' inline-block text-cinzaEscuro absolute bottom-0 left-0'>
-        <button className=' bg-branco shadow-sm p-3 rounded-lg' onClick={onVoltarClick}>
+        <button
+          className=' bg-branco shadow-sm p-3 rounded-lg hover:bg-azulEscuro hover:text-branco'
+          onClick={onVoltarClick}
+        >
           <i className='fi fi-rr-arrow-small-left'> Voltar</i>
         </button>
       </div>

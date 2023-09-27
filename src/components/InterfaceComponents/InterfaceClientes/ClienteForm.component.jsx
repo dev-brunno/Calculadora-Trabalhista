@@ -173,16 +173,30 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
   return (
     <div>
       <div className=' border border-azulEscuro p-8 rounded-3xl relative'>
-        <div className='absolute -left-8 -top-8'>
+        <div className='absolute -top-12 inset-x-0  md:-left-8 md:-top-8  w-28 m-auto md:m-0'>
           <div className='relative'>
             <div className='bg-azulClaro w-28 h-28 rounded-full grid place-items-center shadow-md'>
               <div className=' bg-cinzaClaro w-24 h-24 rounded-full grid place-items-center text-azulClaro text-6xl'>
                 <i className='fi fi-sr-user'></i>
               </div>
             </div>
+            {editCliente && (
+              <div className='bg-azulClaro w-10 h-10 rounded-full grid place-items-center  absolute bottom-0 right-0'>
+                <button
+                  onClick={(e) => {
+                    e.preventDefault(); // Impede o comportamento padrão do botão
+                    handleDeleteClick();
+                  }}
+                  title='Excluir Cliente'
+                  className='bg-cinzaClaro w-8 h-8 rounded-full grid place-items-center text-red-500'
+                >
+                  <i className='fi fi-sr-delete-user'></i>
+                </button>
+              </div>
+            )}
           </div>
         </div>
-        <div className='ml-16'>
+        <div className='mt-10 md:mt-0 md:ml-16'>
           <h2 className='text-xl text-VerdeMedio'>
             {editCliente ? 'Editar Cliente' : 'Cadastro Cliente'}
           </h2>
@@ -335,20 +349,6 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
                     </div>
                   </button>
                 </div>
-                {editCliente && (
-                  <div className='bg-azulClaro w-10 h-10 rounded-full grid place-items-center absolute left-10 top-8'>
-                    <button
-                      onClick={(e) => {
-                        e.preventDefault(); // Impede o comportamento padrão do botão
-                        handleDeleteClick();
-                      }}
-                      title='Excluir Cliente'
-                      className='bg-cinzaClaro w-8 h-8 rounded-full grid place-items-center text-red-500'
-                    >
-                      <i className='fi fi-sr-delete-user'></i>
-                    </button>
-                  </div>
-                )}
 
                 {confirmDelete && (
                   <div className='fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 z-50'>

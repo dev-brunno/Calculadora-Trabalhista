@@ -9,12 +9,14 @@ function CalculationForm({ title, inputs, handleInputChange, handleCalculate, ca
   return (
     <div>
       {/* Renderize os campos do formulário com base nos "inputs" passados */}
-      <h2 className='text-2xl text-VerdeMedio'>{title}</h2>
-      <hr className='w-16 h-0.1 border-0 rounded bg-VerdeMedio mt-1 mb-5'></hr>
+      <h2 className='text-2xl text-VerdeMedio dark:text-dark3'>{title}</h2>
+      <hr className='w-16 h-0.1 border-0 rounded bg-VerdeMedio mt-1 mb-5 dark:bg-dark3'></hr>
       <div className='text-lg flex flex-col space-y-4'>
         {inputs.map((input) => (
           <div key={input.id} className=''>
-            <label htmlFor={input.id}>{input.label}: </label>
+            <label className=' dark:text-white' htmlFor={input.id}>
+              {input.label}:{' '}
+            </label>
             <br />
             {input.type === 'number' ? (
               <div className='flex h-11 w-64'>
@@ -28,7 +30,7 @@ function CalculationForm({ title, inputs, handleInputChange, handleCalculate, ca
                   onChange={(e) => handleInputChange(e, input.setter)}
                   className='border-r border-t border-b border-preto p-2 w-full rounded-r-2xl text-sm'
                 />
-                <div className='ml-2 mt-2'>{formatCurrency(input.value)}</div>
+                <div className='ml-2 mt-2 dark:text-white'>{formatCurrency(input.value)}</div>
               </div>
             ) : input.type === 'select' ? (
               <select
@@ -59,7 +61,7 @@ function CalculationForm({ title, inputs, handleInputChange, handleCalculate, ca
         <button
           onClick={handleCalculate}
           disabled={calculando}
-          className='bg-branco text-azulEscuro shadow-sm p-3 rounded-lg hover:bg-azulEscuro hover:text-branco'
+          className='bg-branco text-azulEscuro shadow-sm p-3 rounded-lg hover:bg-azulEscuro hover:text-branco dark:hover:bg-dark4'
         >
           {calculando ? (
             'Calculando...'

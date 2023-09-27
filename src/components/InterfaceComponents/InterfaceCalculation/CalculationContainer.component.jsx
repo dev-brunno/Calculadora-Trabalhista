@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import CalculationCard from './CalculationCard.component';
 import FeriasApp from '../../AppsComponentes/CalculosComponentes/FeriasApp';
 import DecimoTerceiroApp from '../../AppsComponentes/CalculosComponentes/DecimoTerceiroApp';
@@ -40,10 +40,10 @@ function CalculationContainer() {
   const renderActiveComponent = () => {
     if (activeComponent === 'tiposCalculos') {
       return (
-        <div>
-          <h2 className='text-2xl text-VerdeMedio'>O que você deseja calcular?</h2>
-          <hr className='w-16 h-0.1 border-0 rounded bg-VerdeMedio mt-1 mb-5'></hr>
-          <div className='grid gap-2 grid-cols-4'>
+        <Fragment>
+          <h2 className='text-2xl text-VerdeMedio dark:text-dark3'>O que você deseja calcular?</h2>
+          <hr className='w-16 h-0.1 border-0 rounded bg-VerdeMedio dark:bg-dark3 mt-1 mb-5'></hr>
+          <div className='grid gap-2 grid-cols-2 md:grid-cols-4'>
             {calculations.map((calculation) => (
               <CalculationCard
                 key={calculation.id}
@@ -53,7 +53,7 @@ function CalculationContainer() {
               />
             ))}
           </div>
-        </div>
+        </Fragment>
       );
     } else if (activeComponent === 'formulariosCalculos' && activeCalculation) {
       const ActiveCalculationForm = components[activeCalculation];

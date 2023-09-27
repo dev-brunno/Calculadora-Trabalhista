@@ -68,7 +68,9 @@ function CalculationResult({ title, results, icon }) {
     if (typeof item === 'object') {
       return Object.entries(item).map(([key, value], subIndex) => (
         <div
-          className={`text-sm flex w-100 justify-between ${key === 'Período' ? 'font-bold' : ''} ${
+          className={`text-sm flex md:w-100 justify-between ${
+            key === 'Período' ? 'font-bold' : ''
+          } ${
             key === 'Valor a receber'
               ? ' font-bold bg-VerdeEscuro text-branco p-2 mt-3 rounded-md'
               : ''
@@ -88,11 +90,11 @@ function CalculationResult({ title, results, icon }) {
 
   return (
     <div>
-      <h2 className='text-2xl text-VerdeMedio'>{title}</h2>
-      <hr className='w-16 h-0.1 border-0 rounded bg-VerdeMedio mt-1 mb-5'></hr>
-      <div className='flex'>
-        <div className='w-1/2 flex flex-col justify-center'>
-          <div className='text-azulEscuro'>
+      <h2 className='text-2xl text-VerdeMedio dark:text-dark3'>{title}</h2>
+      <hr className='w-16 h-0.1 border-0 rounded bg-VerdeMedio dark:bg-dark3 mt-1 mb-5'></hr>
+      <div className='flex flex-col md:flex-row'>
+        <div className='md:w-1/2 flex flex-col justify-center'>
+          <div className='text-azulEscuro dark:text-white'>
             <div className='text-3xl grid justify-items-center'>
               <i className={icon['icon']}></i>
             </div>
@@ -100,7 +102,7 @@ function CalculationResult({ title, results, icon }) {
               <h6>{icon['title']}</h6>
             </div>
           </div>
-          <div className='text-azulEscuro font-bold text-5xl flex justify-center'>
+          <div className='text-azulEscuro dark:text-white font-bold text-5xl flex justify-center'>
             <h2>
               <span className=' text-2xl'>R$</span>
               {results[lastIndex]['Valor a receber'].toLocaleString('pt-BR', {
@@ -111,7 +113,7 @@ function CalculationResult({ title, results, icon }) {
             </h2>
           </div>
         </div>
-        <div className='w-1/2 p-4'>
+        <div className='md:w-1/2 p-4 dark:text-white'>
           <div>
             <div className='flex items-center justify-between'>
               <div className=''>
@@ -120,11 +122,14 @@ function CalculationResult({ title, results, icon }) {
                   Armazene esse cálculo a um cliente cadastrado
                 </h6>
               </div>
-              <button className=' text-3xl hover:text-azulEscuro' onClick={handleLinkToClient}>
+              <button
+                className=' text-3xl hover:text-azulEscuro dark:hover:text-dark2'
+                onClick={handleLinkToClient}
+              >
                 <i className='fi fi-sr-angle-square-right'></i>
               </button>
             </div>
-            <hr className=' h-0.1 border-0 rounded bg-preto mt-1 mb-5'></hr>
+            <hr className=' h-0.1 border-0 rounded bg-preto dark:bg-dark2 mt-1 mb-5'></hr>
           </div>
           <div>
             <div className='flex items-center justify-between'>
@@ -132,16 +137,16 @@ function CalculationResult({ title, results, icon }) {
                 <h3 className=' font-medium'>Gerar relatórios</h3>
                 <h6 className=' font-light text-sm'>Gerar PDF, planilhas e impressões</h6>
               </div>
-              <button className=' text-3xl hover:text-azulEscuro'>
+              <button className=' text-3xl hover:text-azulEscuro dark:hover:text-dark2'>
                 <i className='fi fi-sr-angle-square-right'></i>
               </button>
             </div>
-            <hr className=' h-0.1 border-0 rounded bg-preto mt-1 mb-5'></hr>
+            <hr className=' h-0.1 border-0 rounded bg-preto dark:bg-dark2 mt-1 mb-5'></hr>
           </div>
         </div>
       </div>
-      <div className='bg-azulClaro p-8 bg-opacity-40 rounded-3xl'>
-        <h6 className=' font-bold text-VerdeEscuro text-sm'>Ganhos do Cliente:</h6>
+      <div className='bg-azulClaro dark:bg-dark2 p-8 bg-opacity-40 rounded-3xl dark:text-white'>
+        <h6 className=' font-bold text-green-400 text-sm'>Ganhos do Cliente:</h6>
         <ul className='grid gap-2 grid-rows-1 mt-4'>
           {results.map((result, index) => (
             <li key={index} className=''>
@@ -152,7 +157,7 @@ function CalculationResult({ title, results, icon }) {
                   </div>
                 ))
               ) : (
-                <div className='grid grid-cols-1 divide-y divide-gray-300'>
+                <div className='grid grid-cols-1 divide-y divide-gray-300 dark:divide-dark3'>
                   {renderResultItem(result)}
                 </div>
               )}

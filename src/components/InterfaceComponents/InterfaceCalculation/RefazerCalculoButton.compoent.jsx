@@ -7,7 +7,7 @@ function RefazerCalculoButton({ onClick }) {
     <div className='inline-block absolute bottom-0 right-0 z-0'>
       <button
         onClick={onClick}
-        className='bg-branco shadow-sm p-3 rounded-lg text-azulEscuro hover:text-branco hover:bg-azulEscuro'
+        className='bg-branco shadow-sm p-3 rounded-lg text-azulEscuro hover:text-branco hover:bg-azulEscuro dark:hover:bg-dark2'
       >
         <div className='flex space-x-2 items-center'>
           <i>Refazer Cálculo </i>
