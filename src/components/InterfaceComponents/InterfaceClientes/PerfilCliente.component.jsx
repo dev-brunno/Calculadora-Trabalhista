@@ -165,19 +165,19 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
                   <h2 className='text-xl text-VerdeMedio dark:text-dark3'>{cálculoSelecionado}</h2>
                   <hr className='w-16 h-0.1 border-0 rounded bg-VerdeMedio dark:bg-dark3 mt-1 mb-5'></hr>
                   <div className='bg-azulClaro dark:bg-dark2 p-4 bg-opacity-40 rounded-3xl dark:text-white'>
-                    <h6 className=' font-bold text-green-400 text-sm'>Ganhos do Cliente:</h6>
+                    <h6 className=' font-bold text-green-600 text-sm'>Ganhos do Cliente:</h6>
                     <ul className='grid gap-2 grid-rows-1 mt-4'>
                       {Array.isArray(resultadosCalculos[cálculoSelecionado]) ? (
                         resultadosCalculos[cálculoSelecionado].map((result, index) => (
                           <li key={index} className=''>
-                            <div className='grid grid-cols-1 divide-y '>
+                            <div className='grid grid-cols-1 divide-y divide-gray-400 dark:divide-dark3'>
                               {renderResultItem(result)}
                             </div>
                           </li>
                         ))
                       ) : (
                         <li>
-                          <div className='grid grid-cols-1 divide-y divide-gray-300 dark:divide-dark3'>
+                          <div className='grid grid-cols-1 divide-y divide-gray-400 dark:divide-dark3'>
                             {renderResultItem(resultadosCalculos[cálculoSelecionado])}
                           </div>
                         </li>

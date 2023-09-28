@@ -31,10 +31,32 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
     }
   }, [editCliente]);
 
+  // Efeito para atualizar o formulário quando o cliente em edição muda
+  useEffect(() => {
+    if (editCliente) {
+      setCliente(editCliente);
+    } else {
+      setCliente(initialClienteState);
+    }
+  }, [editCliente]);
+
   // Função para redefinir o formulário para seus valores iniciais
   const resetForm = () => {
     setCliente(initialClienteState);
     setErrors({});
+  };
+
+  // Restaurar o estado do formulário ao desmontar o componente
+  useEffect(() => {
+    return () => {
+      resetForm();
+    };
+  }, []);
+
+  // Restaurar o estado do formulário quando o usuário cancelar a exclusão
+  const handleCancelDelete = () => {
+    resetForm();
+    onCancel();
   };
 
   // Função para lidar com a mudança nos campos do formulário
@@ -133,12 +155,6 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
     deleteCliente(editCliente.id); // Use o ID para exclusão
     setConfirmDelete(false);
     onCancel(); // Voltar para a lista de clientes após a exclusão
-  };
-
-  // Função para cancelar a exclusão do cliente
-  const handleCancelDelete = () => {
-    setConfirmDelete(false);
-    onCancel(); // Voltar para a lista de clientes ao cancelar a exclusão
   };
 
   // Função para lidar com o envio do formulário

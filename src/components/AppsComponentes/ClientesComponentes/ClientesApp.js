@@ -80,6 +80,13 @@ function ClientesApp() {
     setDisplayState('clienteList'); // Voltar para a lista de clientes ao cancelar a exclusão
   };
 
+  // Cancela a edição de um cliente
+  const handleCancelEdit = () => {
+    setModoEdicao(false); // Desativa o modo de edição
+    setClienteEditando(null); // Limpa o cliente editando
+    setDisplayState('clienteList'); // Voltar para a lista de clientes ao cancelar a edição
+  };
+
   // Renderização do componente
   return (
     <div>
@@ -126,9 +133,9 @@ function ClientesApp() {
         <ClienteForm
           addCliente={addCliente}
           updateCliente={updateCliente}
-          editCliente={modoEdicao ? clienteEditando : null} // Correção aqui
+          editCliente={modoEdicao ? clienteEditando : null}
           deleteCliente={clienteEditando ? () => deleteCliente(clienteEditando.id) : null}
-          onCancel={() => setDisplayState('clienteList')}
+          onCancel={handleCancelEdit} // Use o evento handleCancelEdit para cancelar a edição
         />
       )}
 
