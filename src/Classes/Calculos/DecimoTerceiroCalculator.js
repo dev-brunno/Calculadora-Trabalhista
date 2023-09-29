@@ -54,7 +54,7 @@ export default class DecimoTerceiroCalculator {
     }
 
     resultado.push({
-      'Valor a receber': somaTotal,
+      'Valor a Receber': somaTotal,
     });
 
     return resultado;

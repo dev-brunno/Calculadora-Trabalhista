@@ -12,7 +12,7 @@ import { ClientesProvider } from './Context/ClientesContext'; // Substitua pelo 
 function App() {
   return (
     <ClientesProvider>
-      <div className='bg-brancoMedio dark:bg-darkPrincipal'>
+      <div className='bg-brancoMedio dark:bg-darkPrincipal pb-100'>
         <div className='flex flex-col md:flex-row flex-nowrap font-sans h-screen'>
           <Routes>
             <Route path='/' element={<Navigation />}>

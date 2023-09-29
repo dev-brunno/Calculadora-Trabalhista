@@ -7,6 +7,7 @@ import PericulosidadeApp from '../../AppsComponentes/CalculosComponentes/Pericul
 import InsalubridadeApp from '../../AppsComponentes/CalculosComponentes/InsalubridadeApp';
 import TransferenciaApp from '../../AppsComponentes/CalculosComponentes/TransferenciaApp';
 
+//Um array de objetos que descreve os tipos de cálculos disponíveis.
 const calculations = [
   { id: 'ferias', title: 'Férias' },
   { id: 'decimoTerceiro', title: 'Décimo Terceiro' },
@@ -19,6 +20,7 @@ const calculations = [
   { id: 'insalubridade', title: 'Adicional de Insalubridade' },
 ];
 
+//Um objeto que mapeia os tipos de cálculos para os componentes correspondentes.
 const components = {
   ferias: FeriasApp,
   decimoTerceiro: DecimoTerceiroApp,
@@ -29,14 +31,17 @@ const components = {
 };
 
 function CalculationContainer() {
+  //Define os estados activeComponent para controlar qual componente está ativo e activeCalculation para rastrear qual cálculo foi selecionado.
   const [activeComponent, setActiveComponent] = useState('tiposCalculos');
   const [activeCalculation, setActiveCalculation] = useState(null);
 
+  //Esta função é chamada quando um cartão de cálculo é clicado.
   const handleCalculationCardClick = (id) => {
     setActiveCalculation(id);
     setActiveComponent('formulariosCalculos');
   };
 
+  //renderiza os cartões de cálculo quando activeComponent é 'tiposCalculos' ou renderiza o formulário do cálculo ativo quando activeComponent é 'formulariosCalculos'.
   const renderActiveComponent = () => {
     if (activeComponent === 'tiposCalculos') {
       return (
@@ -58,12 +63,12 @@ function CalculationContainer() {
     } else if (activeComponent === 'formulariosCalculos' && activeCalculation) {
       const ActiveCalculationForm = components[activeCalculation];
       return (
-        <div className='FormulariosCalculos'>
+        <div className='FormulariosCalculos relative pb-20'>
           <ActiveCalculationForm />
-          <div className=' inline-block text-cinzaEscuro dark:text-dark3 absolute bottom-0 left-0 z-0'>
+          <div className='absolute bottom-0 left-0 z-0 text-cinzaMedio'>
             <button
               onClick={() => setActiveComponent('tiposCalculos')}
-              className=' bg-branco dark:bg-dark2 shadow-sm p-2 h-12 rounded-lg hover:bg-azulEscuro hover:text-branco'
+              className='p-2 h-12 rounded-lg hover:text-azulEscuro'
             >
               <div className='flex space-x-2'>
                 <i className='fi fi-rr-arrow-small-left mt-1'> </i>

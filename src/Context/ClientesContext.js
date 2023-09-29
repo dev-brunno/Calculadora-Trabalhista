@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import PropTypes from 'prop-types'; // Importe PropTypes
+import PropTypes from 'prop-types'; // Importa PropTypes
 import {
   getFirestore,
   collection,
@@ -9,19 +9,24 @@ import {
   deleteDoc,
   doc,
 } from 'firebase/firestore';
-import app from '../Firebase/firebase'; // Importe a instância do Firebase configurada anteriormente.
+import app from '../Firebase/firebase'; // Importa a instância do Firebase configurada anteriormente.
 
+// Cria um contexto chamado ClientesContext
 const ClientesContext = createContext();
 
+// Define um hook personalizado useClientes para acessar o contexto
 export const useClientes = () => {
   return useContext(ClientesContext);
 };
 
+// Componente ClientesProvider que fornece o contexto para a aplicação
 export const ClientesProvider = ({ children }) => {
+  // Define os estados iniciais
   const [clientes, setClientes] = useState([]);
   const [modoEdicao, setModoEdicao] = useState(false);
   const [clienteEditando, setClienteEditando] = useState(null);
 
+  // Efeito que carrega os clientes quando o componente é montado
   useEffect(() => {
     const loadClientes = async () => {
       try {
@@ -40,12 +45,13 @@ export const ClientesProvider = ({ children }) => {
       }
     };
 
-    // Chame fetchClientes apenas uma vez quando o componente for montado
+    // Chama fetchClientes apenas uma vez quando o componente for montado
     if (clientes.length === 0) {
       loadClientes();
     }
   }, []); // Dependência vazia para executar apenas na montagem inicial
 
+  // Função para adicionar um cliente
   const addCliente = async (cliente) => {
     const db = getFirestore(app);
     const clientesCollection = collection(db, 'clientes');
@@ -68,6 +74,7 @@ export const ClientesProvider = ({ children }) => {
     }
   };
 
+  // Função para atualizar um cliente
   const updateCliente = async (cliente) => {
     const db = getFirestore(app);
     const clientesCollection = collection(db, 'clientes');
@@ -91,6 +98,7 @@ export const ClientesProvider = ({ children }) => {
     }
   };
 
+  // Função para excluir um client
   const deleteCliente = async (id) => {
     const db = getFirestore(app);
     const clientesCollection = collection(db, 'clientes');
@@ -114,6 +122,7 @@ export const ClientesProvider = ({ children }) => {
     }
   };
 
+  // Renderiza o contexto com os valores e os elementos filhos
   return (
     <ClientesContext.Provider
       value={{
@@ -133,6 +142,7 @@ export const ClientesProvider = ({ children }) => {
   );
 };
 
+// Define as propriedades esperadas para o ClientesProvider
 ClientesProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };

@@ -31,7 +31,7 @@ class InsalubridadeCalculator {
     };
 
     const valorAReceber = {
-      'Valor a receber': this.salarioBase + valorInsalubridade,
+      'Valor a Receber': this.salarioBase + valorInsalubridade,
     };
 
     const resultados = [resultado, valorAReceber];

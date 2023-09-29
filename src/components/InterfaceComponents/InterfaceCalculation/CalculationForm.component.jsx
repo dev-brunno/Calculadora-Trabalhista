@@ -1,23 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+// Função auxiliar para formatar valores como moeda (R$)
 function formatCurrency(value) {
   return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
 }
 
+// Componente CalculationForm que recebe várias propriedades para renderizar um formulário de cálculo
 function CalculationForm({ title, inputs, handleInputChange, handleCalculate, calculando }) {
   return (
     <div>
-      {/* Renderize os campos do formulário com base nos "inputs" passados */}
+      {/* Renderiza os campos do formulário com base nos "inputs" passados */}
+      {/* Renderiza o título do formulário */}
       <h2 className='text-2xl text-VerdeMedio dark:text-dark3'>{title}</h2>
+      {/* Renderiza uma linha divisória */}
       <hr className='w-16 h-0.1 border-0 rounded bg-VerdeMedio mt-1 mb-5 dark:bg-dark3'></hr>
+      {/* Renderiza os campos do formulário com base nas "inputs" passadas */}
       <div className='text-lg flex flex-col space-y-4'>
         {inputs.map((input) => (
           <div key={input.id} className=''>
+            {/* Renderiza um rótulo para o campo */}
             <label className=' dark:text-white' htmlFor={input.id}>
               {input.label}:{' '}
             </label>
             <br />
+            {/* Renderiza um campo de entrada com base no tipo de input */}
             {input.type === 'number' ? (
               <div className='flex h-11 w-64'>
                 <span className='inline-block border-l border-t border-b border-preto dark:border-dark4 bg-cinzaClaro dark:bg-dark4 dark:text-white rounded-bl-2xl p-2'>
@@ -46,6 +53,7 @@ function CalculationForm({ title, inputs, handleInputChange, handleCalculate, ca
                 ))}
               </select>
             ) : (
+              /* Renderiza um campo de entrada de texto padrão */
               <input
                 type={input.type}
                 id={input.id}
@@ -57,11 +65,12 @@ function CalculationForm({ title, inputs, handleInputChange, handleCalculate, ca
           </div>
         ))}
       </div>
+      {/* Renderiza um botão de cálculo */}
       <div className=' inline-block absolute bottom-0 right-0'>
         <button
           onClick={handleCalculate}
           disabled={calculando}
-          className='bg-branco text-azulEscuro shadow-sm p-2 h-12 rounded-lg hover:bg-azulEscuro hover:text-branco dark:text-dark3 dark:bg-dark2 dark:hover:text-white'
+          className=' hover:text-azulEscuro p-2 h-12 rounded-lg dark:text-white dark:hover:text-dark3'
         >
           {calculando ? (
             'Calculando...'
@@ -77,26 +86,27 @@ function CalculationForm({ title, inputs, handleInputChange, handleCalculate, ca
   );
 }
 
+// Especificação das propriedades esperadas pelo componente CalculationForm
 CalculationForm.propTypes = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired, // Título do formulário (obrigatório)
   inputs: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired,
-      value: PropTypes.any.isRequired,
-      setter: PropTypes.func.isRequired,
+      id: PropTypes.string.isRequired, // Identificador do campo (obrigatório)
+      label: PropTypes.string.isRequired, // Rótulo do campo (obrigatório)
+      type: PropTypes.string.isRequired, // Tipo do campo (obrigatório)
+      value: PropTypes.any.isRequired, // Valor do campo (obrigatório)
+      setter: PropTypes.func.isRequired, // Função para atualizar o valor do campo (obrigatório)
       options: PropTypes.arrayOf(
         PropTypes.shape({
           value: PropTypes.string.isRequired,
           label: PropTypes.string.isRequired,
         }),
-      ), // Adicione um campo "options" ao objeto input
+      ), // Opções para campos de seleção (opcional)
     }),
   ).isRequired,
-  handleInputChange: PropTypes.func.isRequired,
-  handleCalculate: PropTypes.func.isRequired,
-  calculando: PropTypes.bool.isRequired,
+  handleInputChange: PropTypes.func.isRequired, // Função para lidar com a mudança nos campos (obrigatório)
+  handleCalculate: PropTypes.func.isRequired, // Função para lidar com o cálculo (obrigatório)
+  calculando: PropTypes.bool.isRequired, // Estado de cálculo (obrigatório)
 };
 
 export default CalculationForm;

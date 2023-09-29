@@ -357,9 +357,9 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
                   </div>
                 </div>
 
-                <div className=' p-2 flex justify-end'>
+                <div className=' p-2 absolute -bottom-20 right-0 text-preto hover:text-azulEscuro dark:hover:text-dark3 dark:text-white'>
                   <button type='submit'>
-                    <div className=' text-azulEscuro dark:text-dark3 dark:hover:text-white'>
+                    <div className=''>
                       <i>{editCliente ? 'Salvar' : 'Cadastrar'}</i>
                       <i className='fi fi-rr-arrow-small-right'></i>
                     </div>
@@ -394,7 +394,7 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
       </div>
       <div className='inline-block absolute bottom-0 left-0'>
         <button
-          className='bg-branco hover:bg-azulEscuro hover:text-white text-cinzaEscuro dark:bg-dark2 dark:text-dark3 dark:hover:text-white shadow-sm p-3 rounded-lg'
+          className=' hover:text-azulEscuro text-cinzaClaro  dark:hover:text-dark3 dark:text-white  p-3 '
           type='button'
           onClick={onCancel}
         >

@@ -15,7 +15,7 @@ function SelecaoClienteBox({ clientes, onClienteSelecionado, onClose }) {
               onClick={() => onClienteSelecionado(cliente.id)}
               className='cursor-pointer p-2 rounded'
             >
-              {/* Renderize o componente ClienteCard aqui */}
+              {/* Renderiza o componente ClienteCard aqui */}
               <ClienteCard cliente={cliente} onClienteClick={onClienteSelecionado} />
             </li>
           ))}

@@ -5,6 +5,7 @@ import DecimoTerceiroCalculator from '../../../Classes/Calculos/DecimoTerceiroCa
 import RefazerCalculoButton from '../../InterfaceComponents/InterfaceCalculation/RefazerCalculoButton.compoent';
 
 function DecimoTerceiroApp() {
+  // Definindo estados iniciais para as variáveis
   const [inicioContrato, setInicioContrato] = useState('2022-01-01');
   const [fimContrato, setFimContrato] = useState('2026-03-15');
   const [remuneracaoUltima, setRemuneracaoUltima] = useState('5000');
@@ -13,35 +14,40 @@ function DecimoTerceiroApp() {
   const [erroCalculo, setErroCalculo] = useState(null);
   const [mostrarResultados, setMostrarResultados] = useState(false);
 
+  // Função para lidar com a mudança nos campos de entrada
   const handleInputChange = (event, setter) => {
     setResultados([]);
     setter(event.target.value);
   };
 
+  // Função para calcular o décimo terceiro
   const handleCalculate = async () => {
-    setCalculando(true);
-    setErroCalculo(null);
+    setCalculando(true); // Define o estado de cálculo como ativo
+    setErroCalculo(null); // Limpa qualquer erro de cálculo anterior
     try {
+      // Cria uma instância do calculador de décimo terceiro e realiza o cálculo
       const calculator = new DecimoTerceiroCalculator(
         inicioContrato,
         fimContrato,
         remuneracaoUltima,
       );
       const resultadosCalculados = await calculator.calcularDecimoTerceiro();
-      setResultados(resultadosCalculados);
+      setResultados(resultadosCalculados); // Define os resultados do cálculo
       setMostrarResultados(true); // Mostra os resultados após o cálculo
     } catch (error) {
       setErroCalculo('Erro ao calcular o décimo terceiro. Verifique os valores e tente novamente.');
     } finally {
-      setCalculando(false);
+      setCalculando(false); // Define o estado de cálculo como inativo, independentemente do resultado
     }
   };
 
+  // Função para refazer o cálculo
   const handleRefazerCalculo = () => {
-    setMostrarResultados(false);
-    setResultados([]);
+    setMostrarResultados(false); // Oculta os resultados
+    setResultados([]); // Limpa os resultados
   };
 
+  // Definindo os campos de entrada e seus valores iniciais
   const inputs = [
     {
       id: 'inicioContrato',
@@ -66,6 +72,7 @@ function DecimoTerceiroApp() {
     },
   ];
 
+  // Ícone para os resultados do cálculo
   const icon = {
     title: 'Décimo Terceiro',
     icon: 'fi fi-rr-calendar',
@@ -75,8 +82,9 @@ function DecimoTerceiroApp() {
     <div>
       {mostrarResultados ? (
         <div>
+          {/* Componente CalculationResult para exibir os resultados do cálculo */}
           <CalculationResult title='Décimo Terceiro' results={resultados} icon={icon} />
-          {/* Componente RefazerCalculoButton */}
+          {/* Componente RefazerCalculoButton para permitir refazer o cálculo */}
           <RefazerCalculoButton onClick={handleRefazerCalculo} />
         </div>
       ) : (
@@ -88,6 +96,7 @@ function DecimoTerceiroApp() {
           calculando={calculando}
         />
       )}
+      {/* Exibe uma mensagem de erro, se houver */}
       {erroCalculo && <p style={{ color: 'red' }}>{erroCalculo}</p>}
     </div>
   );

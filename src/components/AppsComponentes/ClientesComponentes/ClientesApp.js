@@ -43,7 +43,7 @@ function ClientesApp() {
         if (clientes.length === 0) {
           const clientesData = await loadClientes();
 
-          // Atualize o contexto com a lista completa de clientes de uma só vez
+          // Atualiza o contexto com a lista completa de clientes de uma só vez
           setClientes(clientesData);
         }
       } catch (error) {
@@ -89,7 +89,7 @@ function ClientesApp() {
 
   // Renderização do componente
   return (
-    <div>
+    <div className='relative pb-20'>
       {/* Botão para adicionar clientes */}
       <div className='inline-block fixed bottom-0 right-0 mb-4 mr-4 md:mb-12 md:mr-12 z-30'>
         {displayState === 'clienteList' && (

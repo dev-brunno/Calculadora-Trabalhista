@@ -96,7 +96,7 @@ class BaseFeriasCalculator {
     }
 
     resultados.push({
-      'Valor a receber': this.somaTotal, // Adiciona somaTotal aos resultados finais
+      'Valor a Receber': this.somaTotal, // Adiciona somaTotal aos resultados finais
     });
 
     return resultados;
@@ -116,8 +116,8 @@ export class FeriasIndenizatoriasCalculator extends BaseFeriasCalculator {
       this.somaTotal += feriasIndenizatorias;
 
       const resultados = {
-        'Última remuneração': this.remuneracaoUltima,
-        'Valor das ferias': ferias,
+        'Última Remuneração': this.remuneracaoUltima,
+        Férias: ferias,
         'Terço Constitucional': tercoConstitucional,
         'Férias Indenizatorias': feriasIndenizatorias,
       };

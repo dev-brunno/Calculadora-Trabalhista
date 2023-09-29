@@ -9,7 +9,7 @@ module.exports = {
         darkPrincipal: '#1F1F1F',
         dark1: '#292929',
         dark2: '#4F3969',
-        dark3: '#7D50B5',
+        dark3: '#BB86FC',
         dark4: '#003049',
         branco: '#FFFFFF',
         brancoMedio: '#F8F7F6',

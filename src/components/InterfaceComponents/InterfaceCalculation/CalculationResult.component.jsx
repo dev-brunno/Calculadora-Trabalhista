@@ -11,7 +11,7 @@ function CalculationResult({ title, results, icon }) {
   const [mostrarAviso, setMostrarAviso] = useState(false);
 
   useEffect(() => {
-    // Verifique se há resultados a serem salvos e cliente selecionado
+    // Verifica se há resultados a serem salvos e cliente selecionado
     if (results.length > 0 && clienteSelecionado !== null) {
       const saveResults = async () => {
         const db = getFirestore();
@@ -71,7 +71,7 @@ function CalculationResult({ title, results, icon }) {
           className={`text-sm flex md:w-100 justify-between ${
             key === 'Período' ? 'font-bold' : ''
           } ${
-            key === 'Valor a receber'
+            key === 'Valor a Receber'
               ? ' font-bold bg-VerdeEscuro text-branco p-2 mt-3 rounded-md'
               : ''
           }`}
@@ -105,7 +105,7 @@ function CalculationResult({ title, results, icon }) {
           <div className='text-azulEscuro dark:text-white font-bold text-5xl flex justify-center'>
             <h2>
               <span className=' text-2xl'>R$</span>
-              {results[lastIndex]['Valor a receber'].toLocaleString('pt-BR', {
+              {results[lastIndex]['Valor a Receber'].toLocaleString('pt-BR', {
                 style: 'decimal',
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,

@@ -3,11 +3,14 @@ import PropTypes from 'prop-types';
 import CalculationCard from '../../InterfaceComponents/InterfaceCalculation/CalculationCard.component';
 import { getFirestore, doc, onSnapshot, getDoc, updateDoc } from 'firebase/firestore';
 
+// Componente PerfilCliente que exibe o perfil de um cliente
 function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
+  // Estados
   const [cálculoSelecionado, setCálculoSelecionado] = useState(null);
   const [resultadosCalculos, setResultadosCalculos] = useState(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
 
+  // Efeito para carregar os resultados de cálculos do cliente a partir do Firestore
   useEffect(() => {
     const db = getFirestore();
     const clienteDocRef = doc(db, 'clientes', cliente.id);
@@ -16,6 +19,7 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
       if (docSnapshot.exists()) {
         const clienteData = docSnapshot.data();
         setResultadosCalculos(clienteData.ResultadosCalculos);
+        console.log(clienteData.ResultadosCalculos);
       }
     });
 
@@ -24,6 +28,7 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
     };
   }, [cliente.id]);
 
+  // Função auxiliar para renderizar um item de detalhe
   const renderDetailItem = (label, value) => (
     <li className='flex space-x-2 text-azulEscuro dark:text-dark3'>
       <label className='text-2xl mt-1' htmlFor='nome'>
@@ -35,6 +40,7 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
     </li>
   );
 
+  // Função para lidar com a exclusão de um cálculo
   const handleExcluirCalculo = async () => {
     const db = getFirestore();
     const clienteDocRef = doc(db, 'clientes', cliente.id);
@@ -60,41 +66,79 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
     }
   };
 
+  // Função para mostrar a confirmação de exclusão de cálculo
   const handleShowConfirmDelete = () => {
     setConfirmDelete(true);
   };
 
+  // Função para cancelar a exclusão de cálculo
   const handleCancelDelete = () => {
     setConfirmDelete(false);
   };
 
+  // Função para confirmar a exclusão de cálculo
   const handleConfirmDelete = async () => {
     handleExcluirCalculo();
     setConfirmDelete(false); // Feche a caixa de confirmação após a exclusão
   };
 
-  const renderResultItem = (item) => {
-    if (typeof item === 'object') {
-      return Object.entries(item).map(([key, value], subIndex) => (
-        <div
-          className={`text-sm flex md:w-64 justify-between ${
-            key === 'Período' ? 'font-bold' : ''
-          } ${
-            key === 'Valor a receber'
-              ? ' font-bold bg-VerdeEscuro text-branco p-2 mt-3 rounded-md'
-              : ''
-          }`}
-          key={subIndex}
-        >
-          <div>{key}</div>
-          <div>{typeof value === 'number' ? formatCurrency(value) : value}</div>
-        </div>
-      ));
-    } else {
-      return <div>{item}</div>;
+  const ordenarCalculos = (calculos) => {
+    const chavesDesejadas = [
+      'Período',
+      'Ano correspondente',
+      'Última Remuneração',
+      'Remuneração',
+      'Salário Mensal',
+      'Salário Base',
+      'Férias',
+      'Terço Constitucional',
+      'Grau de Insalubridade',
+    ];
+
+    const ordenado = {};
+
+    // Cria um objeto ordenado com base na ordem desejada das chaves (exceto 'Valor a Receber')
+    chavesDesejadas.forEach((chave) => {
+      if (calculos[chave]) {
+        ordenado[chave] = calculos[chave];
+      }
+    });
+
+    // Adiciona outras chaves que não estão na lista de chaves desejadas (exceto 'Valor a Receber')
+    for (const chave in calculos) {
+      if (!ordenado[chave] && !chavesDesejadas.includes(chave) && chave !== 'Valor a Receber') {
+        ordenado[chave] = calculos[chave];
+      }
     }
+
+    // Adicione 'Valor a Receber' por último, se existir
+    if (calculos['Valor a Receber']) {
+      ordenado['Valor a Receber'] = calculos['Valor a Receber'];
+    }
+
+    return ordenado;
   };
 
+  // Função para renderizar um item de resultado de cálculo
+  const renderResultItem = (item) => {
+    const calculosOrdenados = ordenarCalculos(item);
+
+    return Object.entries(calculosOrdenados).map(([key, value], subIndex) => (
+      <div
+        className={`text-sm flex md:w-64 justify-between ${key === 'Período' ? 'font-bold' : ''} ${
+          key === 'Valor a Receber'
+            ? ' font-bold bg-VerdeEscuro text-branco p-2 mt-3 rounded-md'
+            : ''
+        }`}
+        key={subIndex}
+      >
+        <div>{key}</div>
+        <div>{typeof value === 'number' ? formatCurrency(value) : value}</div>
+      </div>
+    ));
+  };
+
+  // Função auxiliar para formatar valores como moeda (BRL)
   function formatCurrency(value) {
     return new Intl.NumberFormat('pt-BR', {
       style: 'currency',
@@ -239,7 +283,7 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
       </div>
       <div className=' inline-block absolute bottom-0 left-0 '>
         <button
-          className='text-cinzaEscuro dark:text-dark3 bg-branco shadow-sm p-3 rounded-lg hover:bg-azulEscuro hover:text-branco dark:hover:text-branco dark:bg-dark2 '
+          className=' text-cinzaMedio dark:hover:text-dark3 p-3 hover:text-azulEscuro dark:text-branco '
           onClick={onVoltarClick}
         >
           <i className='fi fi-rr-arrow-small-left'> Voltar</i>
@@ -249,6 +293,7 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
   );
 }
 
+// Propriedades esperadas para o componente PerfilCliente
 PerfilCliente.propTypes = {
   cliente: PropTypes.object.isRequired,
   onEditarClick: PropTypes.func.isRequired,

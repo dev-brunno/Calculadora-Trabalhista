@@ -12,9 +12,9 @@ export default class FGTSCalculator {
     const valorFGTS = this.salarioMensal * taxaFGTS;
 
     const resultados = {
-      'Salário mensal': this.salarioMensal,
+      'Salário Mensal': this.salarioMensal,
       'Valor do FGTS': valorFGTS,
-      'Valor a receber': valorFGTS,
+      'Valor a Receber': valorFGTS,
     };
     return resultados;
   }
