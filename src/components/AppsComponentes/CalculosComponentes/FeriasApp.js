@@ -8,6 +8,7 @@ function FeriasApp() {
   const [inicioContrato, setInicioContrato] = useState('2022-01-01');
   const [fimContrato, setFimContrato] = useState('2024-09-30');
   const [remuneracao, setRemuneracao] = useState(1200);
+  const [descontos, setDescontos] = useState(0);
   const [resultados, setResultados] = useState([]);
   const [calculando, setCalculando] = useState(false);
   const [erroCalculo, setErroCalculo] = useState(null);
@@ -26,6 +27,7 @@ function FeriasApp() {
         inicioContrato,
         fimContrato,
         remuneracao,
+        descontos,
       );
       const calculatedResults = await calculator.calcular();
       setResultados(calculatedResults);
@@ -63,6 +65,13 @@ function FeriasApp() {
       type: 'number',
       value: remuneracao,
       setter: setRemuneracao,
+    },
+    {
+      id: 'descontos',
+      label: 'Descontos',
+      type: 'number',
+      value: descontos,
+      setter: setDescontos,
     },
   ];
 

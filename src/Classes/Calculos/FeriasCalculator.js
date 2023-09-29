@@ -1,14 +1,16 @@
 import { differenceInCalendarMonths, differenceInDays } from 'date-fns';
 
 class BaseFeriasCalculator {
-  constructor(inicioContrato, fimContrato, remuneracaoUltima) {
-    if (!inicioContrato || !fimContrato || remuneracaoUltima < 0) {
+  constructor(inicioContrato, fimContrato, remuneracaoUltima, descontos) {
+    if (!inicioContrato || !fimContrato || remuneracaoUltima < 0 || descontos < 0) {
       throw new Error('Entradas inválidas.');
     }
 
     this.inicioContrato = this.createDateFromYYYYMMDD(inicioContrato);
     this.fimContrato = this.createDateFromYYYYMMDD(fimContrato);
     this.remuneracaoUltima = parseFloat(remuneracaoUltima);
+    this.descontos = parseFloat(descontos);
+    console.log(descontos);
     this.somaTotal = 0;
   }
 
@@ -96,7 +98,8 @@ class BaseFeriasCalculator {
     }
 
     resultados.push({
-      'Valor a Receber': this.somaTotal, // Adiciona somaTotal aos resultados finais
+      Descontos: this.descontos,
+      'Valor a Receber': this.somaTotal - this.descontos, // Adiciona somaTotal aos resultados finais
     });
 
     return resultados;

@@ -9,6 +9,7 @@ function DecimoTerceiroApp() {
   const [inicioContrato, setInicioContrato] = useState('2022-01-01');
   const [fimContrato, setFimContrato] = useState('2026-03-15');
   const [remuneracaoUltima, setRemuneracaoUltima] = useState('5000');
+  const [descontos, setDescontos] = useState('0');
   const [resultados, setResultados] = useState([]);
   const [calculando, setCalculando] = useState(false);
   const [erroCalculo, setErroCalculo] = useState(null);
@@ -30,6 +31,7 @@ function DecimoTerceiroApp() {
         inicioContrato,
         fimContrato,
         remuneracaoUltima,
+        descontos,
       );
       const resultadosCalculados = await calculator.calcularDecimoTerceiro();
       setResultados(resultadosCalculados); // Define os resultados do cálculo
@@ -69,6 +71,13 @@ function DecimoTerceiroApp() {
       type: 'number',
       value: remuneracaoUltima,
       setter: setRemuneracaoUltima,
+    },
+    {
+      id: 'descontos',
+      label: 'Descontos',
+      type: 'number',
+      value: descontos,
+      setter: setDescontos,
     },
   ];
 

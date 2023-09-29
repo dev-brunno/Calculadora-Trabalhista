@@ -2,14 +2,15 @@ import { differenceInCalendarMonths, differenceInDays } from 'date-fns';
 
 // Classe para calcular o Décimo Terceiro
 export default class DecimoTerceiroCalculator {
-  constructor(inicioContrato, fimContrato, remuneracaoUltima) {
-    if (!inicioContrato || !fimContrato || remuneracaoUltima < 0) {
+  constructor(inicioContrato, fimContrato, remuneracaoUltima, descontos) {
+    if (!inicioContrato || !fimContrato || remuneracaoUltima < 0 || descontos < 0) {
       throw new Error('Entradas inválidas.');
     }
 
     this.inicioContrato = this.createDateFromYYYYMMDD(inicioContrato);
     this.fimContrato = this.createDateFromYYYYMMDD(fimContrato);
     this.remuneracaoUltima = parseFloat(remuneracaoUltima);
+    this.descontos = parseFloat(descontos);
   }
 
   createDateFromYYYYMMDD(dateString) {
@@ -54,7 +55,8 @@ export default class DecimoTerceiroCalculator {
     }
 
     resultado.push({
-      'Valor a Receber': somaTotal,
+      Descontos: this.descontos,
+      'Valor a Receber': somaTotal - this.descontos,
     });
 
     return resultado;

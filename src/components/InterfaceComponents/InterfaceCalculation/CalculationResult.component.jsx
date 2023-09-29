@@ -67,18 +67,35 @@ function CalculationResult({ title, results, icon }) {
   const renderResultItem = (item) => {
     if (typeof item === 'object') {
       return Object.entries(item).map(([key, value], subIndex) => (
-        <div
-          className={`text-sm flex md:w-100 justify-between ${
-            key === 'Período' ? 'font-bold' : ''
-          } ${
-            key === 'Valor a Receber'
-              ? ' font-bold bg-VerdeEscuro text-branco p-2 mt-3 rounded-md'
-              : ''
-          }`}
-          key={subIndex}
-        >
-          <div>{key}</div>
-          <div>{typeof value === 'number' ? formatCurrency(value) : value}</div>
+        <div key={subIndex}>
+          {key === 'Descontos' ? (
+            // Se a chave for "Descontos", cria uma div com um título h6
+            <div>
+              <h6 className='font-bold text-red-600 dark:text-red-400 mt-2 mb-2'>Descontos:</h6>
+              <div className='text-sm flex md:w-100 justify-between'>
+                <div>{key}</div>
+                <div>{typeof value === 'number' ? formatCurrency(value) : value}</div>
+              </div>
+              <hr className='h-0.1 border-0 rounded bg-gray-300 dark:bg-purple-800 mb-5'></hr>
+            </div>
+          ) : (
+            // Se não for "Descontos", crie apenas os elementos normais
+            <div>
+              <div
+                className={`text-sm flex md:w-100 justify-between ${
+                  key === 'Período' ? 'font-bold' : ''
+                } ${
+                  key === 'Valor a Receber'
+                    ? ' font-bold bg-VerdeEscuro text-branco p-2 mt-3 rounded-md'
+                    : ''
+                }`}
+              >
+                <div>{key}</div>
+                <div>{typeof value === 'number' ? formatCurrency(value) : value}</div>
+              </div>
+              <hr className='h-0.1 border-0 rounded bg-gray-300 dark:bg-purple-800'></hr>
+            </div>
+          )}
         </div>
       ));
     } else {
@@ -146,20 +163,20 @@ function CalculationResult({ title, results, icon }) {
         </div>
       </div>
       <div className='bg-azulClaro dark:bg-dark2 p-8 bg-opacity-40 rounded-3xl dark:text-white'>
-        <h6 className=' font-bold text-green-400 text-sm'>Ganhos do Cliente:</h6>
+        <h6 className=' font-bold text-green-600 dark:text-green-400 text-sm'>
+          Ganhos do Cliente:
+        </h6>
         <ul className='grid gap-2 grid-rows-1 mt-4'>
           {results.map((result, index) => (
             <li key={index} className=''>
               {Array.isArray(result) ? (
                 result.map((item, itemIndex) => (
-                  <div className='grid grid-cols-1 divide-y ' key={itemIndex}>
+                  <div className='grid grid-cols-1' key={itemIndex}>
                     {renderResultItem(item)}
                   </div>
                 ))
               ) : (
-                <div className='grid grid-cols-1 divide-y divide-gray-300 dark:divide-dark3'>
-                  {renderResultItem(result)}
-                </div>
+                <div className='grid grid-cols-1 dark:divide-dark3'>{renderResultItem(result)}</div>
               )}
             </li>
           ))}
