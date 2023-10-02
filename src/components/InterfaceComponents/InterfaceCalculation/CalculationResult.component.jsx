@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { createRoot } from 'react-dom/client';
 import PropTypes from 'prop-types';
 import { useClientes } from '../../../Context/ClientesContext';
 import { getFirestore, collection, doc, getDoc, updateDoc } from 'firebase/firestore';
 import SelecaoClienteBox from './SelecaoClienteBox.component';
+import ReportPDF from './ReportPDF.component';
+import OpenInNewTabButton from './OpenInNewTabButton.component';
 
 function CalculationResult({ title, results, icon }) {
   const { clientes } = useClientes();
@@ -105,6 +108,15 @@ function CalculationResult({ title, results, icon }) {
 
   const lastIndex = results.length - 1;
 
+  const handleOpenNewTab = (novaAba) => {
+    const root = createRoot(novaAba.document.getElementById('report-pdf-container'));
+    root.render(
+      <React.StrictMode>
+        <ReportPDF title={title} results={results} />
+      </React.StrictMode>,
+    );
+  };
+
   return (
     <div>
       <h2 className='text-2xl text-VerdeMedio dark:text-dark3'>{title}</h2>
@@ -151,14 +163,12 @@ function CalculationResult({ title, results, icon }) {
           <div>
             <div className='flex items-center justify-between'>
               <div className=''>
-                <h3 className=' font-medium'>Gerar relatórios</h3>
-                <h6 className=' font-light text-sm'>Gerar PDF, planilhas e impressões</h6>
+                <h3 className='font-medium'>Gerar relatórios</h3>
+                <h6 className='font-light text-sm'>Gerar PDF, planilhas e impressões</h6>
               </div>
-              <button className=' text-3xl hover:text-azulEscuro dark:hover:text-dark2'>
-                <i className='fi fi-sr-angle-square-right'></i>
-              </button>
+              <OpenInNewTabButton onClick={handleOpenNewTab} /> {/* Use o novo componente aqui */}
             </div>
-            <hr className=' h-0.1 border-0 rounded bg-preto dark:bg-dark2 mt-1 mb-5'></hr>
+            <hr className='h-0.1 border-0 rounded bg-preto dark:bg-dark2 mt-1 mb-5'></hr>
           </div>
         </div>
       </div>

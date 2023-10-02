@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import CalculationCard from '../../InterfaceComponents/InterfaceCalculation/CalculationCard.component';
 import { getFirestore, doc, onSnapshot, getDoc, updateDoc } from 'firebase/firestore';
+import ReportPDF from '../InterfaceCalculation/ReportPDF.component';
+import OpenInNewTabButton from '../InterfaceCalculation/OpenInNewTabButton.component';
 
 // Componente PerfilCliente que exibe o perfil de um cliente
 function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
@@ -19,7 +22,7 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
       if (docSnapshot.exists()) {
         const clienteData = docSnapshot.data();
         setResultadosCalculos(clienteData.ResultadosCalculos);
-        console.log(clienteData.ResultadosCalculos);
+        console.log(cliente);
       }
     });
 
@@ -121,6 +124,10 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
 
   // Função para renderizar um item de resultado de cálculo
   const renderResultItem = (item) => {
+    if (!cálculoSelecionado) {
+      return null; // Não renderize nada se nenhum cálculo estiver selecionado
+    }
+
     const calculosOrdenados = ordenarCalculos(item);
 
     return Object.entries(calculosOrdenados).map(([key, value], subIndex) => (
@@ -136,6 +143,26 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
         <div>{typeof value === 'number' ? formatCurrency(value) : value}</div>
       </div>
     ));
+  };
+
+  const handleOpenNewTab = (novaAba) => {
+    const root = ReactDOM.createRoot(novaAba.document.getElementById('report-pdf-container'));
+
+    let perfil = {
+      Nome: cliente.nome,
+      CPF: cliente.cpf,
+      'Data de nascimento': cliente.dataNascimento,
+      Email: cliente.email,
+      Telefone: cliente.telefone,
+    };
+
+    console.log(cliente.calculationResults);
+
+    root.render(
+      <React.StrictMode>
+        <ReportPDF title={cliente.nome} results={perfil} calculationResults={resultadosCalculos} />
+      </React.StrictMode>,
+    );
   };
 
   // Função auxiliar para formatar valores como moeda (BRL)
@@ -237,6 +264,17 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
                       <i className='fi fi-sr-trash'></i>
                     </div>
                   </button>
+                  <div>
+                    <div className='flex items-center justify-between'>
+                      <div className=''>
+                        <h3 className='font-medium'>Gerar relatórios</h3>
+                        <h6 className='font-light text-sm'>Gerar PDF, planilhas e impressões</h6>
+                      </div>
+                      <OpenInNewTabButton onClick={handleOpenNewTab} />{' '}
+                      {/* Use o novo componente aqui */}
+                    </div>
+                    <hr className='h-0.1 border-0 rounded bg-preto dark:bg-dark2 mt-1 mb-5'></hr>
+                  </div>
                   {confirmDelete && (
                     <div className='fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 z-50'>
                       <div className='bg-white p-4 rounded-lg shadow-lg'>
