@@ -1,10 +1,10 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Calculos from './routes/calculos.component';
-import Navigation from './routes/navigation/navigation.component';
-import Home from './routes/home.component';
-import Clientes from './routes/clientes.component';
-import Contato from './routes/contato.component';
+import Calculos from './routes/Calculos.component';
+import Navigation from './routes/navigation/Navigation.component';
+import Home from './routes/Home.component';
+import Clientes from './routes/Clientes.component';
+import Contato from './routes/Contato.component';
 
 // Importe o ClientesProvider
 import { ClientesProvider } from './Context/ClientesContext'; // Substitua pelo caminho real para o seu ClientesProvider

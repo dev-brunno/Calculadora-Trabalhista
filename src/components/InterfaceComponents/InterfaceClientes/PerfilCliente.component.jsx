@@ -22,7 +22,6 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
       if (docSnapshot.exists()) {
         const clienteData = docSnapshot.data();
         setResultadosCalculos(clienteData.ResultadosCalculos);
-        console.log(cliente);
       }
     });
 
@@ -124,8 +123,8 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
 
   // Função para renderizar um item de resultado de cálculo
   const renderResultItem = (item) => {
-    if (!cálculoSelecionado) {
-      return null; // Não renderize nada se nenhum cálculo estiver selecionado
+    if (!cálculoSelecionado || !resultadosCalculos[cálculoSelecionado]) {
+      return null; // Não renderize nada se o cálculo selecionado não existir
     }
 
     const calculosOrdenados = ordenarCalculos(item);
@@ -156,11 +155,13 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
       Telefone: cliente.telefone,
     };
 
-    console.log(cliente.calculationResults);
-
     root.render(
       <React.StrictMode>
-        <ReportPDF title={cliente.nome} results={perfil} calculationResults={resultadosCalculos} />
+        <ReportPDF
+          title={'Relatório de Perfil e Cálculos vinculados ao Cliente'}
+          results={perfil}
+          calculationResults={resultadosCalculos}
+        />
       </React.StrictMode>,
     );
   };
