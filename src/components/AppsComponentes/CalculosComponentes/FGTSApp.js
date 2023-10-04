@@ -55,7 +55,7 @@ function FGTSApp() {
     <div>
       {mostrarResultados ? (
         <div>
-          <CalculationResult title='FGTS' results={[valorFGTS]} icon={icon} />
+          <CalculationResult title='FGTS' results={valorFGTS} icon={icon} />
           {/* Componente RefazerCalculoButton */}
           <RefazerCalculoButton onClick={handleRefazerCalculo} />
         </div>

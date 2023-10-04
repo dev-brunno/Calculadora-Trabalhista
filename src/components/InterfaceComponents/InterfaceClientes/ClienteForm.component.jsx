@@ -357,7 +357,7 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
                   </div>
                 </div>
 
-                <div className=' p-2 absolute -bottom-20 right-0 text-preto hover:text-azulEscuro dark:hover:text-dark3 dark:text-white'>
+                <div className=' p-2 absolute -bottom-14 right-0 text-preto hover:text-azulEscuro dark:hover:text-dark3 dark:text-white'>
                   <button type='submit'>
                     <div className=''>
                       <i>{editCliente ? 'Salvar' : 'Cadastrar'}</i>
@@ -392,7 +392,7 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
           </div>
         </div>
       </div>
-      <div className='inline-block absolute bottom-0 left-0'>
+      <div className='inline-block absolute -bottom-14 left-0'>
         <button
           className=' hover:text-azulEscuro text-cinzaClaro  dark:hover:text-dark3 dark:text-white  p-3 '
           type='button'

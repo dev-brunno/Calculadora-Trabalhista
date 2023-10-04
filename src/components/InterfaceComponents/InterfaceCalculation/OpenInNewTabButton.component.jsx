@@ -18,7 +18,10 @@ function OpenInNewTabButton({ onClick }) {
   };
 
   return (
-    <button className='text-3xl hover:text-azulEscuro dark:hover:text-dark2' onClick={abrirNovaAba}>
+    <button
+      className='text-3xl text-azulEscuro dark:text-dark3 hover:text-black dark:hover:text-dark2'
+      onClick={abrirNovaAba}
+    >
       <i className='fi fi-sr-angle-square-right'></i>
     </button>
   );

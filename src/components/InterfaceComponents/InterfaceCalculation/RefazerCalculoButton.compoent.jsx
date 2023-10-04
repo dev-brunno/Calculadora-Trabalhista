@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 
 function RefazerCalculoButton({ onClick }) {
   return (
-    <div className='inline-block absolute bottom-0 right-0 z-0'>
+    <div className='inline-block absolute -bottom-14 right-0 z-0'>
       <button
         onClick={onClick}
         className='p-3 hover:text-azulEscuro   dark:hover:text-dark3 dark:text-white'
       >
         <div className='flex space-x-2 items-center'>
-          <i>Refazer Cálculo </i>
+          <span>Refazer Cálculo</span>
           <i className='fi fi-rr-rotate-left mt-2'></i>
         </div>
       </button>

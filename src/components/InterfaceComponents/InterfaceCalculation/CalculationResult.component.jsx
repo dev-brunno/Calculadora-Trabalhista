@@ -6,6 +6,7 @@ import { getFirestore, collection, doc, getDoc, updateDoc } from 'firebase/fires
 import SelecaoClienteBox from './SelecaoClienteBox.component';
 import ReportPDF from './ReportPDF.component';
 import OpenInNewTabButton from './OpenInNewTabButton.component';
+import FormataRealBrasileiro from '../../../Classes/Calculos/FormataRealBrasileiro';
 
 function CalculationResult({ title, results, icon }) {
   const { clientes } = useClientes();
@@ -59,13 +60,6 @@ function CalculationResult({ title, results, icon }) {
     setMostrarCaixaSelecao(false);
   };
 
-  function formatCurrency(value) {
-    return new Intl.NumberFormat('pt-BR', {
-      style: 'currency',
-      currency: 'BRL',
-    }).format(value);
-  }
-
   // Função para renderizar resultados de forma genérica
   const renderResultItem = (item) => {
     if (typeof item === 'object') {
@@ -77,7 +71,7 @@ function CalculationResult({ title, results, icon }) {
               <h6 className='font-bold text-red-600 dark:text-red-400 mt-2 mb-2'>Descontos:</h6>
               <div className='text-sm flex md:w-100 justify-between'>
                 <div>{key}</div>
-                <div>{typeof value === 'number' ? formatCurrency(value) : value}</div>
+                <div>{typeof value === 'number' ? FormataRealBrasileiro(value) : value}</div>
               </div>
               <hr className='h-0.1 border-0 rounded bg-gray-300 dark:bg-purple-800 mb-5'></hr>
             </div>
@@ -94,7 +88,7 @@ function CalculationResult({ title, results, icon }) {
                 }`}
               >
                 <div>{key}</div>
-                <div>{typeof value === 'number' ? formatCurrency(value) : value}</div>
+                <div>{typeof value === 'number' ? FormataRealBrasileiro(value) : value}</div>
               </div>
               <hr className='h-0.1 border-0 rounded bg-gray-300 dark:bg-purple-800'></hr>
             </div>
@@ -110,9 +104,12 @@ function CalculationResult({ title, results, icon }) {
 
   const handleOpenNewTab = (novaAba) => {
     const root = createRoot(novaAba.document.getElementById('report-pdf-container'));
+    const resultsPDF = {
+      [title]: results,
+    };
     root.render(
       <React.StrictMode>
-        <ReportPDF title={title} results={results} />
+        <ReportPDF title={'Cálculos de Benefícios Trabalhistas'} calculationResults={resultsPDF} />
       </React.StrictMode>,
     );
   };
@@ -152,7 +149,7 @@ function CalculationResult({ title, results, icon }) {
                 </h6>
               </div>
               <button
-                className=' text-3xl hover:text-azulEscuro dark:hover:text-dark2'
+                className=' text-3xl text-azulEscuro dark:text-dark3 hover:text-black dark:hover:text-dark2'
                 onClick={handleLinkToClient}
               >
                 <i className='fi fi-sr-angle-square-right'></i>

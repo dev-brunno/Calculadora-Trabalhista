@@ -57,7 +57,7 @@ function PericulosidadeApp() {
         <div>
           <CalculationResult
             title='Adicional de Periculosidade'
-            results={[valorPericulosidade]}
+            results={valorPericulosidade}
             icon={icon}
           />
           {/* Componente RefazerCalculoButton */}

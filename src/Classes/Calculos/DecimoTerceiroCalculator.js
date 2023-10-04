@@ -56,6 +56,9 @@ export default class DecimoTerceiroCalculator {
 
     resultado.push({
       Descontos: this.descontos,
+    });
+
+    resultado.push({
       'Valor a Receber': somaTotal - this.descontos,
     });
 

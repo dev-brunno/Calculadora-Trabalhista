@@ -1,34 +1,40 @@
 import React from 'react';
 import { Document, Page, Text, View, StyleSheet, PDFViewer } from '@react-pdf/renderer';
 import PropTypes from 'prop-types';
+import FormataRealBrasileiro from '../../../Classes/Calculos/FormataRealBrasileiro';
 
 function ReportPDF({ title, results, calculationResults = {} }) {
+  console.log(calculationResults);
   const styles = StyleSheet.create({
     page: {
       flexDirection: 'column',
       padding: '1cm',
+      fontFamily: 'Open Sans',
+      fontSize: 13,
+      fontWeight: 400,
     },
     section: {
       margin: 10,
-      padding: 10,
-      flexGrow: 1,
     },
     titulo: {
       fontSize: 16,
-      fontWeight: 'bold',
+      fontWeight: 'extrabold',
       margin: 'auto',
       marginBottom: 20,
       padding: 8,
-      textAlign: 'center',
-      width: 230,
     },
     bgTest: {
       backgroundColor: 'rgb(69 26 3)',
       padding: 20,
     },
-    containerClientdados: {
+    containerResultsdados: {
       padding: 20,
       borderWidth: 1,
+      borderRadius: 6,
+    },
+    subtitle: {
+      marginBottom: 5,
+      fontWeight: 'bold',
     },
   });
 
@@ -48,6 +54,18 @@ function ReportPDF({ title, results, calculationResults = {} }) {
       borderWidth: 1,
       borderRadius: 6,
     },
+    textBox: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      flexDirection: 'row', //
+    },
+    key: {
+      fontWeight: 'light',
+      marginRight: 4,
+    },
+    value: {
+      fontWeight: 'bold',
+    },
   });
 
   const stylesCalculationResults = StyleSheet.create({
@@ -57,6 +75,28 @@ function ReportPDF({ title, results, calculationResults = {} }) {
       backgroundColor: '#0074B7',
       color: 'white',
       padding: 4,
+    },
+    textBox: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      flexDirection: 'row', //
+      justifyContent: 'space-between',
+      fontSize: 12,
+    },
+    containerCalcIntens: {
+      padding: 5,
+    },
+    tbody: {
+      fontSize: 9,
+      paddingTop: 4,
+      paddingLeft: 7,
+      flex: 1,
+      borderColor: 'whitesmoke',
+      borderRightWidth: 1,
+      borderBottomWidth: 1,
+    },
+    valueBold: {
+      fontWeight: 'extrabold',
     },
   });
 
@@ -97,24 +137,37 @@ function ReportPDF({ title, results, calculationResults = {} }) {
     return ordenado;
   };
 
-  const renderNestedData = (data, styles) => {
+  const renderNestedDataResults = (data, styles) => {
     return (
       <View style={styles.box2}>
         {Object.entries(data).map(([key, value]) => (
-          <View style={styles.box1} key={key}>
-            {typeof value === 'object' ? (
-              Array.isArray(value) ? (
-                value.map((item, itemIndex) => (
-                  <View key={itemIndex}>{renderNestedData(item, styles)}</View>
-                ))
-              ) : (
-                renderNestedData(value, styles)
-              )
-            ) : (
-              <Text style={styles.item}>
-                {key}: {value}
+          <View style={styles.item} key={key}>
+            <View style={styles.textBox}>
+              <Text style={styles.key}>{key}:</Text>
+              <Text style={styles.value}>{value}</Text>
+            </View>
+          </View>
+        ))}
+      </View>
+    );
+  };
+
+  const renderNestedDataCalculationResults = (data, styles) => {
+    return (
+      <View style={styles.containerCalcIntens}>
+        {Object.entries(data).map(([key, value]) => (
+          <View key={key}>
+            <View style={styles.textBox}>
+              <Text style={styles.key}>
+                {' '}
+                {/* Verifique se a chave é 'Valor a Receber' e aplique o estilo de negrito */}
+                {key === 'Valor a Receber' ? <Text style={styles.valueBold}>{key}</Text> : key}:
               </Text>
-            )}
+              {/* Verifique se a chave é 'Valor a Receber' e aplique o estilo de negrito */}
+              <Text style={key === 'Valor a Receber' ? styles.valueBold : styles.value}>
+                {typeof value === 'number' ? FormataRealBrasileiro(value) : value}
+              </Text>
+            </View>
           </View>
         ))}
       </View>
@@ -125,32 +178,52 @@ function ReportPDF({ title, results, calculationResults = {} }) {
     return (
       <Document>
         <Page size='A4' style={styles.page}>
-          <View style={styles.section}>
+          <View>
             <Text style={styles.titulo}>{title}</Text>
-            {Array.isArray(results) ? (
+          </View>
+          {results ? (
+            Array.isArray(results) ? (
               // Se results for um array, renderize cada conjunto de dados
               results.map((result, index) => (
-                <View key={index}>{renderNestedData(result, stylesResults)}</View>
+                <View style={styles.section} key={index}>
+                  <View style={styles.subtitle}>
+                    <Text>Informações do Cliente:</Text>
+                  </View>
+                  {renderNestedDataResults(result, stylesResults)}
+                </View>
               ))
             ) : (
               // Se results for um objeto, renderize-o como um único conjunto de dados
-              <View>{renderNestedData(results, stylesResults)}</View>
-            )}
-          </View>
+              <View style={styles.section}>
+                <View style={styles.subtitle}>
+                  <Text>Informações do Cliente:</Text>
+                </View>
+                {renderNestedDataResults(results, stylesResults)}
+              </View>
+            )
+          ) : null}
           {Object.entries(calculationResults).map(([calculationKey, calculationValue]) => (
             <View key={calculationKey} style={styles.section}>
-              <Text style={styles.heading}>{calculationKey}</Text>
-              {Array.isArray(calculationValue) ? (
-                calculationValue.map((calculationResult, index) => (
-                  <View key={index}>
-                    {renderNestedData(ordenarCalculos(calculationResult), stylesCalculationResults)}
+              <Text style={styles.subtitle}>{calculationKey}</Text>
+              <View style={styles.containerResultsdados}>
+                {Array.isArray(calculationValue) ? (
+                  calculationValue.map((calculationResult, index) => (
+                    <View key={index}>
+                      {renderNestedDataCalculationResults(
+                        ordenarCalculos(calculationResult),
+                        stylesCalculationResults,
+                      )}
+                    </View>
+                  ))
+                ) : (
+                  <View>
+                    {renderNestedDataCalculationResults(
+                      ordenarCalculos(calculationValue),
+                      stylesCalculationResults,
+                    )}
                   </View>
-                ))
-              ) : (
-                <View>
-                  {renderNestedData(ordenarCalculos(calculationValue), stylesCalculationResults)}
-                </View>
-              )}
+                )}
+              </View>
             </View>
           ))}
         </Page>
@@ -169,7 +242,7 @@ function ReportPDF({ title, results, calculationResults = {} }) {
 
 ReportPDF.propTypes = {
   title: PropTypes.string.isRequired,
-  results: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.object), PropTypes.object]).isRequired,
+  results: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.object), PropTypes.object]),
   calculationResults: PropTypes.object,
 };
 

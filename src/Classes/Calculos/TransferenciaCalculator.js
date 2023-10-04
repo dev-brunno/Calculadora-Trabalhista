@@ -11,12 +11,18 @@ class TransferenciaCalculator {
   calcularTransferencia() {
     const valorTransferencia = this.remuneracao * (this.porcentagem / 100);
 
-    const resultados = {
+    const resultado = {
       Remuneração: this.remuneracao,
       Porcentagem: `${this.porcentagem}%`,
       'Valor da Transferência': valorTransferencia,
+    };
+
+    const valorAReceber = {
       'Valor a Receber': valorTransferencia,
     };
+
+    const resultados = [resultado, valorAReceber];
+
     return resultados;
   }
 }

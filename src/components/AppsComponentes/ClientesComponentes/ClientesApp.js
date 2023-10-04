@@ -89,7 +89,7 @@ function ClientesApp() {
 
   // Renderização do componente
   return (
-    <div className='relative pb-20'>
+    <div className='relative'>
       {/* Botão para adicionar clientes */}
       <div className='inline-block fixed bottom-0 right-0 mb-4 mr-4 md:mb-12 md:mr-12 z-30'>
         {displayState === 'clienteList' && (

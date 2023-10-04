@@ -63,9 +63,9 @@ function CalculationContainer() {
     } else if (activeComponent === 'formulariosCalculos' && activeCalculation) {
       const ActiveCalculationForm = components[activeCalculation];
       return (
-        <div className='FormulariosCalculos relative pb-20'>
+        <div className='FormulariosCalculos relative'>
           <ActiveCalculationForm />
-          <div className='absolute bottom-0 left-0 z-0 text-cinzaMedio'>
+          <div className='absolute -bottom-14 left-0 z-0 text-cinzaMedio'>
             <button
               onClick={() => setActiveComponent('tiposCalculos')}
               className='p-2 h-12 rounded-lg hover:text-azulEscuro'

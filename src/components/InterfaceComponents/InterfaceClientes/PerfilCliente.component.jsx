@@ -5,6 +5,8 @@ import CalculationCard from '../../InterfaceComponents/InterfaceCalculation/Calc
 import { getFirestore, doc, onSnapshot, getDoc, updateDoc } from 'firebase/firestore';
 import ReportPDF from '../InterfaceCalculation/ReportPDF.component';
 import OpenInNewTabButton from '../InterfaceCalculation/OpenInNewTabButton.component';
+import FormataRealBrasileiro from '../../../Classes/Calculos/FormataRealBrasileiro';
+import FormataDataBrasileira from '../../../Classes/Calculos/FormataDataBrasileira';
 
 // Componente PerfilCliente que exibe o perfil de um cliente
 function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
@@ -139,7 +141,7 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
         key={subIndex}
       >
         <div>{key}</div>
-        <div>{typeof value === 'number' ? formatCurrency(value) : value}</div>
+        <div>{typeof value === 'number' ? FormataRealBrasileiro(value) : value}</div>
       </div>
     ));
   };
@@ -147,10 +149,12 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
   const handleOpenNewTab = (novaAba) => {
     const root = ReactDOM.createRoot(novaAba.document.getElementById('report-pdf-container'));
 
+    let dataCliente = FormataDataBrasileira(new Date(cliente.dataNascimento));
+
     let perfil = {
       Nome: cliente.nome,
       CPF: cliente.cpf,
-      'Data de nascimento': cliente.dataNascimento,
+      'Data de nascimento': dataCliente,
       Email: cliente.email,
       Telefone: cliente.telefone,
     };
@@ -158,21 +162,13 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
     root.render(
       <React.StrictMode>
         <ReportPDF
-          title={'Relatório de Perfil e Cálculos vinculados ao Cliente'}
+          title={'Relatório Trabalhista'}
           results={perfil}
           calculationResults={resultadosCalculos}
         />
       </React.StrictMode>,
     );
   };
-
-  // Função auxiliar para formatar valores como moeda (BRL)
-  function formatCurrency(value) {
-    return new Intl.NumberFormat('pt-BR', {
-      style: 'currency',
-      currency: 'BRL',
-    }).format(value);
-  }
 
   return (
     <div>
@@ -202,7 +198,10 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
             <ul className='flex flex-col space-y-2'>
               {renderDetailItem(<i className='fi fi-ss-user'></i>, cliente.nome)}
               {renderDetailItem(<i className='fi fi-sr-id-badge'></i>, cliente.cpf)}
-              {renderDetailItem(<i className='fi fi-sr-calendar'></i>, cliente.dataNascimento)}
+              {renderDetailItem(
+                <i className='fi fi-sr-calendar'></i>,
+                FormataDataBrasileira(new Date(cliente.dataNascimento)),
+              )}
               {renderDetailItem(<i className='fi fi-sr-envelope'></i>, cliente.email)}
               {renderDetailItem(<i className='fi fi-sr-phone-flip'></i>, cliente.telefone)}
               <div className='flex '>
@@ -265,17 +264,6 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
                       <i className='fi fi-sr-trash'></i>
                     </div>
                   </button>
-                  <div>
-                    <div className='flex items-center justify-between'>
-                      <div className=''>
-                        <h3 className='font-medium'>Gerar relatórios</h3>
-                        <h6 className='font-light text-sm'>Gerar PDF, planilhas e impressões</h6>
-                      </div>
-                      <OpenInNewTabButton onClick={handleOpenNewTab} />{' '}
-                      {/* Use o novo componente aqui */}
-                    </div>
-                    <hr className='h-0.1 border-0 rounded bg-preto dark:bg-dark2 mt-1 mb-5'></hr>
-                  </div>
                   {confirmDelete && (
                     <div className='fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 z-50'>
                       <div className='bg-white p-4 rounded-lg shadow-lg'>
@@ -316,11 +304,22 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
                   </div>
                 </div>
               )}
+              <div className=' w-60 mt-5'>
+                <div className='flex items-center justify-between'>
+                  <div className=' text-azulEscuro dark:text-dark3'>
+                    <h3 className='font-medium'>Gerar relatórios</h3>
+                    <h6 className='font-light text-sm'>Gerar PDF, planilhas e impressões</h6>
+                  </div>
+                  <OpenInNewTabButton onClick={handleOpenNewTab} />{' '}
+                  {/* Use o novo componente aqui */}
+                </div>
+                <hr className='h-0.1 border-0 rounded bg-azulEscuro dark:bg-dark2 mt-1 mb-5'></hr>
+              </div>
             </div>
           )}
         </div>
       </div>
-      <div className=' inline-block absolute bottom-0 left-0 '>
+      <div className=' inline-block absolute -bottom-14 left-0 '>
         <button
           className=' text-cinzaMedio dark:hover:text-dark3 p-3 hover:text-azulEscuro dark:text-branco '
           onClick={onVoltarClick}

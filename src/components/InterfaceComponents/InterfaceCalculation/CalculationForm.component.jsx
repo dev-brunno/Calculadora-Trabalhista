@@ -9,7 +9,7 @@ function formatCurrency(value) {
 // Componente CalculationForm que recebe várias propriedades para renderizar um formulário de cálculo
 function CalculationForm({ title, inputs, handleInputChange, handleCalculate, calculando }) {
   return (
-    <div>
+    <div className='border border-VerdeMedio dark:border-dark3 p-8 rounded-3xl'>
       {/* Renderiza os campos do formulário com base nos "inputs" passados */}
       {/* Renderiza o título do formulário */}
       <h2 className='text-2xl text-VerdeMedio dark:text-dark3'>{title}</h2>
@@ -66,7 +66,7 @@ function CalculationForm({ title, inputs, handleInputChange, handleCalculate, ca
         ))}
       </div>
       {/* Renderiza um botão de cálculo */}
-      <div className=' inline-block absolute bottom-0 right-0'>
+      <div className=' inline-block absolute -bottom-14 right-0'>
         <button
           onClick={handleCalculate}
           disabled={calculando}

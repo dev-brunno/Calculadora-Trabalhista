@@ -98,6 +98,9 @@ class BaseFeriasCalculator {
 
     resultados.push({
       Descontos: this.descontos,
+    });
+
+    resultados.push({
       'Valor a Receber': this.somaTotal - this.descontos, // Adiciona somaTotal aos resultados finais
     });
 
