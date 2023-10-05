@@ -1,6 +1,7 @@
 import React, { Fragment, useState } from 'react';
 import { Outlet, Link } from 'react-router-dom';
 import Switcher from '../../darkmode/Switcher';
+import { useAuth } from '../../Context/AuthProvider'; // Substitua pelo caminho correto para o useAuth
 
 export default function Navigation() {
   const [menuVisible, setMenuVisible] = useState(false);
@@ -8,6 +9,8 @@ export default function Navigation() {
   const toggleMenu = () => {
     setMenuVisible(!menuVisible);
   };
+
+  const { signout } = useAuth();
 
   return (
     <Fragment>
@@ -98,6 +101,7 @@ export default function Navigation() {
                 <Link
                   to=''
                   className=' pl-4 p-2 hover:bg-azulClaro dark:hover:bg-dark4 flex items-center  space-x-2'
+                  onClick={() => signout()}
                 >
                   <div>
                     <i className='fi fi-rr-sign-out-alt'></i>
