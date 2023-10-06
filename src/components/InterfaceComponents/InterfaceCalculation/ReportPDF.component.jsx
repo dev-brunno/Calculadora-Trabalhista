@@ -3,7 +3,7 @@ import { Document, Page, Text, View, StyleSheet, PDFViewer } from '@react-pdf/re
 import PropTypes from 'prop-types';
 import FormataRealBrasileiro from '../../../Classes/Calculos/FormataRealBrasileiro';
 
-function ReportPDF({ title, results, calculationResults = {} }) {
+function ReportPDF({ title, results, calculationResults = {}, userData }) {
   const styles = StyleSheet.create({
     page: {
       flexDirection: 'column',
@@ -180,6 +180,15 @@ function ReportPDF({ title, results, calculationResults = {} }) {
           <View>
             <Text style={styles.titulo}>{title}</Text>
           </View>
+
+          {/* Renderize os dados do usuário aqui */}
+          <View style={styles.section}>
+            <View style={styles.subtitle}>
+              <Text>Informações do Usuário:</Text>
+            </View>
+            {renderNestedDataResults(userData, stylesResults)}
+          </View>
+
           {results ? (
             Array.isArray(results) ? (
               // Se results for um array, renderize cada conjunto de dados
@@ -243,6 +252,7 @@ ReportPDF.propTypes = {
   title: PropTypes.string.isRequired,
   results: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.object), PropTypes.object]),
   calculationResults: PropTypes.object,
+  userData: PropTypes.object.isRequired, // Adicione esta linha para validar a prop userData
 };
 
 export default ReportPDF;

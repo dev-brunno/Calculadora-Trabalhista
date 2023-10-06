@@ -8,6 +8,7 @@ import OpenInNewTabButton from '../InterfaceCalculation/OpenInNewTabButton.compo
 import FormataRealBrasileiro from '../../../Classes/Calculos/FormataRealBrasileiro';
 import FormataDataBrasileira from '../../../Classes/Calculos/FormataDataBrasileira';
 import { useAuth } from '../../../Context/AuthProvider';
+import firebase from '../../../Firebase/firebase'; // Importe o Firebase
 
 // Componente PerfilCliente que exibe o perfil de um cliente
 function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
@@ -15,6 +16,7 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
   const [cálculoSelecionado, setCálculoSelecionado] = useState(null);
   const [resultadosCalculos, setResultadosCalculos] = useState(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [userData, setUserData] = useState({}); // Estado para armazenar os dados do usuário
 
   const { user } = useAuth();
 
@@ -36,6 +38,27 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
       unsubscribe();
     };
   }, [cliente.id, user.uid]);
+
+  // Efeito para buscar os dados do usuário
+  useEffect(() => {
+    if (user) {
+      const fetchUserData = async () => {
+        try {
+          const userDocRef = firebase.firestore().collection('users').doc(user.uid);
+          const userDocSnapshot = await userDocRef.get();
+
+          if (userDocSnapshot.exists) {
+            const userDataFromFirestore = userDocSnapshot.data();
+            setUserData(userDataFromFirestore);
+          }
+        } catch (error) {
+          console.error('Erro ao buscar dados do usuário:', error);
+        }
+      };
+
+      fetchUserData();
+    }
+  }, [user]);
 
   // Função auxiliar para renderizar um item de detalhe
   const renderDetailItem = (label, value) => (
@@ -158,6 +181,13 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
 
     let dataCliente = FormataDataBrasileira(new Date(cliente.dataNascimento));
 
+    let userInfo = {
+      Advogado: userData.displayName,
+      Telefone: userData.phoneNumber,
+      'E-mail': userData.email,
+      Oab: userData.oabNumber,
+    };
+
     let perfil = {
       Nome: cliente.nome,
       CPF: cliente.cpf,
@@ -172,6 +202,7 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
           title={'Relatório Trabalhista'}
           results={perfil}
           calculationResults={resultadosCalculos}
+          userData={userInfo}
         />
       </React.StrictMode>,
     );

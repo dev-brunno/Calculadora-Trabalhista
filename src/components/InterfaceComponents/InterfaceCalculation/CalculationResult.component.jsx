@@ -8,12 +8,14 @@ import ReportPDF from './ReportPDF.component';
 import OpenInNewTabButton from './OpenInNewTabButton.component';
 import FormataRealBrasileiro from '../../../Classes/Calculos/FormataRealBrasileiro';
 import { useAuth } from '../../../Context/AuthProvider';
+import firebase from '../../../Firebase/firebase';
 
 function CalculationResult({ title, results, icon }) {
   const { clientes } = useClientes();
   const [mostrarCaixaSelecao, setMostrarCaixaSelecao] = useState(false);
   const [clienteSelecionado, setClienteSelecionado] = useState(null);
   const [mostrarAviso, setMostrarAviso] = useState(false);
+  const [userData, setUserData] = useState({}); // Estado para armazenar os dados do usuário
 
   const { user } = useAuth();
 
@@ -50,6 +52,27 @@ function CalculationResult({ title, results, icon }) {
       saveResults();
     }
   }, [clienteSelecionado, results, title, user]);
+
+  // Efeito para buscar os dados do usuário
+  useEffect(() => {
+    if (user) {
+      const fetchUserData = async () => {
+        try {
+          const userDocRef = firebase.firestore().collection('users').doc(user.uid);
+          const userDocSnapshot = await userDocRef.get();
+
+          if (userDocSnapshot.exists) {
+            const userDataFromFirestore = userDocSnapshot.data();
+            setUserData(userDataFromFirestore);
+          }
+        } catch (error) {
+          console.error('Erro ao buscar dados do usuário:', error);
+        }
+      };
+
+      fetchUserData();
+    }
+  }, [user]);
 
   const handleLinkToClient = () => {
     setMostrarCaixaSelecao(true);
@@ -108,12 +131,25 @@ function CalculationResult({ title, results, icon }) {
 
   const handleOpenNewTab = (novaAba) => {
     const root = createRoot(novaAba.document.getElementById('report-pdf-container'));
+
     const resultsPDF = {
       [title]: results,
     };
+
+    const userInfo = {
+      Advogado: userData.displayName,
+      Telefone: userData.phoneNumber,
+      'E-mail': userData.email,
+      Oab: userData.oabNumber,
+    };
+
     root.render(
       <React.StrictMode>
-        <ReportPDF title={'Cálculos de Benefícios Trabalhistas'} calculationResults={resultsPDF} />
+        <ReportPDF
+          title={'Cálculos de Benefícios Trabalhistas'}
+          calculationResults={resultsPDF}
+          userData={userInfo}
+        />
       </React.StrictMode>,
     );
   };

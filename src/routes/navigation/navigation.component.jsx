@@ -1,23 +1,43 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react'; // Importe também useEffect
 import { Outlet, Link } from 'react-router-dom';
 import Switcher from '../../darkmode/Switcher';
-import { useAuth } from '../../Context/AuthProvider'; // Substitua pelo caminho correto para o useAuth
+import { useAuth } from '../../Context/AuthProvider';
+import firebase from '../../Firebase/firebase'; // Importe o Firebase
+import 'firebase/firestore'; // Importe o Firestore
 
 export default function Navigation() {
   const [menuVisible, setMenuVisible] = useState(false);
+  const { user, signout } = useAuth();
+  const [username, setUsername] = useState('');
+
+  useEffect(() => {
+    if (user) {
+      const fetchUserData = async () => {
+        try {
+          const userDocRef = firebase.firestore().collection('users').doc(user.uid);
+          const userDocSnapshot = await userDocRef.get();
+
+          if (userDocSnapshot.exists) {
+            const userData = userDocSnapshot.data();
+            setUsername(userData.username);
+          }
+        } catch (error) {
+          console.error('Erro ao buscar dados do usuário:', error);
+        }
+      };
+
+      fetchUserData();
+    }
+  }, [user]);
 
   const toggleMenu = () => {
     setMenuVisible(!menuVisible);
   };
 
-  const { signout } = useAuth();
-
   return (
     <Fragment>
-      {/* Menu principal */}
       <div className=' md:w-56 w-screen flex-grow-0'>
         <div className='grid h-full bg-azulEscuro dark:bg-dark1 w-full md:rounded-r-3xl'>
-          {/* Ícone do menu para telas menores */}
           <div
             className={`md:hidden flex text-branco  ${
               menuVisible ? ' justify-end' : ' justify-between'
@@ -31,10 +51,8 @@ export default function Navigation() {
               <div className=' text-5xl bg-azulClaro dark:bg-dark2 rounded-full p-2'>
                 <i className='fi fi-rr-circle-user align-middle flex justify-center'></i>
               </div>
-              <h3 className=' text-sm font-medium leading-none'>
-                <i>
-                  Nome <br></br> do Usuário
-                </i>
+              <h3 className=' text-sm font-medium leading-none whitespace-pre-wrap'>
+                <i>{username}</i>
               </h3>
             </div>
             <button
@@ -51,10 +69,8 @@ export default function Navigation() {
                 <div className=' text-5xl bg-azulClaro dark:bg-dark2 rounded-full p-2'>
                   <i className='fi fi-rr-circle-user align-middle flex justify-center'></i>
                 </div>
-                <h3 className=' text-sm font-medium leading-none'>
-                  <i>
-                    Nome <br></br> do Usuário
-                  </i>
+                <h3 className=' text-sm font-medium leading-none w-20'>
+                  <i>{username}</i>
                 </h3>
               </div>
 
