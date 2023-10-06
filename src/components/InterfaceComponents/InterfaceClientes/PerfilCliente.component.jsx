@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import CalculationCard from '../../InterfaceComponents/InterfaceCalculation/CalculationCard.component';
-import { getFirestore, doc, onSnapshot, getDoc, updateDoc } from 'firebase/firestore';
+import { getFirestore, doc, onSnapshot, getDoc, updateDoc, collection } from 'firebase/firestore';
 import ReportPDF from '../InterfaceCalculation/ReportPDF.component';
 import OpenInNewTabButton from '../InterfaceCalculation/OpenInNewTabButton.component';
 import FormataRealBrasileiro from '../../../Classes/Calculos/FormataRealBrasileiro';
 import FormataDataBrasileira from '../../../Classes/Calculos/FormataDataBrasileira';
+import { useAuth } from '../../../Context/AuthProvider';
 
 // Componente PerfilCliente que exibe o perfil de um cliente
 function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
@@ -15,10 +16,14 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
   const [resultadosCalculos, setResultadosCalculos] = useState(null);
   const [confirmDelete, setConfirmDelete] = useState(false);
 
+  const { user } = useAuth();
+
   // Efeito para carregar os resultados de cálculos do cliente a partir do Firestore
   useEffect(() => {
     const db = getFirestore();
-    const clienteDocRef = doc(db, 'clientes', cliente.id);
+    const userDocRef = doc(db, 'users', user.uid);
+    const userClientesCollection = collection(userDocRef, 'clientes');
+    const clienteDocRef = doc(userClientesCollection, cliente.id);
 
     const unsubscribe = onSnapshot(clienteDocRef, (docSnapshot) => {
       if (docSnapshot.exists()) {
@@ -30,7 +35,7 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
     return () => {
       unsubscribe();
     };
-  }, [cliente.id]);
+  }, [cliente.id, user.uid]);
 
   // Função auxiliar para renderizar um item de detalhe
   const renderDetailItem = (label, value) => (
@@ -47,7 +52,9 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
   // Função para lidar com a exclusão de um cálculo
   const handleExcluirCalculo = async () => {
     const db = getFirestore();
-    const clienteDocRef = doc(db, 'clientes', cliente.id);
+    const userDocRef = doc(db, 'users', user.uid);
+    const userClientesCollection = collection(userDocRef, 'clientes');
+    const clienteDocRef = doc(userClientesCollection, cliente.id);
 
     try {
       const clienteSnapshot = await getDoc(clienteDocRef);

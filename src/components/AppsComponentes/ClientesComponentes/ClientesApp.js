@@ -4,7 +4,8 @@ import ClienteList from '../../InterfaceComponents/InterfaceClientes/ClienteList
 import PerfilCliente from '../../InterfaceComponents/InterfaceClientes/PerfilCliente.component';
 import app from '../../../Firebase/firebase';
 import { useClientes } from '../../../Context/ClientesContext';
-import { getFirestore, collection, getDocs } from 'firebase/firestore';
+import { getFirestore, collection, getDocs, doc } from 'firebase/firestore';
+import { useAuth } from '../../../Context/AuthProvider';
 
 // Definição do componente ClientesApp
 function ClientesApp() {
@@ -18,33 +19,18 @@ function ClientesApp() {
     deleteCliente,
     modoEdicao,
     setModoEdicao,
-    setClientes,
     clienteEditando,
     setClienteEditando,
   } = useClientes(); // hook useClientes para acessar os dados dos clientes.
 
-  // Função assíncrona para carregar a lista de clientes do Firestore
-  const loadClientes = async () => {
-    const db = getFirestore(app);
-    const clientesCollection = collection(db, 'clientes');
-    const querySnapshot = await getDocs(clientesCollection);
-
-    const clientesArray = [];
-    querySnapshot.forEach((doc) => {
-      clientesArray.push({ id: doc.id, ...doc.data() });
-    });
-
-    return clientesArray;
-  };
+  const auth = useAuth(); // Obtenha o contexto de autenticação
 
   useEffect(() => {
     const fetchClientes = async () => {
       try {
-        if (clientes.length === 0) {
-          const clientesData = await loadClientes();
-
-          // Atualiza o contexto com a lista completa de clientes de uma só vez
-          setClientes(clientesData);
+        if (auth.isAuthenticated && auth.user) {
+          await loadClientes(auth.user.uid); // Use auth.user.uid aqui
+          // Resto do seu código...
         }
       } catch (error) {
         console.error('Erro ao carregar clientes:', error);
@@ -52,7 +38,23 @@ function ClientesApp() {
     };
 
     fetchClientes();
-  }, [clientes]);
+  }, [auth]);
+
+  // Função assíncrona para carregar a lista de clientes do Firestore
+  const loadClientes = async (userId) => {
+    // Adicione userId como argumento
+    const db = getFirestore(app);
+    const userDocRef = doc(db, 'users', userId); // Use userId aqui
+    const userClientesCollection = collection(userDocRef, 'clientes'); // Acesse a coleção de clientes deste usuário
+
+    const querySnapshot = await getDocs(userClientesCollection);
+    const clientesArray = [];
+    querySnapshot.forEach((doc) => {
+      clientesArray.push({ id: doc.id, ...doc.data() });
+    });
+
+    return clientesArray;
+  };
 
   // Manipuladores de eventos
 
@@ -134,7 +136,9 @@ function ClientesApp() {
           addCliente={addCliente}
           updateCliente={updateCliente}
           editCliente={modoEdicao ? clienteEditando : null}
-          deleteCliente={clienteEditando ? () => deleteCliente(clienteEditando.id) : null}
+          deleteCliente={
+            clienteEditando ? () => deleteCliente(clienteEditando.id, auth.user.uid) : null
+          }
           onCancel={handleCancelEdit} // Use o evento handleCancelEdit para cancelar a edição
         />
       )}

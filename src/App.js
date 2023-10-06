@@ -23,8 +23,8 @@ function App() {
   }, []);
 
   return (
-    <ClientesProvider>
-      <AuthProvider>
+    <AuthProvider>
+      <ClientesProvider>
         <div className='bg-brancoMedio dark:bg-darkPrincipal pb-100'>
           <div className='flex flex-col md:flex-row flex-nowrap font-sans h-screen'>
             {appLoaded ? (
@@ -62,8 +62,8 @@ function App() {
             )}
           </div>
         </div>
-      </AuthProvider>
-    </ClientesProvider>
+      </ClientesProvider>
+    </AuthProvider>
   );
 }
 

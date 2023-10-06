@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useAuth } from '../../../Context/AuthProvider';
 
 // Estado inicial para o formulário de cliente
 const initialClienteState = {
@@ -21,6 +22,8 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
   const [errors, setErrors] = useState({});
   const [enderecoLoading, setEnderecoLoading] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
+
+  const { user } = useAuth();
 
   // Efeito para atualizar o formulário quando o cliente em edição muda
   useEffect(() => {
@@ -152,7 +155,7 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
 
   // Função para confirmar a exclusão do cliente
   const handleConfirmDelete = () => {
-    deleteCliente(editCliente.id); // Use o ID para exclusão
+    deleteCliente(); // Use o ID para exclusão
     setConfirmDelete(false);
     onCancel(); // Voltar para a lista de clientes após a exclusão
   };
@@ -177,9 +180,11 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
     } else {
       setErrors({});
       if (editCliente) {
-        updateCliente(cliente);
+        // Passe o userId para updateCliente
+        updateCliente(cliente, user.uid);
       } else {
-        addCliente(cliente);
+        // Passe o userId para addCliente
+        addCliente(cliente, user.uid);
       }
       resetForm(); // Redefinir o formulário após a adição ou edição
       onCancel(); // Voltar para a lista de clientes após a conclusão da edição ou adição

@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import FormataRealBrasileiro from '../../../Classes/Calculos/FormataRealBrasileiro';
 
 function ReportPDF({ title, results, calculationResults = {} }) {
-  console.log(calculationResults);
   const styles = StyleSheet.create({
     page: {
       flexDirection: 'column',

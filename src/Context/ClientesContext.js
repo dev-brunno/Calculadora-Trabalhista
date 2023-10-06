@@ -1,96 +1,93 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import PropTypes from 'prop-types'; // Importa PropTypes
+import PropTypes from 'prop-types';
 import {
   getFirestore,
   collection,
-  getDocs,
+  getDoc,
   addDoc,
   updateDoc,
   deleteDoc,
   doc,
+  onSnapshot,
 } from 'firebase/firestore';
-import app from '../Firebase/firebase'; // Importa a instância do Firebase configurada anteriormente.
+import app from '../Firebase/firebase';
+import { useAuth } from './AuthProvider';
 
-// Cria um contexto chamado ClientesContext
 const ClientesContext = createContext();
 
-// Define um hook personalizado useClientes para acessar o contexto
 export const useClientes = () => {
   return useContext(ClientesContext);
 };
 
-// Componente ClientesProvider que fornece o contexto para a aplicação
 export const ClientesProvider = ({ children }) => {
-  // Define os estados iniciais
   const [clientes, setClientes] = useState([]);
   const [modoEdicao, setModoEdicao] = useState(false);
   const [clienteEditando, setClienteEditando] = useState(null);
 
-  // Efeito que carrega os clientes quando o componente é montado
+  const { user } = useAuth();
+
   useEffect(() => {
-    const loadClientes = async () => {
-      try {
-        const db = getFirestore(app);
-        const clientesCollection = collection(db, 'clientes');
-        const querySnapshot = await getDocs(clientesCollection);
+    if (user) {
+      const loadClientes = async (userId) => {
+        try {
+          const db = getFirestore(app);
+          const userDocRef = doc(db, 'users', userId);
+          const userClientesCollection = collection(userDocRef, 'clientes');
 
-        const clientesArray = [];
-        querySnapshot.forEach((doc) => {
-          clientesArray.push({ id: doc.id, ...doc.data() });
-        });
+          const unsubscribe = onSnapshot(userClientesCollection, (querySnapshot) => {
+            const clientesArray = [];
+            querySnapshot.forEach((doc) => {
+              clientesArray.push({ id: doc.id, ...doc.data() });
+            });
 
-        setClientes(clientesArray);
-      } catch (error) {
-        console.error('Erro ao carregar clientes:', error);
-      }
-    };
+            // Atualize o estado com os dados do banco de dados
+            setClientes(clientesArray);
+          });
 
-    // Chama fetchClientes apenas uma vez quando o componente for montado
-    if (clientes.length === 0) {
-      loadClientes();
+          // Certifique-se de cancelar o ouvinte quando o componente é desmontado
+          return () => unsubscribe();
+        } catch (error) {
+          console.error('Erro ao carregar clientes:', error);
+        }
+      };
+
+      loadClientes(user.uid);
     }
-  }, []); // Dependência vazia para executar apenas na montagem inicial
+  }, [user]);
 
-  // Função para adicionar um cliente
-  const addCliente = async (cliente) => {
-    const db = getFirestore(app);
-    const clientesCollection = collection(db, 'clientes');
-
+  const addCliente = async (cliente, userId) => {
     try {
-      await addDoc(clientesCollection, cliente); // Use the provided client object
+      const db = getFirestore(app);
+      const userDocRef = doc(db, 'users', userId);
+      const userDocSnapshot = await getDoc(userDocRef);
 
-      const querySnapshot = await getDocs(clientesCollection);
+      if (userDocSnapshot.exists()) {
+        const userClientesCollection = collection(userDocRef, 'clientes');
 
-      const clientesArray = [];
-      querySnapshot.forEach((doc) => {
-        clientesArray.push({ id: doc.id, ...doc.data() });
-      });
+        await addDoc(userClientesCollection, cliente);
 
-      setClientes(clientesArray);
-      setModoEdicao(false);
-      setClienteEditando(null);
+        // A lista de clientes será atualizada automaticamente pelo ouvinte em tempo real
+        setModoEdicao(false);
+        setClienteEditando(null);
+      } else {
+        console.error('Documento do usuário não encontrado.');
+      }
     } catch (error) {
       console.error('Erro ao adicionar cliente:', error);
     }
   };
 
-  // Função para atualizar um cliente
-  const updateCliente = async (cliente) => {
-    const db = getFirestore(app);
-    const clientesCollection = collection(db, 'clientes');
-
+  const updateCliente = async (cliente, userId) => {
     try {
-      const clienteDoc = doc(clientesCollection, cliente.id);
+      const db = getFirestore(app);
+      const userDocRef = doc(db, 'users', userId);
+      const userClientesCollection = collection(userDocRef, 'clientes');
+
+      const clienteDoc = doc(userClientesCollection, cliente.id);
       await updateDoc(clienteDoc, cliente);
 
-      const querySnapshot = await getDocs(clientesCollection);
-
-      const clientesArray = [];
-      querySnapshot.forEach((doc) => {
-        clientesArray.push({ id: doc.id, ...doc.data() });
-      });
-
-      setClientes(clientesArray);
+      // Atualize o estado diretamente após a atualização bem-sucedida
+      setClientes((prevClientes) => prevClientes.map((c) => (c.id === cliente.id ? cliente : c)));
       setModoEdicao(false);
       setClienteEditando(null);
     } catch (error) {
@@ -98,23 +95,17 @@ export const ClientesProvider = ({ children }) => {
     }
   };
 
-  // Função para excluir um client
-  const deleteCliente = async (id) => {
-    const db = getFirestore(app);
-    const clientesCollection = collection(db, 'clientes');
-
+  const deleteCliente = async (id, userId) => {
     try {
-      const clienteDoc = doc(clientesCollection, id);
+      const db = getFirestore(app);
+      const userDocRef = doc(db, 'users', userId);
+      const userClientesCollection = collection(userDocRef, 'clientes');
+
+      const clienteDoc = doc(userClientesCollection, id);
       await deleteDoc(clienteDoc);
 
-      const querySnapshot = await getDocs(clientesCollection);
-
-      const clientesArray = [];
-      querySnapshot.forEach((doc) => {
-        clientesArray.push({ id: doc.id, ...doc.data() });
-      });
-
-      setClientes(clientesArray);
+      // Atualize o estado diretamente após a exclusão bem-sucedida
+      setClientes((prevClientes) => prevClientes.filter((c) => c.id !== id));
       setModoEdicao(false);
       setClienteEditando(null);
     } catch (error) {
@@ -122,7 +113,6 @@ export const ClientesProvider = ({ children }) => {
     }
   };
 
-  // Renderiza o contexto com os valores e os elementos filhos
   return (
     <ClientesContext.Provider
       value={{
@@ -132,7 +122,6 @@ export const ClientesProvider = ({ children }) => {
         deleteCliente,
         modoEdicao,
         setModoEdicao,
-        setClientes,
         clienteEditando,
         setClienteEditando,
       }}
@@ -142,7 +131,8 @@ export const ClientesProvider = ({ children }) => {
   );
 };
 
-// Define as propriedades esperadas para o ClientesProvider
 ClientesProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
+
+export default ClientesContext;

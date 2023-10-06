@@ -20,9 +20,8 @@ function RegisterPage() {
         displayName,
       });
 
-      // Crie um documento de cliente no Firestore associado ao usuário
-      await firebase.firestore().collection('clientes').add({
-        userId: userCredential.user.uid,
+      // Crie um documento de cliente no Firestore associado ao usuário com o mesmo UID
+      await firebase.firestore().collection('users').doc(userCredential.user.uid).set({
         nome: displayName,
         // Outros campos de cliente aqui...
       });

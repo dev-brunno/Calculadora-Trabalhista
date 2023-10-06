@@ -7,6 +7,7 @@ import SelecaoClienteBox from './SelecaoClienteBox.component';
 import ReportPDF from './ReportPDF.component';
 import OpenInNewTabButton from './OpenInNewTabButton.component';
 import FormataRealBrasileiro from '../../../Classes/Calculos/FormataRealBrasileiro';
+import { useAuth } from '../../../Context/AuthProvider';
 
 function CalculationResult({ title, results, icon }) {
   const { clientes } = useClientes();
@@ -14,13 +15,16 @@ function CalculationResult({ title, results, icon }) {
   const [clienteSelecionado, setClienteSelecionado] = useState(null);
   const [mostrarAviso, setMostrarAviso] = useState(false);
 
+  const { user } = useAuth();
+
   useEffect(() => {
     // Verifica se há resultados a serem salvos e cliente selecionado
     if (results.length > 0 && clienteSelecionado !== null) {
       const saveResults = async () => {
         const db = getFirestore();
-        const clientesCollection = collection(db, 'clientes');
-        const clienteDoc = doc(clientesCollection, clienteSelecionado);
+        const userDocRef = doc(db, 'users', user.uid);
+        const userClientesCollection = collection(userDocRef, 'clientes');
+        const clienteDoc = doc(userClientesCollection, clienteSelecionado);
 
         try {
           const clienteSnapshot = await getDoc(clienteDoc);
@@ -45,7 +49,7 @@ function CalculationResult({ title, results, icon }) {
       // Chame a função para salvar os resultados quando o estado for atualizado
       saveResults();
     }
-  }, [clienteSelecionado, results, title]);
+  }, [clienteSelecionado, results, title, user]);
 
   const handleLinkToClient = () => {
     setMostrarCaixaSelecao(true);
