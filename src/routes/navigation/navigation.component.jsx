@@ -4,11 +4,13 @@ import Switcher from '../../darkmode/Switcher';
 import { useAuth } from '../../Context/AuthProvider';
 import firebase from '../../Firebase/firebase'; // Importe o Firebase
 import 'firebase/firestore'; // Importe o Firestore
+import LogoutConfirmationDialog from '../../components/InterfaceComponents/LogoutConfirmationDialog.componet';
 
 export default function Navigation() {
   const [menuVisible, setMenuVisible] = useState(false);
   const { user, signout } = useAuth();
   const [username, setUsername] = useState('');
+  const [isLogoutDialogOpen, setIsLogoutDialogOpen] = useState(false);
 
   useEffect(() => {
     if (user) {
@@ -32,6 +34,15 @@ export default function Navigation() {
 
   const toggleMenu = () => {
     setMenuVisible(!menuVisible);
+  };
+
+  const handleLogoutClick = () => {
+    setIsLogoutDialogOpen(true); // Abre o diálogo de confirmação de logout
+  };
+
+  const confirmLogout = () => {
+    setIsLogoutDialogOpen(false); // Fecha o diálogo de confirmação de logout
+    signout(); // Realiza o logout do usuário
   };
 
   return (
@@ -117,13 +128,19 @@ export default function Navigation() {
                 <Link
                   to=''
                   className=' pl-4 p-2 hover:bg-azulClaro dark:hover:bg-dark4 flex items-center  space-x-2'
-                  onClick={() => signout()}
+                  onClick={handleLogoutClick}
                 >
                   <div>
                     <i className='fi fi-rr-sign-out-alt'></i>
                   </div>
                   <h4 className=' text-sm'>Logout</h4>
                 </Link>
+                {/* Renderize o diálogo de confirmação de logout */}
+                <LogoutConfirmationDialog
+                  isOpen={isLogoutDialogOpen}
+                  onClose={() => setIsLogoutDialogOpen(false)} // Feche o diálogo de confirmação
+                  onConfirm={confirmLogout} // Realize o logout quando o usuário confirmar
+                />
                 <div
                   to=''
                   className=' pl-4 p-2 hover:bg-azulClaro dark:hover:bg-dark4 flex items-center  space-x-3'

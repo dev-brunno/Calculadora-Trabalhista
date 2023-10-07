@@ -11,7 +11,7 @@ function ClienteCard({ cliente, onClienteClick }) {
     <div className=' inline-block'>
       <button
         onClick={() => onClienteClick(cliente)}
-        className='w-36 h-28 shadow-inner rounded-2xl border border-cinzaClaro p-2 leading-extra-loose text-azulEscuro hover:bg-azulEscuro dark:text-dark3 dark:hover:bg-dark4 dark:hover:text-branco hover:text-branco'
+        className='w-36 h-36 shadow-inner rounded-2xl border border-cinzaClaro p-2 leading-extra-loose text-azulEscuro hover:bg-azulEscuro dark:text-dark3 dark:hover:bg-dark4 dark:hover:text-branco hover:text-branco'
       >
         <div className='flex flex-col items-center'>
           <div className='icon text-5xl p-2 bg-gray-200 dark:bg-dark2 rounded-full w-18'>

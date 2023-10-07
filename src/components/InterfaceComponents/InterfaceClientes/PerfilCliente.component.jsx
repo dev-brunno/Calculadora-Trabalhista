@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import PropTypes from 'prop-types';
 import CalculationCard from '../../InterfaceComponents/InterfaceCalculation/CalculationCard.component';
 import { getFirestore, doc, onSnapshot, getDoc, updateDoc, collection } from 'firebase/firestore';
@@ -177,7 +177,7 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
   };
 
   const handleOpenNewTab = (novaAba) => {
-    const root = ReactDOM.createRoot(novaAba.document.getElementById('report-pdf-container'));
+    const root = createRoot(novaAba.document.getElementById('report-pdf-container'));
 
     let dataCliente = FormataDataBrasileira(new Date(cliente.dataNascimento));
 
