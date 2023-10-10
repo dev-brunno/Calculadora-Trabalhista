@@ -82,13 +82,17 @@ class BaseFeriasCalculator {
       }
 
       if (this.calcularMesesTrabalhados(periodoInicial, dataFimPeriodo) >= 12) {
-        const periodo = `${periodoInicial.toLocaleDateString()} a ${dataFimPeriodo.toLocaleDateString()}`;
+        // Supondo que dataFimPeriodo seja uma data válida
+        const dataFimMenosUmDia = new Date(dataFimPeriodo);
+        dataFimMenosUmDia.setDate(dataFimMenosUmDia.getDate() - 1);
+
+        const periodo = `${periodoInicial.toLocaleDateString()} a ${dataFimMenosUmDia.toLocaleDateString()}`;
         const calculo = this.calcularFeriasIndenizatorias(periodoInicial, dataFimPeriodo);
         resultados.push({ Período: periodo, ...calculo });
       } else {
-        const calculo = this.calcularFeriasProporcionais(periodoInicial, dataFimPeriodo); // Chama aqui sem especificar período
+        const calculo = this.calcularFeriasProporcionais(periodoInicial, periodoFinal); // Chama aqui sem especificar período
         if (calculo) {
-          const periodo = `${periodoInicial.toLocaleDateString()} a ${dataFimPeriodo.toLocaleDateString()}`;
+          const periodo = `${periodoInicial.toLocaleDateString()} a ${periodoFinal.toLocaleDateString()}`;
           resultados.push({ Período: periodo, ...calculo });
         }
       }
@@ -117,7 +121,15 @@ export class FeriasIndenizatoriasCalculator extends BaseFeriasCalculator {
       const mesesTrabalhados = this.calcularMesesTrabalhados(dataInicioPeriodo, dataFimPeriodo);
       const ferias = avos * mesesTrabalhados;
       const tercoConstitucional = ferias / 3;
-      const feriasIndenizatorias = ferias + tercoConstitucional;
+      let feriasIndenizatorias = ferias + tercoConstitucional;
+
+      // Verifique se o período de férias é maior ou igual a um ano em relação ao fim do contrato
+      const diffDays = Math.abs(differenceInDays(dataFimPeriodo, this.fimContrato));
+      if (diffDays >= 365) {
+        // Se o período de férias for maior ou igual a um ano, dobre o valor das férias
+        feriasIndenizatorias *= 2;
+      }
+
       this.somaTotal += feriasIndenizatorias;
 
       const resultados = {

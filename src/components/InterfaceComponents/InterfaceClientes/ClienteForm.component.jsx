@@ -321,7 +321,7 @@ function ClienteForm({ addCliente, updateCliente, editCliente, deleteCliente, on
                           className='border border-azulEscuro dark:border-dark3 text-black h-9 w-52 p-2 rounded-r-2xl rounded-bl-2xl text-sm'
                           required
                         />
-                        {enderecoLoading && <p>Carregando...</p>}
+                        {enderecoLoading && <p className=' text-xs'>Carregando...</p>}
                       </div>
                     </div>
                     <div>

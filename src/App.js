@@ -12,29 +12,43 @@ import AuthLayout from './login/AuthLayout';
 import { AuthProvider } from './Context/AuthProvider'; // Importe o AuthProvider
 import PrivateRoute from './login/PrivateRoute'; // Importe o PrivateRoute
 
-import RescisaoContratoCalculator from './Classes/Calculos/RescisaoContratoCalculator';
+import FGTSCalculator from './Classes/Calculos/FGTSCalculator';
 
-// Fornecer os parâmetros necessários
-const inicioContrato = '2020-01-01'; // Substitua com a data de início do contrato
-const fimContrato = '2023-03-15'; // Substitua com a data de fim do contrato
-const remuneracaoUltima = 3000; // Substitua com a última remuneração
-const descontos = 0; // Substitua com o valor dos descontos
-const depositoFGTS = 2000; // Substitua com o valor do depósito do FGTS
+const periodoInicial = '2023-01-27'; // Data de início do período
+const periodoFinal = '2023-12-28'; // Data de fim do período
+const salarioMensal = 3000.0; // Salário mensal
 
-// Criar uma instância da classe RescisaoContratoCalculator
-const calculadoraRescisao = new RescisaoContratoCalculator(
-  inicioContrato,
-  fimContrato,
-  remuneracaoUltima,
-  descontos,
-  depositoFGTS,
-);
+try {
+  const fgtsCalculator = new FGTSCalculator(periodoInicial, periodoFinal, salarioMensal);
+  const resultadosFGTS = fgtsCalculator.calcularFGTS();
+  console.log(resultadosFGTS);
+} catch (error) {
+  console.error(error.message);
+}
 
-// Calcular a rescisão
-const resultadoRescisao = calculadoraRescisao.calcularRescisao();
+// import RescisaoContratoCalculator from './Classes/Calculos/RescisaoContratoCalculator';
 
-// Exibir o resultado
-console.log(resultadoRescisao);
+// // Fornecer os parâmetros necessários
+// const inicioContrato = '2020-06-03'; // Substitua com a data de início do contrato
+// const fimContrato = '2023-03-14'; // Substitua com a data de fim do contrato
+// const remuneracaoUltima = 3000; // Substitua com a última remuneração
+// const descontos = 0; // Substitua com o valor dos descontos
+// const depositoFGTS = 2000; // Substitua com o valor do depósito do FGTS
+
+// // Criar uma instância da classe RescisaoContratoCalculator
+// const calculadoraRescisao = new RescisaoContratoCalculator(
+//   inicioContrato,
+//   fimContrato,
+//   remuneracaoUltima,
+//   descontos,
+//   depositoFGTS,
+// );
+
+// // Calcular a rescisão
+// const resultadoRescisao = calculadoraRescisao.calcularRescisao();
+
+// // Exibir o resultado
+// console.log(resultadoRescisao);
 
 function App() {
   const [appLoaded, setAppLoaded] = useState(false);

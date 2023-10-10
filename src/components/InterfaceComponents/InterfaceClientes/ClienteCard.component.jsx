@@ -18,7 +18,7 @@ function ClienteCard({ cliente, onClienteClick }) {
             <i className='fi fi-rr-user'></i>
           </div>
           <div>
-            <h3 className=' text-sm font-bold ' style={{ cursor: 'pointer' }}>
+            <h3 className=' text-sm font-bold  leading-4' style={{ cursor: 'pointer' }}>
               {primeiroNome} {segundoNome}
             </h3>
           </div>

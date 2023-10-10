@@ -7,6 +7,8 @@ import RefazerCalculoButton from '../../InterfaceComponents/InterfaceCalculation
 // ...imports e imports de componentes
 
 function InsalubridadeApp() {
+  const [inicioPeriodo, setInicioPeriodo] = useState('2023-01-01');
+  const [fimPeriodo, setFimPeriodo] = useState('2023-12-10');
   const [salarioBase, setSalarioBase] = useState(2000);
   const [grauInsalubridade, setGrauInsalubridade] = useState('10');
   const [valorInsalubridade, setValorInsalubridade] = useState(null);
@@ -19,12 +21,17 @@ function InsalubridadeApp() {
     setter(event.target.value);
   };
 
-  const handleCalculate = () => {
+  const handleCalculate = async () => {
     setCalculando(true);
     setErroCalculo(null);
     try {
-      const insalubridadeCalculator = new InsalubridadeCalculator(salarioBase, grauInsalubridade);
-      const calculatedInsalubridade = insalubridadeCalculator.calcularInsalubridade();
+      const insalubridadeCalculator = new InsalubridadeCalculator(
+        inicioPeriodo,
+        fimPeriodo,
+        salarioBase,
+        grauInsalubridade,
+      );
+      const calculatedInsalubridade = await insalubridadeCalculator.calcularInsalubridade();
       setValorInsalubridade(calculatedInsalubridade);
       setMostrarResultados(true);
     } catch (error) {
@@ -40,6 +47,20 @@ function InsalubridadeApp() {
   };
 
   const inputs = [
+    {
+      id: 'inicioPeriodo',
+      label: 'Data de Início do Periodo',
+      type: 'date',
+      value: inicioPeriodo,
+      setter: setInicioPeriodo,
+    },
+    {
+      id: 'fimPeriodo',
+      label: 'Data de Término do Periodo',
+      type: 'date',
+      value: fimPeriodo,
+      setter: setFimPeriodo,
+    },
     {
       id: 'salarioBase',
       label: 'Salário Base',

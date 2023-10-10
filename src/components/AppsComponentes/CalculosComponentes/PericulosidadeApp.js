@@ -5,6 +5,8 @@ import PericulosidadeCalculator from '../../../Classes/Calculos/PericulosidadeCa
 import RefazerCalculoButton from '../../InterfaceComponents/InterfaceCalculation/RefazerCalculoButton.compoent';
 
 function PericulosidadeApp() {
+  const [inicioPeriodo, setInicioPeriodo] = useState('2023-01-01');
+  const [fimPeriodo, setFimPeriodo] = useState('2023-12-10');
   const [salarioBase, setSalarioBase] = useState(2000);
   const [valorPericulosidade, setValorPericulosidade] = useState(null);
   const [calculando, setCalculando] = useState(false);
@@ -16,12 +18,16 @@ function PericulosidadeApp() {
     setter(event.target.value);
   };
 
-  const handleCalculate = () => {
+  const handleCalculate = async () => {
     setCalculando(true);
     setErroCalculo(null);
     try {
-      const periculosidadeCalculator = new PericulosidadeCalculator(salarioBase);
-      const calculatedPericulosidade = periculosidadeCalculator.calcularPericulosidade();
+      const periculosidadeCalculator = new PericulosidadeCalculator(
+        inicioPeriodo,
+        fimPeriodo,
+        salarioBase,
+      );
+      const calculatedPericulosidade = await periculosidadeCalculator.calcularPericulosidade();
       setValorPericulosidade(calculatedPericulosidade);
       setMostrarResultados(true);
     } catch (error) {
@@ -37,6 +43,20 @@ function PericulosidadeApp() {
   };
 
   const inputs = [
+    {
+      id: 'inicioPeriodo',
+      label: 'Data de Início do Periodo',
+      type: 'date',
+      value: inicioPeriodo,
+      setter: setInicioPeriodo,
+    },
+    {
+      id: 'fimPeriodo',
+      label: 'Data de Término do Periodo',
+      type: 'date',
+      value: fimPeriodo,
+      setter: setFimPeriodo,
+    },
     {
       id: 'salarioBase',
       label: 'Salário Base',

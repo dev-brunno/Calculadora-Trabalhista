@@ -37,7 +37,9 @@ function RegisterPage() {
   const [oabNumber, setOabNumber] = useState('');
   const history = useNavigate();
 
-  const handleRegister = async () => {
+  const handleRegister = async (e) => {
+    e.preventDefault(); // Evita que o formulário seja enviado por padrão
+
     try {
       // Verifique se as senhas coincidem
       if (password !== confirmPassword) {
@@ -76,58 +78,63 @@ function RegisterPage() {
   };
 
   return (
-    <div className=' flex flex-col space-y-2'>
+    <div>
       <h2>Registro</h2>
-      <input
-        type='text'
-        placeholder='Nome de Usuário'
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-        maxLength={255} // Limite de 255 caracteres
-      />
-      <input
-        type='email'
-        placeholder='Email'
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        maxLength={255} // Limite de 255 caracteres
-      />
-      <input
-        type='password'
-        placeholder='Senha'
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        maxLength={255} // Limite de 255 caracteres
-      />
-      <input
-        type='password'
-        placeholder='Confirme a Senha'
-        value={confirmPassword}
-        onChange={(e) => setConfirmPassword(e.target.value)}
-        maxLength={255} // Limite de 255 caracteres
-      />
-      <input
-        type='text'
-        placeholder='Número de Telefone'
-        value={phoneNumber}
-        onChange={(e) => setPhoneNumber(formatTelefone(e.target.value))}
-        maxLength={15} // Limite de 15 caracteres
-      />
-      <input
-        type='text'
-        placeholder='Nome Completo do Advogado ou Nome da Empresa'
-        value={displayName}
-        onChange={(e) => setDisplayName(e.target.value)}
-        maxLength={255} // Limite de 255 caracteres
-      />
-      <input
-        type='text'
-        placeholder='Número de Registro na OAB'
-        value={oabNumber}
-        onChange={(e) => setOabNumber(e.target.value)}
-        maxLength={20} // Limite de 20 caracteres
-      />
-      <button onClick={handleRegister}>Registrar</button>
+      <form className=' flex flex-col space-y-2' onSubmit={handleRegister}>
+        <input
+          type='text'
+          placeholder='Nome de Usuário'
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          maxLength={255} // Limite de 255 caracteres
+        />
+        <input
+          type='email'
+          placeholder='Email'
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          maxLength={255} // Limite de 255 caracteres
+          autoComplete='email'
+        />
+        <input
+          type='password'
+          placeholder='Senha'
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          maxLength={255}
+          autoComplete='new-password' // Adicione este atributo
+        />
+        <input
+          type='password'
+          placeholder='Confirme a Senha'
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          maxLength={255}
+          autoComplete='new-password' // Adicione este atributo
+        />
+        <input
+          type='text'
+          placeholder='Número de Telefone'
+          value={phoneNumber}
+          onChange={(e) => setPhoneNumber(formatTelefone(e.target.value))}
+          maxLength={15} // Limite de 15 caracteres
+        />
+        <input
+          type='text'
+          placeholder='Nome Completo do Advogado ou Nome da Empresa'
+          value={displayName}
+          onChange={(e) => setDisplayName(e.target.value)}
+          maxLength={255} // Limite de 255 caracteres
+        />
+        <input
+          type='text'
+          placeholder='Número de Registro na OAB'
+          value={oabNumber}
+          onChange={(e) => setOabNumber(e.target.value)}
+          maxLength={20} // Limite de 20 caracteres
+        />
+        <button type='submit'>Registrar</button>
+      </form>
       <p>
         Já tem uma conta? <Link to='/login'>Faça login</Link>
       </p>

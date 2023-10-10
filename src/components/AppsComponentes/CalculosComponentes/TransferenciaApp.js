@@ -5,6 +5,8 @@ import TransferenciaCalculator from '../../../Classes/Calculos/TransferenciaCalc
 import RefazerCalculoButton from '../../InterfaceComponents/InterfaceCalculation/RefazerCalculoButton.compoent';
 
 function TransferenciaApp() {
+  const [inicioPeriodo, setInicioPeriodo] = useState('2023-01-01');
+  const [fimPeriodo, setFimPeriodo] = useState('2023-12-10');
   const [remuneracao, setRemuneracao] = useState(2000);
   const [porcentagem, setPorcentagem] = useState(10);
   const [valorTransferencia, setValorTransferencia] = useState(null);
@@ -17,12 +19,17 @@ function TransferenciaApp() {
     setter(event.target.value);
   };
 
-  const handleCalculate = () => {
+  const handleCalculate = async () => {
     setCalculando(true);
     setErroCalculo(null);
     try {
-      const transferenciaCalculator = new TransferenciaCalculator(remuneracao, porcentagem);
-      const calculatedTransferencia = transferenciaCalculator.calcularTransferencia();
+      const transferenciaCalculator = new TransferenciaCalculator(
+        inicioPeriodo,
+        fimPeriodo,
+        remuneracao,
+        porcentagem,
+      );
+      const calculatedTransferencia = await transferenciaCalculator.calcularTransferencia();
       setValorTransferencia(calculatedTransferencia);
       setMostrarResultados(true);
     } catch (error) {
@@ -38,6 +45,20 @@ function TransferenciaApp() {
   };
 
   const inputs = [
+    {
+      id: 'inicioPeriodo',
+      label: 'Data de Início do Periodo',
+      type: 'date',
+      value: inicioPeriodo,
+      setter: setInicioPeriodo,
+    },
+    {
+      id: 'fimPeriodo',
+      label: 'Data de Término do Periodo',
+      type: 'date',
+      value: fimPeriodo,
+      setter: setFimPeriodo,
+    },
     {
       id: 'remuneracao',
       label: 'Remuneração',

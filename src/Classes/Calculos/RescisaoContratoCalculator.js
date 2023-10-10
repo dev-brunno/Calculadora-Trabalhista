@@ -26,8 +26,8 @@ class RescisaoContratoCalculator {
     let avisoPrevioDias = 30;
 
     if (diffMonths > 12) {
-      const anosExcedentes = Math.floor((diffMonths - 12) / 12);
-      avisoPrevioDias += anosExcedentes * 3;
+      const anosCompletos = Math.floor(diffMonths / 12); // Calcula os anos completos
+      avisoPrevioDias += anosCompletos * 3; // Multiplica por 3 os anos completos
     }
 
     const valorAvisoPrevio = (this.remuneracaoUltima / 30) * avisoPrevioDias;

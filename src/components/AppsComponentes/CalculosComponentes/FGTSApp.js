@@ -5,6 +5,8 @@ import FGTSCalculator from '../../../Classes/Calculos/FGTSCalculator';
 import RefazerCalculoButton from '../../InterfaceComponents/InterfaceCalculation/RefazerCalculoButton.compoent';
 
 function FGTSApp() {
+  const [inicioPeriodo, setInicioPeriodo] = useState('2023-01-01');
+  const [fimPeriodo, setFimPeriodo] = useState('2023-12-10');
   const [salarioMensal, setSalarioMensal] = useState(3000);
   const [valorFGTS, setValorFGTS] = useState(null);
   const [calculando, setCalculando] = useState(false);
@@ -20,8 +22,8 @@ function FGTSApp() {
     setCalculando(true);
     setErroCalculo(null);
     try {
-      const fgtsCalculator = new FGTSCalculator(salarioMensal);
-      const calculatedFGTS = fgtsCalculator.calcularFGTS();
+      const fgtsCalculator = new FGTSCalculator(inicioPeriodo, fimPeriodo, salarioMensal);
+      const calculatedFGTS = await fgtsCalculator.calcularFGTS();
       setValorFGTS(calculatedFGTS);
       setMostrarResultados(true);
     } catch (error) {
@@ -37,6 +39,20 @@ function FGTSApp() {
   };
 
   const inputs = [
+    {
+      id: 'inicioPeriodo',
+      label: 'Data de Início do Periodo',
+      type: 'date',
+      value: inicioPeriodo,
+      setter: setInicioPeriodo,
+    },
+    {
+      id: 'fimPeriodo',
+      label: 'Data de Término do Periodo',
+      type: 'date',
+      value: fimPeriodo,
+      setter: setFimPeriodo,
+    },
     {
       id: 'salarioMensal',
       label: 'Salário Mensal',
