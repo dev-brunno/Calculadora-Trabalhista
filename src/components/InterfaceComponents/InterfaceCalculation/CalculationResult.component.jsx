@@ -6,7 +6,7 @@ import { getFirestore, collection, doc, getDoc, updateDoc } from 'firebase/fires
 import SelecaoClienteBox from './SelecaoClienteBox.component';
 import ReportPDF from './ReportPDF.component';
 import OpenInNewTabButton from './OpenInNewTabButton.component';
-import FormataRealBrasileiro from '../../../Classes/Calculos/FormataRealBrasileiro';
+import { FormataRealBrasileiro } from '../../../Classes/Funcoes/genericFunctions';
 import { useAuth } from '../../../Context/AuthProvider';
 import firebase from '../../../Firebase/firebase';
 

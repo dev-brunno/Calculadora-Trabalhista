@@ -2,7 +2,7 @@ import { differenceInCalendarMonths, differenceInDays } from 'date-fns';
 
 // Classe para calcular o Décimo Terceiro
 export default class DecimoTerceiroCalculator {
-  constructor(inicioContrato, fimContrato, remuneracaoUltima, descontos) {
+  constructor(inicioContrato, fimContrato, remuneracaoUltima, descontos, type = 'normal') {
     if (!inicioContrato || !fimContrato || remuneracaoUltima < 0 || descontos < 0) {
       throw new Error('Entradas inválidas.');
     }
@@ -11,6 +11,7 @@ export default class DecimoTerceiroCalculator {
     this.fimContrato = this.createDateFromYYYYMMDD(fimContrato);
     this.remuneracaoUltima = parseFloat(remuneracaoUltima);
     this.descontos = parseFloat(descontos);
+    this.type = type;
   }
 
   createDateFromYYYYMMDD(dateString) {
@@ -21,6 +22,7 @@ export default class DecimoTerceiroCalculator {
   // Calcula o Décimo Terceiro
   calcularDecimoTerceiro() {
     const resultado = [];
+    let resultados2;
     let somaTotal = 0;
 
     let dataInicio = new Date(this.inicioContrato);
@@ -39,12 +41,21 @@ export default class DecimoTerceiroCalculator {
 
       somaTotal += valorDecimoTerceiro;
 
-      resultado.push({
-        Período: periodo,
-        'Ano correspondente': anoCorrespondente.toString(),
-        'Última Remuneração': this.remuneracaoUltima,
-        'Valor do Decimo Terceiro': valorDecimoTerceiro,
-      });
+      if (this.type == 'rescisao') {
+        resultados2 = {
+          Período: periodo,
+          'Ano correspondente': anoCorrespondente.toString(),
+          'Última Remuneração': this.remuneracaoUltima,
+          'Valor do Decimo Terceiro': valorDecimoTerceiro,
+        };
+      } else {
+        resultado.push({
+          Período: periodo,
+          'Ano correspondente': anoCorrespondente.toString(),
+          'Última Remuneração': this.remuneracaoUltima,
+          'Valor do Decimo Terceiro': valorDecimoTerceiro,
+        });
+      }
 
       anoCorrespondente++;
       dataInicio.setFullYear(anoCorrespondente, 0, 1);
@@ -54,15 +65,21 @@ export default class DecimoTerceiroCalculator {
       }
     }
 
-    resultado.push({
-      Descontos: this.descontos,
-    });
+    console.log(this.type);
 
-    resultado.push({
-      'Valor a Receber': somaTotal - this.descontos,
-    });
+    if (this.type == 'rescisao') {
+      return resultados2;
+    } else {
+      resultado.push({
+        Descontos: this.descontos,
+      });
 
-    return resultado;
+      resultado.push({
+        'Valor a Receber': somaTotal - this.descontos,
+      });
+
+      return resultado;
+    }
   }
 
   // Calcula os meses trabalhados

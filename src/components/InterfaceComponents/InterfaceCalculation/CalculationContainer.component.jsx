@@ -6,11 +6,13 @@ import FGTSApp from '../../AppsComponentes/CalculosComponentes/FGTSApp';
 import PericulosidadeApp from '../../AppsComponentes/CalculosComponentes/PericulosidadeApp';
 import InsalubridadeApp from '../../AppsComponentes/CalculosComponentes/InsalubridadeApp';
 import TransferenciaApp from '../../AppsComponentes/CalculosComponentes/TransferenciaApp';
+import RescisaoApp from '../../AppsComponentes/CalculosComponentes/RescisaoApp';
 
 //Um array de objetos que descreve os tipos de cálculos disponíveis.
 const calculations = [
   { id: 'ferias', title: 'Férias' },
   { id: 'decimoTerceiro', title: 'Décimo Terceiro' },
+  { id: 'rescisao', title: 'Rescisão' },
   { id: 'fgts', title: 'FGTS' },
   { id: 'transferencia', title: 'Transferência' },
   {
@@ -24,6 +26,7 @@ const calculations = [
 const components = {
   ferias: FeriasApp,
   decimoTerceiro: DecimoTerceiroApp,
+  rescisao: RescisaoApp,
   fgts: FGTSApp,
   periculosidade: PericulosidadeApp,
   insalubridade: InsalubridadeApp,

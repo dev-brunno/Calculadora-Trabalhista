@@ -1,7 +1,7 @@
 import { differenceInCalendarMonths, differenceInDays } from 'date-fns';
 
 class BaseFeriasCalculator {
-  constructor(inicioContrato, fimContrato, remuneracaoUltima, descontos) {
+  constructor(inicioContrato, fimContrato, remuneracaoUltima, descontos, type = 'normal') {
     if (!inicioContrato || !fimContrato || remuneracaoUltima < 0 || descontos < 0) {
       throw new Error('Entradas inválidas.');
     }
@@ -11,6 +11,7 @@ class BaseFeriasCalculator {
     this.remuneracaoUltima = parseFloat(remuneracaoUltima);
     this.descontos = parseFloat(descontos);
     this.somaTotal = 0;
+    this.type = type;
   }
 
   createDateFromYYYYMMDD(dateString) {
@@ -67,6 +68,7 @@ class BaseFeriasCalculator {
 
   calcular() {
     const resultados = [];
+    let resultados2;
 
     const periodoInicial = new Date(this.inicioContrato);
     const periodoFinal = new Date(this.fimContrato);
@@ -81,34 +83,48 @@ class BaseFeriasCalculator {
         dataFimPeriodo.setFullYear(periodoFinal.getFullYear());
       }
 
-      if (this.calcularMesesTrabalhados(periodoInicial, dataFimPeriodo) >= 12) {
-        // Supondo que dataFimPeriodo seja uma data válida
-        const dataFimMenosUmDia = new Date(dataFimPeriodo);
-        dataFimMenosUmDia.setDate(dataFimMenosUmDia.getDate() - 1);
-
-        const periodo = `${periodoInicial.toLocaleDateString()} a ${dataFimMenosUmDia.toLocaleDateString()}`;
-        const calculo = this.calcularFeriasIndenizatorias(periodoInicial, dataFimPeriodo);
-        resultados.push({ Período: periodo, ...calculo });
+      if (this.type == 'rescisao') {
+        if (this.calcularMesesTrabalhados(periodoInicial, dataFimPeriodo) < 12) {
+          const calculo = this.calcularFeriasProporcionais(periodoInicial, periodoFinal); // Chama aqui sem especificar período
+          if (calculo) {
+            const periodo = `${periodoInicial.toLocaleDateString()} a ${periodoFinal.toLocaleDateString()}`;
+            resultados2 = { Período: periodo, ...calculo };
+          }
+        }
       } else {
-        const calculo = this.calcularFeriasProporcionais(periodoInicial, periodoFinal); // Chama aqui sem especificar período
-        if (calculo) {
-          const periodo = `${periodoInicial.toLocaleDateString()} a ${periodoFinal.toLocaleDateString()}`;
+        if (this.calcularMesesTrabalhados(periodoInicial, dataFimPeriodo) >= 12) {
+          // Supondo que dataFimPeriodo seja uma data válida
+          const dataFimMenosUmDia = new Date(dataFimPeriodo);
+          dataFimMenosUmDia.setDate(dataFimMenosUmDia.getDate() - 1);
+
+          const periodo = `${periodoInicial.toLocaleDateString()} a ${dataFimMenosUmDia.toLocaleDateString()}`;
+          const calculo = this.calcularFeriasIndenizatorias(periodoInicial, dataFimPeriodo);
           resultados.push({ Período: periodo, ...calculo });
+        } else {
+          const calculo = this.calcularFeriasProporcionais(periodoInicial, periodoFinal); // Chama aqui sem especificar período
+          if (calculo) {
+            const periodo = `${periodoInicial.toLocaleDateString()} a ${periodoFinal.toLocaleDateString()}`;
+            resultados.push({ Período: periodo, ...calculo });
+          }
         }
       }
 
       periodoInicial.setFullYear(periodoInicial.getFullYear() + 1);
     }
 
-    resultados.push({
-      Descontos: this.descontos,
-    });
+    if (this.type == 'rescisao') {
+      return resultados2;
+    } else {
+      resultados.push({
+        Descontos: this.descontos,
+      });
 
-    resultados.push({
-      'Valor a Receber': this.somaTotal - this.descontos, // Adiciona somaTotal aos resultados finais
-    });
+      resultados.push({
+        'Valor a Receber': this.somaTotal - this.descontos, // Adiciona somaTotal aos resultados finais
+      });
 
-    return resultados;
+      return resultados;
+    }
   }
 }
 
@@ -138,7 +154,6 @@ export class FeriasIndenizatoriasCalculator extends BaseFeriasCalculator {
         'Terço Constitucional': tercoConstitucional,
         'Férias Indenizatorias': feriasIndenizatorias,
       };
-
       return resultados;
     } else {
       return null; // Retorna nulo para períodos menores que 12 meses

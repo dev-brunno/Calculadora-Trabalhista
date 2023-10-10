@@ -5,6 +5,7 @@ import '@flaticon/flaticon-uicons/css/all/all.css';
 const calculations = {
   Férias: 'fi fi-rr-umbrella-beach',
   'Décimo Terceiro': 'fi fi-rr-calendar',
+  Rescisão: 'fi fi-rr-file-circle-info',
   FGTS: 'fi fi-rr-sack-dollar',
   Transferência: 'fi fi-rr-replace',
   'Adicional de Periculosidade': 'fi fi-rr-hand-holding-skull',

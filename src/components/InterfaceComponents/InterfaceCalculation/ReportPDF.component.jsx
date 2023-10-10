@@ -1,7 +1,7 @@
 import React from 'react';
 import { Document, Page, Text, View, StyleSheet, PDFViewer } from '@react-pdf/renderer';
 import PropTypes from 'prop-types';
-import FormataRealBrasileiro from '../../../Classes/Calculos/FormataRealBrasileiro';
+import { FormataRealBrasileiro } from '../../../Classes/Funcoes/genericFunctions';
 
 function ReportPDF({ title, results, calculationResults = {}, userData }) {
   const styles = StyleSheet.create({

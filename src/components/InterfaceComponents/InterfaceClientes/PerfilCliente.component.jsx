@@ -5,8 +5,8 @@ import CalculationCard from '../../InterfaceComponents/InterfaceCalculation/Calc
 import { getFirestore, doc, onSnapshot, getDoc, updateDoc, collection } from 'firebase/firestore';
 import ReportPDF from '../InterfaceCalculation/ReportPDF.component';
 import OpenInNewTabButton from '../InterfaceCalculation/OpenInNewTabButton.component';
-import FormataRealBrasileiro from '../../../Classes/Calculos/FormataRealBrasileiro';
-import FormataDataBrasileira from '../../../Classes/Calculos/FormataDataBrasileira';
+import { FormataRealBrasileiro } from '../../../Classes/Funcoes/genericFunctions';
+import { FormataDataBrasileira } from '../../../Classes/Funcoes/genericFunctions';
 import { useAuth } from '../../../Context/AuthProvider';
 import firebase from '../../../Firebase/firebase'; // Importe o Firebase
 

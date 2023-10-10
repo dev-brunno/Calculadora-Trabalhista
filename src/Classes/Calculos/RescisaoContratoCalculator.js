@@ -3,8 +3,14 @@ import DecimoTerceiroCalculator from './DecimoTerceiroCalculator';
 import { FeriasIndenizatoriasCalculator } from './FeriasCalculator';
 
 class RescisaoContratoCalculator {
-  constructor(inicioContrato, fimContrato, remuneracaoUltima, descontos, depositoFGTS) {
-    if (!inicioContrato || !fimContrato || remuneracaoUltima < 0 || descontos < 0) {
+  constructor(inicioContrato, fimContrato, remuneracaoUltima, depositoFGTS, descontos) {
+    if (
+      !inicioContrato ||
+      !fimContrato ||
+      remuneracaoUltima < 0 ||
+      descontos < 0 ||
+      depositoFGTS < 0
+    ) {
       throw new Error('Entradas inválidas.');
     }
 
@@ -30,11 +36,13 @@ class RescisaoContratoCalculator {
       avisoPrevioDias += anosCompletos * 3; // Multiplica por 3 os anos completos
     }
 
+    const periodo = `${this.inicioContrato.toLocaleDateString()} a ${this.fimContrato.toLocaleDateString()}`;
     const valorAvisoPrevio = (this.remuneracaoUltima / 30) * avisoPrevioDias;
     this.somaTotal += valorAvisoPrevio;
 
     return {
-      'Aviso Prévio Indenizado (dias)': avisoPrevioDias,
+      Período: periodo,
+      'Aviso Prévio Indenizado (dias)': `${avisoPrevioDias} dias`,
       'Valor do Aviso Prévio Indenizado': valorAvisoPrevio,
     };
   }
@@ -45,11 +53,13 @@ class RescisaoContratoCalculator {
     const diasTrabalhadosUltimoMes =
       differenceInDays(this.fimContrato, primeiroDiaMesFimContrato) + 1;
 
+    const periodo = `${primeiroDiaMesFimContrato.toLocaleDateString()} a ${this.fimContrato.toLocaleDateString()}`;
     const valorSaldoSalario = (this.remuneracaoUltima / 30) * diasTrabalhadosUltimoMes;
     this.somaTotal += valorSaldoSalario;
 
     return {
-      'Dias Trabalhados do Último Mês': diasTrabalhadosUltimoMes,
+      Período: periodo,
+      'Dias Trabalhados do Último Mês': `${diasTrabalhadosUltimoMes} dias`,
       'Valor do Saldo de Salário': valorSaldoSalario,
     };
   }
@@ -59,6 +69,7 @@ class RescisaoContratoCalculator {
     this.somaTotal += valorMultaFGTS;
 
     return {
+      'Valor Depositado': this.depositoFGTS,
       'Valor da Multa do FGTS (40%)': valorMultaFGTS,
     };
   }
@@ -90,22 +101,20 @@ class RescisaoContratoCalculator {
       formattedFim, // Data de fim formatada
       this.remuneracaoUltima,
       0,
+      'rescisao',
     );
     const decimoTerceiroResult = decimoTerceiroCalculator.calcularDecimoTerceiro();
-    resultados.push({
-      'Décimo Terceiro Proporcional': decimoTerceiroResult,
-    });
+    resultados.push(decimoTerceiroResult);
 
     const baseFeriasCalculator = new FeriasIndenizatoriasCalculator(
       formattedInicio,
       formattedFim,
       this.remuneracaoUltima,
       0,
+      'rescisao',
     );
     const feriasResult = baseFeriasCalculator.calcular();
-    resultados.push({
-      'Férias Proporcionais': feriasResult,
-    });
+    resultados.push(feriasResult);
 
     resultados.push({
       Descontos: this.descontos,
