@@ -52,6 +52,9 @@ function LoginPage() {
         <button type='submit'>Entrar</button>
       </form>
       <p>
+        <Link to='/esqueciasenha'>Esqueci Minha Senha</Link>
+      </p>
+      <p>
         Ainda não tem uma conta? <Link to='/register'>Registre-se</Link>
       </p>
     </div>

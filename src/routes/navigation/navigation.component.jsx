@@ -54,8 +54,8 @@ export default function Navigation() {
               menuVisible ? ' justify-end' : ' justify-between'
             } md:block`}
           >
-            <div
-              id='user'
+            <Link
+              to='/perfil'
               className={`flex space-x-2 items-center pl-4 pt-4 pb-4   ${
                 menuVisible ? 'hidden' : 'block'
               } md:block`}
@@ -66,7 +66,7 @@ export default function Navigation() {
               <h3 className=' text-sm font-medium leading-none whitespace-pre-wrap'>
                 <i>{username}</i>
               </h3>
-            </div>
+            </Link>
             <button
               className='p-2 text-branco text-3xl justify-self-end mr-4 mt-4'
               onClick={toggleMenu}
@@ -77,14 +77,14 @@ export default function Navigation() {
 
           <nav className={`${menuVisible ? 'block' : 'hidden'} md:block`}>
             <div className='h-full text-branco divide-y dark:divide-dark3 flex flex-col'>
-              <div id='user' className='flex space-x-2 items-center pl-4 pt-4 pb-4 '>
+              <Link to='/perfil' className='flex space-x-2 items-center pl-4 pt-4 pb-4 '>
                 <div className=' text-5xl bg-azulClaro dark:bg-dark2 rounded-full p-2'>
                   <i className='fi fi-rr-circle-user align-middle flex justify-center'></i>
                 </div>
                 <h3 className=' text-sm font-medium leading-none w-20'>
                   <i>{username}</i>
                 </h3>
-              </div>
+              </Link>
 
               <div className=' text-2xl flex-grow flex flex-col justify-center'>
                 <Link
