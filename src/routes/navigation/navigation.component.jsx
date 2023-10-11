@@ -55,6 +55,7 @@ export default function Navigation() {
             } md:block`}
           >
             <div
+              id='user'
               className={`flex space-x-2 items-center pl-4 pt-4 pb-4   ${
                 menuVisible ? 'hidden' : 'block'
               } md:block`}
@@ -76,7 +77,7 @@ export default function Navigation() {
 
           <nav className={`${menuVisible ? 'block' : 'hidden'} md:block`}>
             <div className='h-full text-branco divide-y dark:divide-dark3 flex flex-col'>
-              <div className='flex space-x-2 items-center pl-4 pt-4 pb-4 '>
+              <div id='user' className='flex space-x-2 items-center pl-4 pt-4 pb-4 '>
                 <div className=' text-5xl bg-azulClaro dark:bg-dark2 rounded-full p-2'>
                   <i className='fi fi-rr-circle-user align-middle flex justify-center'></i>
                 </div>

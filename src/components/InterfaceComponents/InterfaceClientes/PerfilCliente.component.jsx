@@ -334,7 +334,7 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
                     {Object.entries(resultadosCalculos).map(([titulo], index) => (
                       <CalculationCard
                         key={index}
-                        icon={titulo} // Substitua pelo ícone correto
+                        icon={titulo}
                         title={titulo}
                         onClick={() => setCálculoSelecionado(titulo)} // Atualiza o estado com o cálculo selecionado
                       />

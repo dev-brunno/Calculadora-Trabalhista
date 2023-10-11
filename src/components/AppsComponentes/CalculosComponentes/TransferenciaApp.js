@@ -80,7 +80,7 @@ function TransferenciaApp() {
   ];
 
   const icon = {
-    title: 'Transferência',
+    title: 'Adicional de Transferência',
     icon: 'fi fi-rr-replace',
   };
 
@@ -88,13 +88,17 @@ function TransferenciaApp() {
     <div>
       {mostrarResultados ? (
         <div>
-          <CalculationResult title='Transferência' results={valorTransferencia} icon={icon} />
+          <CalculationResult
+            title='Adicional de Transferência'
+            results={valorTransferencia}
+            icon={icon}
+          />
           {/* Componente RefazerCalculoButton */}
           <RefazerCalculoButton onClick={handleRefazerCalculo} />
         </div>
       ) : (
         <CalculationForm
-          title='Cálculo de Transferência'
+          title='Cálculo Adicional de Transferência'
           inputs={inputs}
           handleInputChange={handleInputChange}
           handleCalculate={handleCalculate}

@@ -85,7 +85,7 @@ function PericulosidadeApp() {
         </div>
       ) : (
         <CalculationForm
-          title='Cálculo de Periculosidade'
+          title='Cálculo Adicional de Periculosidade'
           inputs={inputs}
           handleInputChange={handleInputChange}
           handleCalculate={handleCalculate}

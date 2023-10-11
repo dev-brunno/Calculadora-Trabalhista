@@ -7,30 +7,36 @@ import PericulosidadeApp from '../../AppsComponentes/CalculosComponentes/Pericul
 import InsalubridadeApp from '../../AppsComponentes/CalculosComponentes/InsalubridadeApp';
 import TransferenciaApp from '../../AppsComponentes/CalculosComponentes/TransferenciaApp';
 import RescisaoApp from '../../AppsComponentes/CalculosComponentes/RescisaoApp';
+import NoturnoApp from '../../AppsComponentes/CalculosComponentes/NoturnoApp';
+import HorasExtrasApp from '../../AppsComponentes/CalculosComponentes/HorasExtrasApp';
 
 //Um array de objetos que descreve os tipos de cálculos disponíveis.
 const calculations = [
+  { id: 'horasExtras', title: 'Horas Extras' },
   { id: 'ferias', title: 'Férias' },
   { id: 'decimoTerceiro', title: 'Décimo Terceiro' },
   { id: 'rescisao', title: 'Rescisão' },
   { id: 'fgts', title: 'FGTS' },
-  { id: 'transferencia', title: 'Transferência' },
+  { id: 'transferencia', title: 'Adicional de Transferência' },
   {
     id: 'periculosidade',
     title: 'Adicional de Periculosidade',
   },
   { id: 'insalubridade', title: 'Adicional de Insalubridade' },
+  { id: 'noturno', title: 'Adicional Noturno' },
 ];
 
 //Um objeto que mapeia os tipos de cálculos para os componentes correspondentes.
 const components = {
+  horasExtras: HorasExtrasApp,
   ferias: FeriasApp,
   decimoTerceiro: DecimoTerceiroApp,
   rescisao: RescisaoApp,
   fgts: FGTSApp,
+  transferencia: TransferenciaApp,
   periculosidade: PericulosidadeApp,
   insalubridade: InsalubridadeApp,
-  transferencia: TransferenciaApp,
+  noturno: NoturnoApp,
 };
 
 function CalculationContainer() {

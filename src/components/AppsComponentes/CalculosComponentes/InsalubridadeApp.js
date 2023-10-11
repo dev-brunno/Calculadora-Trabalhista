@@ -101,7 +101,7 @@ function InsalubridadeApp() {
         </div>
       ) : (
         <CalculationForm
-          title='Cálculo de Insalubridade'
+          title='Cálculo Adicional de Insalubridade'
           inputs={inputs}
           handleInputChange={handleInputChange}
           handleCalculate={handleCalculate}

@@ -12,30 +12,6 @@ import AuthLayout from './login/AuthLayout';
 import { AuthProvider } from './Context/AuthProvider'; // Importe o AuthProvider
 import PrivateRoute from './login/PrivateRoute'; // Importe o PrivateRoute
 
-import RescisaoContratoCalculator from './Classes/Calculos/RescisaoContratoCalculator';
-
-// Fornecer os parâmetros necessários
-const inicioContrato = '2020-06-03'; // Substitua com a data de início do contrato
-const fimContrato = '2023-03-14'; // Substitua com a data de fim do contrato
-const remuneracaoUltima = 3000; // Substitua com a última remuneração
-const descontos = 0; // Substitua com o valor dos descontos
-const depositoFGTS = 2000; // Substitua com o valor do depósito do FGTS
-
-// Criar uma instância da classe RescisaoContratoCalculator
-const calculadoraRescisao = new RescisaoContratoCalculator(
-  inicioContrato,
-  fimContrato,
-  remuneracaoUltima,
-  depositoFGTS,
-  descontos,
-);
-
-// Calcular a rescisão
-const resultadoRescisao = calculadoraRescisao.calcularRescisao();
-
-// Exibir o resultado
-console.log(resultadoRescisao);
-
 function App() {
   const [appLoaded, setAppLoaded] = useState(false);
 
