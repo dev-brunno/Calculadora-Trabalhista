@@ -8,10 +8,11 @@ const calculations = {
   'Décimo Terceiro': 'fi fi-rr-calendar',
   Rescisão: 'fi fi-rr-file-circle-info',
   FGTS: 'fi fi-rr-sack-dollar',
-  'Adicional de Transferência': 'fi fi-rr-replace',
+  'Adicional Noturno': 'fi fi-rr-moon-stars',
   'Adicional de Periculosidade': 'fi fi-rr-hand-holding-skull',
   'Adicional de Insalubridade': 'fi fi-rr-biohazard',
-  'Adicional Noturno': 'fi fi-rr-moon-stars',
+  'Adicional de Transferência': 'fi fi-rr-replace',
+  'Vale-transporte': 'fi fi-rr-bus-alt',
 };
 
 function CalculationIcon({ icon: Icon }) {

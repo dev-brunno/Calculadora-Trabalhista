@@ -9,6 +9,7 @@ import TransferenciaApp from '../../AppsComponentes/CalculosComponentes/Transfer
 import RescisaoApp from '../../AppsComponentes/CalculosComponentes/RescisaoApp';
 import NoturnoApp from '../../AppsComponentes/CalculosComponentes/NoturnoApp';
 import HorasExtrasApp from '../../AppsComponentes/CalculosComponentes/HorasExtrasApp';
+import ValeTransporteApp from '../../AppsComponentes/CalculosComponentes/ValeTransporteApp';
 
 //Um array de objetos que descreve os tipos de cálculos disponíveis.
 const calculations = [
@@ -17,13 +18,14 @@ const calculations = [
   { id: 'decimoTerceiro', title: 'Décimo Terceiro' },
   { id: 'rescisao', title: 'Rescisão' },
   { id: 'fgts', title: 'FGTS' },
-  { id: 'transferencia', title: 'Adicional de Transferência' },
+  { id: 'noturno', title: 'Adicional Noturno' },
   {
     id: 'periculosidade',
     title: 'Adicional de Periculosidade',
   },
   { id: 'insalubridade', title: 'Adicional de Insalubridade' },
-  { id: 'noturno', title: 'Adicional Noturno' },
+  { id: 'transferencia', title: 'Adicional de Transferência' },
+  { id: 'valeTransporte', title: 'Vale-transporte' },
 ];
 
 //Um objeto que mapeia os tipos de cálculos para os componentes correspondentes.
@@ -37,6 +39,7 @@ const components = {
   periculosidade: PericulosidadeApp,
   insalubridade: InsalubridadeApp,
   noturno: NoturnoApp,
+  valeTransporte: ValeTransporteApp,
 };
 
 function CalculationContainer() {
