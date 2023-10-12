@@ -106,6 +106,11 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
   };
 
   // Função para cancelar a exclusão de cálculo
+  const handleBackListCalc = () => {
+    setCálculoSelecionado(null);
+  };
+
+  // Função para cancelar a exclusão de cálculo
   const handleCancelDelete = () => {
     setConfirmDelete(false);
   };
@@ -293,15 +298,26 @@ function PerfilCliente({ cliente, onEditarClick, onVoltarClick }) {
                       )}
                     </ul>
                   </div>
-                  <button
-                    title='Remover Cálculo'
-                    onClick={handleShowConfirmDelete}
-                    className='text-branco mt-2 bg-red-500 hover:bg-azulEscuro dark:hover:bg-dark4 p-2 rounded-full w-11'
-                  >
-                    <div className='mt-1'>
-                      <i className='fi fi-sr-trash'></i>
-                    </div>
-                  </button>
+                  <div className=' flex justify-between'>
+                    <button
+                      title='Voltar a lista de cálculos'
+                      onClick={handleBackListCalc}
+                      className='text-branco mt-2 bg-cinzaMedio hover:bg-azulEscuro dark:hover:bg-dark4 p-2 rounded-full w-11'
+                    >
+                      <div className='mt-1'>
+                        <i className='fi fi-br-arrow-small-left'></i>
+                      </div>
+                    </button>
+                    <button
+                      title='Remover Cálculo'
+                      onClick={handleShowConfirmDelete}
+                      className='text-branco mt-2 bg-red-500 hover:bg-azulEscuro dark:hover:bg-dark4 p-2 rounded-full w-11'
+                    >
+                      <div className='mt-1'>
+                        <i className='fi fi-sr-trash'></i>
+                      </div>
+                    </button>
+                  </div>
                   {confirmDelete && (
                     <div className='fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 z-50'>
                       <div className='bg-white p-4 rounded-lg shadow-lg'>

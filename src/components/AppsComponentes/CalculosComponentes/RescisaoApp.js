@@ -35,7 +35,7 @@ function RescisaoApp() {
       setResultados(calculatedResults);
       setMostrarResultados(true);
     } catch (error) {
-      setErroCalculo('Erro ao calcular férias. Verifique os valores e tente novamente.');
+      setErroCalculo('Erro ao calcular rescisão. Verifique os valores e tente novamente.');
     } finally {
       setCalculando(false);
     }

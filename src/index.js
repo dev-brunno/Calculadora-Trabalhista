@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { Font } from '@react-pdf/renderer';
+import Footer from './routes/navigation/Footer.component';
 
 Font.register({
   family: 'Open Sans',
@@ -22,6 +23,7 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <App />
+      <Footer />
     </BrowserRouter>
   </React.StrictMode>,
 );

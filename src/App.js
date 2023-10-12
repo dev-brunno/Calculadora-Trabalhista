@@ -27,8 +27,8 @@ function App() {
   return (
     <AuthProvider>
       <ClientesProvider>
-        <div className='bg-brancoMedio dark:bg-darkPrincipal pb-100'>
-          <div className='flex flex-col md:flex-row flex-nowrap font-sans h-screen'>
+        <div className='bg-brancoMedio dark:bg-darkPrincipal'>
+          <div className='flex flex-col md:flex-row flex-nowrap font-sans lg:h-screen'>
             {appLoaded ? (
               <Routes>
                 <Route

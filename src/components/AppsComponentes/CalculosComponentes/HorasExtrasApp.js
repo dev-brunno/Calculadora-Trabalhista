@@ -34,7 +34,7 @@ function HorasExtrasApp() {
       setValorHorasExtras(calculatedHorasExtras);
       setMostrarResultados(true);
     } catch (error) {
-      setErroCalculo('Erro ao calcular Noturno. Verifique os valores e tente novamente.');
+      setErroCalculo('Erro ao calcular Horas Extras. Verifique os valores e tente novamente.');
     } finally {
       setCalculando(false);
     }
