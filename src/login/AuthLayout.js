@@ -14,8 +14,8 @@ function AuthLayout({ children }) {
         <div>
           <p className=' border border-gray-300 p-3 w-80 m-auto mt-16 rounded-md text-justify'>
             Sabemos que o mundo das leis trabalhistas pode ser complexo e desafiador, por isso,
-            desenvolvemos o <span className=' text-azulEscuro'>Calculadora Trabalhista</span>, um
-            aplicativo intuitivo e fácil de usar, projetado para ajudá-lo a navegar pelos cálculos
+            desenvolvemos o <span className=' text-azulEscuro'>Sistema de Cálculos Trabalhista</span>, um
+            sistema intuitivo e fácil de usar, projetado para ajudá-lo a navegar pelos cálculos
             trabalhistas com confiança e eficiência.
           </p>
         </div>

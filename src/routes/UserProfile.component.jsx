@@ -11,7 +11,11 @@ function UserProfile() {
     oabNumber: '',
     displayName: '',
   });
-  const [mostrarAviso, setMostrarAviso] = useState(false); // Adicione o estado para controlar a notificação
+  const [mostrarAviso, setMostrarAviso] = useState(false);
+  const [mostrarSenhaEnviada, setMostrarSenhaEnviada] = useState(false);
+  const [bloquearSalvar, setBloquearSalvar] = useState(false); // Estado para bloquear "Salvar Alterações"
+  const [bloquearRedefinir, setBloquearRedefinir] = useState(false); // Estado para bloquear "Redefinir Senha"
+
 
   useEffect(() => {
     if (user) {
@@ -43,10 +47,15 @@ function UserProfile() {
 
   const handleSaveChanges = async () => {
     try {
+      setBloquearSalvar(true);
       const userDocRef = firebase.firestore().collection('users').doc(user.uid);
       await userDocRef.update(userData);
       console.log('Informações do usuário atualizadas com sucesso.');
       setMostrarAviso(true); // Exibe a notificação após salvar as alterações
+      // Desbloqueia o botão após 5 segundos
+      setTimeout(() => {
+        setBloquearSalvar(false);
+      }, 5000);
     } catch (error) {
       console.error('Erro ao atualizar informações do usuário:', error);
     }
@@ -54,12 +63,19 @@ function UserProfile() {
 
   const handleResetPassword = async () => {
     try {
+      setBloquearRedefinir(true);
       await firebase.auth().sendPasswordResetEmail(user.email);
       console.log('E-mail de redefinição de senha enviado com sucesso.');
+      setMostrarSenhaEnviada(true); // Exibe a notificação após o envio do e-mail
+      // Desbloqueia o botão após 5 segundos
+      setTimeout(() => {
+        setBloquearRedefinir(false);
+      }, 5000);
     } catch (error) {
       console.error('Erro ao enviar o e-mail de redefinição de senha:', error);
     }
   };
+  
 
   // Função para formatar número de telefone
   const formatTelefone = (telefone) => {
@@ -90,12 +106,12 @@ function UserProfile() {
   return (
     <div className=' w-full'>
       <div className=' m-2 mt-8 lg:m-8 flex justify-center lg:justify-start'>
-        <div className=' bg-branco dark:bg-dark1 shadow-lg border rounded-4xl border-solid border-cinzaMedio dark:border-dark4 inline-block p-6 pb-16 lg:p-16'>
-          <div className='mx-auto'>
-            <h1 className='text-2xl font-semibold mb-4'>Editar Perfil</h1>
+        <div className=' bg-branco dark:bg-dark1 shadow-lg border rounded-4xl border-solid border-cinzaMedio dark:border-dark4 inline-block p-6 pb-16 lg:p-10'>
+          <div className='mx-auto border border-azulEscuro p-10 rounded-3xl'>
+            <h1 className='text-2xl font-semibold mb-4 text-azulEscuro'>Editar Perfil</h1>
             <form>
-              <div className='mb-4'>
-                <label htmlFor='username' className='block text-sm font-medium text-gray-700'>
+              <div className='mb-4 space-y-1'>
+                <label htmlFor='username' className='block text-sm font-medium text-gray-400'>
                   Nome de Usuário
                 </label>
                 <input
@@ -104,11 +120,11 @@ function UserProfile() {
                   name='username'
                   value={userData.username}
                   onChange={handleInputChange}
-                  className='border border-gray-300 rounded w-full py-2 px-3'
+                  className='border border-gray-300 rounded-xl w-full py-2 px-3'
                 />
               </div>
-              <div className='mb-4'>
-                <label htmlFor='displayName' className='block text-sm font-medium text-gray-700'>
+              <div className='mb-4 space-y-1'>
+                <label htmlFor='displayName' className='block text-sm font-medium text-gray-400'>
                   Nome Completo
                 </label>
                 <input
@@ -117,11 +133,11 @@ function UserProfile() {
                   name='displayName'
                   value={userData.displayName}
                   onChange={handleInputChange}
-                  className='border border-gray-300 rounded w-full py-2 px-3'
+                  className='border border-gray-300 rounded-xl w-full py-2 px-3'
                 />
               </div>
-              <div className='mb-4'>
-                <label htmlFor='phoneNumber' className='block text-sm font-medium text-gray-700'>
+              <div className='mb-4 space-y-1'>
+                <label htmlFor='phoneNumber' className='block text-sm font-medium text-gray-400'>
                   Número de Telefone
                 </label>
                 <input
@@ -130,11 +146,11 @@ function UserProfile() {
                   name='phoneNumber'
                   value={formatTelefone(userData.phoneNumber)}
                   onChange={handleInputChange}
-                  className='border border-gray-300 rounded w-full py-2 px-3'
+                  className='border border-gray-300 rounded-xl w-full py-2 px-3'
                 />
               </div>
-              <div className='mb-4'>
-                <label htmlFor='oabNumber' className='block text-sm font-medium text-gray-700'>
+              <div className='mb-4 space-y-1'>
+                <label htmlFor='oabNumber' className='block text-sm font-medium text-gray-400'>
                   Número da OAB
                 </label>
                 <input
@@ -143,21 +159,27 @@ function UserProfile() {
                   name='oabNumber'
                   value={userData.oabNumber}
                   onChange={handleInputChange}
-                  className='border border-gray-300 rounded w-full py-2 px-3'
+                  className='border border-gray-300 rounded-xl w-full py-2 px-3'
                 />
               </div>
               <div className=' mt-10'>
                 <button
                   type='button'
                   onClick={handleSaveChanges}
-                  className='bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 w-36 text-sm'
+                  disabled={bloquearSalvar} // Bloqueia o botão quando "bloquearSalvar" for verdadeiro
+                  className={`bg-azulEscuro text-white py-2 px-4 rounded hover:bg-blue-600 w-36 text-sm ${
+                    bloquearSalvar ? 'cursor-not-allowed' : ''
+                  }`}
                 >
                   Salvar Alterações
                 </button>
                 <button
                   type='button'
                   onClick={handleResetPassword}
-                  className='bg-red-500 text-white py-2 px-4 rounded ml-4 hover-bg-red-600 w-36 text-sm'
+                  disabled={bloquearRedefinir} // Bloqueia o botão quando "bloquearRedefinir" for verdadeiro
+                  className={`bg-cinzaEscuro text-white py-2 px-4 rounded ml-4 hover-bg-red-600 w-36 text-sm ${
+                    bloquearRedefinir ? 'cursor-not-allowed' : ''
+                  }`}
                 >
                   Redefinir Senha
                 </button>
@@ -178,6 +200,27 @@ function UserProfile() {
                   <button
                     className='text-sm font-semibold text-preto pl-2'
                     onClick={() => setMostrarAviso(false)}
+                  >
+                    <i className='fi fi-br-cross-small'></i>
+                  </button>
+                </div>
+              </div>
+            )}
+            {/* Notificação de envio de e-mail de redefinição de senha */}
+            {mostrarSenhaEnviada && (
+              <div className='fixed bottom-4 right-4 border-2 border-blue-500 rounded-lg bg-branco z-10'>
+                <div className='p-3 rounded flex divide-x space-x-2'>
+                  <div className='space-x-2 flex text-lg'>
+                    <div>
+                      <i className="fi fi-rr-envelope-download"></i>
+                    </div>
+                    <span className='text-sm text-preto font-semibold'>
+                      Um e-mail de redefinição de senha foi enviado com sucesso.
+                    </span>
+                  </div>
+                  <button
+                    className='text-sm font-semibold text-preto pl-2'
+                    onClick={() => setMostrarSenhaEnviada(false)}
                   >
                     <i className='fi fi-br-cross-small'></i>
                   </button>
