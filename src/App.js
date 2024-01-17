@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Navigation from './routes/navigation/Navigation.component';
-import Calculos from './routes/Calculos.component';
-import Home from './routes/Home.component';
-import Clientes from './routes/Clientes.component';
-import Contato from './routes/Contato.component';
+import Navigation from './routes/navigation/navigation.component';
+import Calculos from './routes/calculos.component';
+import Home from './routes/home.component.jsx';
+import Clientes from './routes/clientes.component.jsx';
+import Contato from './routes/contato.component.jsx';
 import { ClientesProvider } from './Context/ClientesContext';
 import LoginPage from './login/LoginPage';
 import RegisterPage from './login/RegisterPage';
